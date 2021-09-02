@@ -21,9 +21,6 @@ export default defineComponent({
       type: Array,
       required: true
     }
-  },
-  setup(props) {
-    console.log(props.data);
   }
 });
 </script>
