@@ -24,7 +24,13 @@ module.exports = {
       primary: '#1b6dc1',
       white: '#fff',
       dark: '#001f40',
-      gray: '#9cabba',
+      gray: {
+        1: '#9cabba',
+        2: '#444a51'
+      },
+      footer: {
+        link: '#e0e0e0'
+      },
       danger: '#e6007a',
       label: '#001f40',
       input: {

@@ -43,7 +43,6 @@ export default defineComponent({
   },
   components: { RemainingTimeItem },
   setup(props) {
-    // TODO use UTC
     const seconds = ref<number>(0);
     const minutes = ref<number>(0);
     const hours = ref<number>(0);

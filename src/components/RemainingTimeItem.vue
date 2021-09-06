@@ -17,7 +17,7 @@
     </div>
     <dl class="float-none flex flex-col text-white">
       <dt class="text-5xl order-1 lg:text-6xl">{{ currentValue }}</dt>
-      <dt class="uppercase order-2 text-xs lg:text-sm mt-2 text-gray">
+      <dt class="uppercase order-2 text-xs lg:text-sm mt-2 text-gray-1">
         {{ label }}
       </dt>
     </dl>

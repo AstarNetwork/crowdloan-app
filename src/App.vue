@@ -3,8 +3,10 @@
     <Header />
     <RemainingTime :startTime="startTime" :endTime="endTime" />
     <Stake />
-    <Status :data="statusItems" />
+    <Status :data="statuses" />
     <Rules :rules="rules" />
+    <Faq :faqs="faqs" />
+    <Footer />
   </div>
 </template>
 
@@ -16,8 +18,12 @@ import RemainingTime from './components/RemainingTime.vue';
 import Stake from './components/Stake.vue';
 import Status from './components/Status.vue';
 import Rules from './components/Rules.vue';
+import Faq from './components/Faq.vue';
+import Footer from './components/Footer.vue';
+import { statusItems, ruleItems, faqItems } from './data/AppData';
 import { StatusData } from './data/StatusData';
 import { RuleData } from './data/RuleData';
+import { FaqData } from './data/FaqData';
 
 export default defineComponent({
   name: 'App',
@@ -26,41 +32,23 @@ export default defineComponent({
     RemainingTime,
     Stake,
     Status,
-    Rules
+    Rules,
+    Faq,
+    Footer
   },
   setup() {
     const startTime = moment.utc([2021, 1, 1]);
     const endTime = moment.utc([2022, 1, 1]);
-    const statusItems = ref<StatusData[]>([
-      { value: 14164, description: 'Participants' },
-      { value: 501137.7, description: 'DOT Contributed' },
-      { value: 6845464.7, description: 'ASTA to be Distributed' }
-    ]);
-
-    const rules = ref<RuleData[]>([
-      {
-        title: 'Parachain Auction',
-        rule: 'Polkadot is a shared protocol that enables blockchain networks to operate together seamlessly. To be a part of the Polkadot network, Astar Network must secure a slot during the Polkadot parachain auction. We are raising DOT from our community to help win the auction.'
-      },
-      {
-        title: 'Earlier Participants Earn a Higher Bonus',
-        rule: 'Unlike other projects, we encourage DOT holders to join our crowdloan as early as possible. The bonus rate we distribute will decrease over time - this means that the earlier participants join, the higher the bonus they’ll receive. At the last Kusama auction, the early contributors received around 110 SDN per KSM. On the other hand, the last minute contributors only received around 60 SDN per KSM.'
-      },
-      {
-        title: 'ASN Token Distribution',
-        rule: '1 month after successfully securing a Polkadot parachain slot, Astar network’s native token (ASN) will be distributed to the crowdloan participants’ addresses. The participants who join the crowdloan through exchanges will be able to see their balance once we enable token transfers.'
-      },
-      {
-        title: 'Number of ASN token',
-        rule: 'The number of ASN tokens the participants will receive is determined based on the time when they join Astar’s crowdloan, how many DOTs they lock for Astar, and the total amount of locked DOTs in the crowdloan.'
-      }
-    ]);
+    const statuses = ref<StatusData[]>(statusItems);
+    const rules = ref<RuleData[]>(ruleItems);
+    const faqs = ref<FaqData[]>(faqItems);
 
     return {
       startTime,
       endTime,
-      statusItems,
-      rules
+      statuses,
+      rules,
+      faqs
     };
   }
 });
