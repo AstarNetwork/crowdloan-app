@@ -35,7 +35,7 @@
           :class="open ? 'block' : 'hidden'"
           class="w-full flex-grow sm:flex sm:items-center sm:w-auto"
         >
-          <div class="text-base sm:flex-grow text-right sm:mr-2">
+          <div class="text-base sm:flex-grow text-right">
             <a
               href="#responsive-header"
               class="
@@ -76,7 +76,7 @@
               "
             >
               Community
-              <div class="dropdown-content sm:right-1">
+              <div class="dropdown-content right-1 md:right-auto">
                 <a
                   class="dropdown-item"
                   href="https://twitter.com/AstarNetwork"
@@ -145,7 +145,7 @@ export default defineComponent({
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.7);
   background-clip: padding-box;
   min-width: 160px;
   box-shadow: 0 0 3px rgba(2, 2, 2, 0.2);

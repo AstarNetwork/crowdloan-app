@@ -1,6 +1,6 @@
 <template>
   <div class="pt-20 pb-40">
-    <div class="max-w-3xl mx-auto">
+    <div class="max-w-3xl mx-auto px-2">
       <Title>FAQ</Title>
       <div>
         <Expander

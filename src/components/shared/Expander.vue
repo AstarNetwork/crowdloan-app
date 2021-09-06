@@ -4,7 +4,7 @@
       <button
         @click="toggle"
         :class="[
-          { colapsed: !isCollapsed },
+          { colapsed: isCollapsed },
           'w-full',
           'text-left',
           'text-lg',
