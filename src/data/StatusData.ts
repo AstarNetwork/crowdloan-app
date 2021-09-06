@@ -1,4 +1,4 @@
 export interface StatusData {
-  value: Number,
-  description: String
+  value: number;
+  description: string;
 }
