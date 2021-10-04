@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import store from './store';
 import { i18n } from './i18n';
+import { store } from './store';
 
-createApp(App).use(store).use(i18n).mount('#app');
+createApp(App).use(i18n).use(store).mount('#app');

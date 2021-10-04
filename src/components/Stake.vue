@@ -13,7 +13,7 @@
             rewards
           </p>
           <div class="form-container p-12">
-            <form class="p-4">
+            <form class="p-4" @submit="staking">
               <Input label="Polkadot Address" type="text" required />
               <Input
                 label="Available Amount"
@@ -59,9 +59,26 @@ import { defineComponent } from 'vue';
 import Input from './shared/Input.vue';
 import Button from './shared/Button.vue';
 import Title from './shared/Title.vue';
+import { ActionTypes } from '@/store/action-types';
+import { useStore } from 'vuex';
 
 export default defineComponent({
-  components: { Input, Button, Title }
+  components: { Input, Button, Title },
+  setup(props, { emit }) {
+    const store = useStore();
+
+    const staking = async () => {
+      console.log('staking');
+      store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
+        msg: 'The amount of token to be transmitted must not be zero',
+        alertType: 'error'
+      });
+    };
+
+    return {
+      staking
+    };
+  }
 });
 </script>
 

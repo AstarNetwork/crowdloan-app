@@ -55,7 +55,7 @@ export default defineComponent({
     );
 
     onMounted(() => {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         const now = moment.utc();
         // TODO handle if now is before or after interval
         if (now >= props.startTime && now <= props.endTime) {
@@ -69,7 +69,7 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      clearInterval(interval);
+      window.clearInterval(interval);
     });
 
     return {
