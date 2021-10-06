@@ -12,6 +12,8 @@ export interface GeneralMutations<S = State> {
   [MutationTypes.SET_ALERT_TYPE](state: S, type: string): void;
   [MutationTypes.SET_API](state: S, type: ApiPromise): void;
   [MutationTypes.SET_EXTENSIONS](state: S, type: InjectedExtension[]): void;
+  [MutationTypes.SET_ALL_ACCOUNTS](state: S, type: string[]): void;
+  [MutationTypes.SET_ALL_ACCOUNT_NAMES](state: S, type: string[]): void;
   [MutationTypes.SET_CURRENT_NETWORK_STATUS](
     state: S,
     networkStatus: ConnectionType
@@ -42,6 +44,12 @@ export const mutations: MutationTree<State> & GeneralMutations = {
   },
   [MutationTypes.SET_EXTENSIONS](state, extensions) {
     state.extensions = extensions;
+  },
+  [MutationTypes.SET_ALL_ACCOUNTS](state, accounts) {
+    state.allAccounts = accounts;
+  },
+  [MutationTypes.SET_ALL_ACCOUNT_NAMES](state, accountNames) {
+    state.allAccountNames = accountNames;
   },
   [MutationTypes.SET_CURRENT_NETWORK_STATUS](state, networkStatus) {
     state.currentNetworkStatus = networkStatus;

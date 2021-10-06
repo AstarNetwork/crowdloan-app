@@ -3,8 +3,7 @@ import { keyring } from '@polkadot/ui-keyring';
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { isTestChain } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
-import { useStore } from 'vuex';
-import { providerEndpoints } from '@/config/chainEndpoints';
+import { providerEndpoints } from './chainEndpoints';
 import type { InjectedExtension } from '@polkadot/extension-inject/types';
 
 interface InjectedAccountExt {
@@ -51,14 +50,15 @@ const loadAccounts = async (api: ApiPromise) => {
   );
 };
 
-export async function connectApi(endpoint: string, networkIdx: number) {
+export async function connectApi(endpoint: string) {
   const provider = new WsProvider(endpoint);
 
   // load the web3 extension
   let extensions: InjectedExtension[] = [];
 
+  const networkIdx = 0;
   const typeDefinitions = providerEndpoints[networkIdx].typeDef;
-  console.log('t', typeDefinitions);
+  // console.log('t', typeDefinitions);
 
   const api = new ApiPromise({
     provider,
@@ -66,10 +66,6 @@ export async function connectApi(endpoint: string, networkIdx: number) {
       ...typeDefinitions
     }
   });
-
-  const store = useStore();
-
-  // store.commit('general/setCurrentNetworkStatus', 'connecting');
 
   api.on('error', (error: Error) => console.error(error.message));
   api.on('ready', async () => {
@@ -83,19 +79,8 @@ export async function connectApi(endpoint: string, networkIdx: number) {
 
     try {
       await loadAccounts(api);
-
-      keyring.accounts.subject.subscribe((accounts) => {
-        if (accounts) {
-          // store.commit('general/setAllAccounts', Object.keys(accounts));
-          // store.commit('general/setAllAccountNames', Object.values(accounts).map((obj) => obj.option.name));
-        }
-      });
-
-      // store.commit('general/setCurrentNetworkStatus', 'connected');
     } catch (err) {
       console.error(err);
-
-      // store.commit('general/setCurrentNetworkStatus', 'offline');
     }
   });
 

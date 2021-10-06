@@ -32,7 +32,7 @@
             pb-6
           "
         >
-          Stake DOT <small>&amp;</small> <br />Get ASTA Today!
+          Stake DOT <small>&amp;</small> <br />Get ASTR Today!
         </h1>
         <a href="#stake-dot"><Button>Stake DOT now</Button></a>
       </div>

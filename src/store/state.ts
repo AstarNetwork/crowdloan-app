@@ -17,6 +17,8 @@ export interface GeneralState {
   alertBox: AlertBox;
   api: ApiPromise | undefined;
   extensions: InjectedExtension[];
+  allAccounts: string[];
+  allAccountNames: string[];
   currentNetworkStatus: ConnectionType;
   currentNetworkIdx: number;
   currentAccountIdx: number;
@@ -34,6 +36,8 @@ export const state: GeneralState = {
   },
   api: undefined,
   extensions: [],
+  allAccounts: [],
+  allAccountNames: [],
   currentNetworkStatus: 'connecting',
   currentNetworkIdx: 0,
   currentAccountIdx: 0,

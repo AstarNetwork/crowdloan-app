@@ -22,5 +22,15 @@ export const actions: ActionTree<State, State> & GeneralActions = {
     setTimeout(() => {
       commit(MutationTypes.SET_SHOW_ALERT_MSG, false);
     }, 3000);
+  },
+  [ActionTypes.SET_LOADING]({ commit }, { loading }) {
+    commit(MutationTypes.SET_LOADING, loading);
+  },
+  [ActionTypes.SET_ALL_ACCOUNT]({ commit }, { allAccount }) {
+    commit(MutationTypes.SET_ALL_ACCOUNTS, allAccount);
+    const allAccountName = Object.values(allAccount).map(
+      (obj: any) => obj.option.name
+    );
+    commit(MutationTypes.SET_ALL_ACCOUNT_NAMES, allAccountName);
   }
 };

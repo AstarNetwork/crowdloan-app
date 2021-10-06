@@ -9,6 +9,8 @@ export interface GeneralGetters {
   showAlert(state: State): AlertBox;
   api(state: State): ApiPromise | undefined;
   extensions(state: State): InjectedExtension[];
+  allAccounts(state: State): string[];
+  allAccountNames(state: State): string[];
   networkStatus(state: State): string;
   networkIdx(state: State): number;
   accountIdx(state: State): number;
@@ -22,6 +24,8 @@ export const getters: GetterTree<State, State> & GeneralGetters = {
   showAlert: (state) => state.alertBox,
   api: (state) => state.api,
   extensions: (state) => state.extensions,
+  allAccounts: (state) => state.allAccounts,
+  allAccountNames: (state) => state.allAccountNames,
   networkStatus: (state) => state.currentNetworkStatus,
   networkIdx: (state) => state.currentNetworkIdx,
   accountIdx: (state) => state.currentAccountIdx,
