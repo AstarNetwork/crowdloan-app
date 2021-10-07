@@ -44,6 +44,7 @@
                 label="Referral Address (optional)"
                 type="text"
                 v-model="data.referralAddress"
+                :validationMessage="data.errors['referralAddress']"
               />
               <Input
                 v-model="data.estimatedAmount"
@@ -61,7 +62,7 @@
                 placeholder="youremail@example.com"
                 :validationMessage="data.errors['emailAddress']"
               />
-              <Button>Stake Now</Button>
+              <Button :disabled="!isEnableStaking">Stake Now</Button>
             </form>
             {{ data }}
           </div>
@@ -88,6 +89,10 @@ import { keyring } from '@polkadot/ui-keyring';
 export default defineComponent({
   components: { Input, Button, Title },
   setup(props, { emit }) {
+    const AIR_REWARD = 400;
+    const REFERRAL_RATE = 1.05;
+    const EARLY_BIRD_RATE = 1.1;
+
     const store = useStore();
     const data = reactive<StakeFormData>(new StakeFormData());
     const api: any = inject('api');
@@ -124,9 +129,28 @@ export default defineComponent({
       }
     );
     watch(
-      () => data.stakingAmount,
+      () => [data.stakingAmount, data.referralAddress],
       () => {
-        validateStakingAmount(data.stakingAmount, data.availableAmount);
+        // if (validateStakingAmount(data.stakingAmount, data.availableAmount)) {
+        const baseReward = data.stakingAmount * AIR_REWARD;
+
+        const validReferralAddress =
+          data.referralAddress &&
+          !validateReferralAddress(data.referralAddress);
+
+        // if (isEarlybird && validReferralAddress) {
+        //   data.estimatedAmount = baseReward * EARLY_BIRD_RATE * REFERRAL_RATE;
+        // } else if (isEarlybird) {
+        //   data.estimatedAmount = baseReward * EARLY_BIRD_RATE;
+        // } else
+        if (validReferralAddress) {
+          data.estimatedAmount = baseReward * REFERRAL_RATE;
+        } else {
+          data.estimatedAmount = baseReward;
+        }
+        // } else {
+        //   data.estimatedAmount = 0;
+        // }
       }
     );
 
@@ -155,19 +179,40 @@ export default defineComponent({
     const validateStakingAmount = (
       stakingAmount: number,
       availableAmount: number
-    ): void => {
+    ): boolean => {
       if (stakingAmount <= 0) {
         data.errors['stakingAmount'] =
           'Staking amount should be greater than 0.';
-        return;
+        return false;
       }
       if (stakingAmount > availableAmount) {
         data.errors['stakingAmount'] =
           'Staking amount can not be greater than available amount.';
-        return;
+        return false;
       }
       data.errors['stakingAmount'] = '';
+      return true;
     };
+
+    const validateReferralAddress = (address: string): boolean => {
+      const isAddressValid = isValidAddressPolkadotAddress(address);
+      if (!isAddressValid) {
+        data.errors['referralAddress'] = 'Enter a valid referral address.';
+        return false;
+      }
+      data.errors['referralAddress'] = '';
+      return true;
+    };
+
+    const isEnableStaking = computed(
+      () =>
+        data.polkadotAddress &&
+        data.polkadotAddress.length > 0 &&
+        data.stakingAmount > 0 &&
+        data.errors['polkadotAddress'] === '' &&
+        data.errors['emailAddress'] === '' &&
+        data.errors['stakingAmount'] === ''
+    );
 
     const staking = async (e: any) => {
       e.preventDefault();
@@ -272,6 +317,7 @@ export default defineComponent({
 
     return {
       data,
+      isEnableStaking,
       staking
     };
   }

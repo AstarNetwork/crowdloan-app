@@ -12,7 +12,12 @@ export class StakeFormData {
     this.availableAmount = 0;
     this.stakingAmount = 0;
     this.estimatedAmount = 0;
-    this.errors = {};
+    this.errors = {
+      emailAddress: '',
+      polkadotAddress: '',
+      stakingAmount: '',
+      referralAddress: ''
+    };
   }
 }
 
