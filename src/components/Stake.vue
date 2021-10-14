@@ -48,7 +48,7 @@
               />
               <Input
                 v-model="data.estimatedAmount"
-                label="Estimated Amount"
+                label="Minimum Amount You Get"
                 innerLabel="ASTR"
                 type="number"
                 placeholder="0"
@@ -134,20 +134,20 @@ export default defineComponent({
         // if (validateStakingAmount(data.stakingAmount, data.availableAmount)) {
         const baseReward = data.stakingAmount * AIR_REWARD;
 
-        const validReferralAddress =
-          data.referralAddress &&
-          !validateReferralAddress(data.referralAddress);
+        // const validReferralAddress =
+        //   data.referralAddress &&
+        //   !validateReferralAddress(data.referralAddress);
 
         // if (isEarlybird && validReferralAddress) {
         //   data.estimatedAmount = baseReward * EARLY_BIRD_RATE * REFERRAL_RATE;
         // } else if (isEarlybird) {
         //   data.estimatedAmount = baseReward * EARLY_BIRD_RATE;
         // } else
-        if (validReferralAddress) {
-          data.estimatedAmount = baseReward * REFERRAL_RATE;
-        } else {
-          data.estimatedAmount = baseReward;
-        }
+        // if (validReferralAddress) {
+        //   data.estimatedAmount = baseReward * REFERRAL_RATE;
+        // } else {
+        data.estimatedAmount = baseReward;
+        // }
         // } else {
         //   data.estimatedAmount = 0;
         // }
