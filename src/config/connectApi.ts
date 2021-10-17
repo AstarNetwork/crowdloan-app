@@ -56,7 +56,7 @@ export async function connectApi(endpoint: string) {
   // load the web3 extension
   let extensions: InjectedExtension[] = [];
 
-  const networkIdx = 0;
+  const networkIdx = 4;
   const typeDefinitions = providerEndpoints[networkIdx].typeDef;
   // console.log('t', typeDefinitions);
 

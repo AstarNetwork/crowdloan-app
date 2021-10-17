@@ -55,13 +55,13 @@
                 disabled
                 required
               />
-              <Input
+              <!-- <Input
                 v-model="data.emailAddress"
                 label="Email Address (optional)"
                 type="text"
                 placeholder="youremail@example.com"
                 :validationMessage="data.errors['emailAddress']"
-              />
+              /> -->
               <Button :disabled="!isEnableStaking">Stake Now</Button>
             </form>
             {{ data }}
@@ -91,7 +91,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const AIR_REWARD = 400;
     const REFERRAL_RATE = 1.05;
-    const EARLY_BIRD_RATE = 1.1;
 
     const store = useStore();
     const data = reactive<StakeFormData>(new StakeFormData());
@@ -106,12 +105,12 @@ export default defineComponent({
       }
     });
 
-    watch(
-      () => data.emailAddress,
-      () => {
-        validateEmail(data.emailAddress ?? '');
-      }
-    );
+    // watch(
+    //   () => data.emailAddress,
+    //   () => {
+    //     validateEmail(data.emailAddress ?? '');
+    //   }
+    // );
     watch(
       () => [api, data.polkadotAddress],
       async () => {
@@ -137,32 +136,24 @@ export default defineComponent({
         // const validReferralAddress =
         //   data.referralAddress &&
         //   !validateReferralAddress(data.referralAddress);
-
-        // if (isEarlybird && validReferralAddress) {
-        //   data.estimatedAmount = baseReward * EARLY_BIRD_RATE * REFERRAL_RATE;
-        // } else if (isEarlybird) {
-        //   data.estimatedAmount = baseReward * EARLY_BIRD_RATE;
-        // } else
+        
         // if (validReferralAddress) {
         //   data.estimatedAmount = baseReward * REFERRAL_RATE;
         // } else {
         data.estimatedAmount = baseReward;
         // }
-        // } else {
-        //   data.estimatedAmount = 0;
-        // }
       }
     );
 
-    const validateEmail = (value: string): void => {
-      const regEx =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (!value || regEx.test(value)) {
-        data.errors['emailAddress'] = '';
-      } else {
-        data.errors['emailAddress'] = 'Invalid Email Address.';
-      }
-    };
+    // const validateEmail = (value: string): void => {
+    //   const regEx =
+    //     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    //   if (!value || regEx.test(value)) {
+    //     data.errors['emailAddress'] = '';
+    //   } else {
+    //     data.errors['emailAddress'] = 'Invalid Email Address.';
+    //   }
+    // };
     const validatePolkadotAddress = (value: string): boolean => {
       if (!value) {
         data.errors['polkadotAddress'] = 'Polkadot address is required.';
@@ -210,7 +201,6 @@ export default defineComponent({
         data.polkadotAddress.length > 0 &&
         data.stakingAmount > 0 &&
         data.errors['polkadotAddress'] === '' &&
-        data.errors['emailAddress'] === '' &&
         data.errors['stakingAmount'] === ''
     );
 
@@ -223,7 +213,7 @@ export default defineComponent({
       const injector = await web3FromSource('polkadot-js');
 
       const contributeTransaction = apiData.tx.crowdloan.contribute(
-        2088,
+        2000,
         data.stakingAmount * 10 ** 12,
         null
       );
@@ -247,14 +237,6 @@ export default defineComponent({
               );
 
               if (status.status.isFinalized) {
-                if (data.emailAddress) {
-                  // await addToMailchimp(
-                  //   data.emailAddress,
-                  //   {},
-                  //   'https://polkadot.us17.list-manage.com/subscribe/post?u=27084e1d9e6f92398b5c7ce91&id=2c580b74e1',
-                  // );
-                }
-
                 const hashResult = batch.hash.toHex();
                 console.log('hashResult', hashResult);
               }
@@ -283,14 +265,6 @@ export default defineComponent({
               );
 
               if (status.status.isFinalized) {
-                if (data.emailAddress) {
-                  // await addToMailchimp(
-                  //   data.emailAddress,
-                  //   {},
-                  //   'https://polkadot.us17.list-manage.com/subscribe/post?u=27084e1d9e6f92398b5c7ce91&id=2c580b74e1',
-                  // );
-                }
-
                 const hashResult = contributeTransaction.hash.toHex();
                 console.log('hashResult', hashResult);
                 store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
