@@ -6,7 +6,7 @@
 import { defineComponent } from 'vue';
 import { connectApi } from './connectApi';
 
-const endpoint = 'wss://rpc.polkadot.io';
+const endpoint = 'ws://127.0.0.1:9944';
 
 export default defineComponent({
   provide: {

@@ -48,7 +48,7 @@
               />
               <Input
                 v-model="data.estimatedAmount"
-                label="Minimum Amount You Get"
+                label="Estimated Amount"
                 innerLabel="ASTR"
                 type="number"
                 placeholder="0"
@@ -89,9 +89,6 @@ import { keyring } from '@polkadot/ui-keyring';
 export default defineComponent({
   components: { Input, Button, Title },
   setup(props, { emit }) {
-    const AIR_REWARD = 400;
-    const REFERRAL_RATE = 1.05;
-
     const store = useStore();
     const data = reactive<StakeFormData>(new StakeFormData());
     const api: any = inject('api');
@@ -130,8 +127,10 @@ export default defineComponent({
     watch(
       () => [data.stakingAmount, data.referralAddress],
       () => {
-        // if (validateStakingAmount(data.stakingAmount, data.availableAmount)) {
-        const baseReward = data.stakingAmount * AIR_REWARD;
+        if (validateStakingAmount(data.stakingAmount, data.availableAmount)) {
+          const baseReward = data.stakingAmount;
+
+          data.estimatedAmount = baseReward;
 
         // const validReferralAddress =
         //   data.referralAddress &&
@@ -139,9 +138,8 @@ export default defineComponent({
         
         // if (validReferralAddress) {
         //   data.estimatedAmount = baseReward * REFERRAL_RATE;
-        // } else {
-        data.estimatedAmount = baseReward;
         // }
+        }
       }
     );
 
@@ -176,11 +174,11 @@ export default defineComponent({
           'Staking amount should be greater than 0.';
         return false;
       }
-      if (stakingAmount > availableAmount) {
-        data.errors['stakingAmount'] =
-          'Staking amount can not be greater than available amount.';
-        return false;
-      }
+      // if (stakingAmount > availableAmount) {
+      //   data.errors['stakingAmount'] =
+      //     'Staking amount can not be greater than available amount.';
+      //   return false;
+      // }
       data.errors['stakingAmount'] = '';
       return true;
     };
