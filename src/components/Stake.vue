@@ -109,12 +109,12 @@ export default defineComponent({
         const account: AccountInfo = (await apiData.query.system.account(
           data.polkadotAddress
         )) as AccountInfo;
-        console.log('acc', account)
+        console.log('acc', account);
         data.availableAmount = account.data.free.toBn() || new BN(0);
       } catch (e) {
         console.error(e);
       }
-    }
+    };
 
     watch(
       () => [api, data.polkadotAddress],
@@ -133,7 +133,7 @@ export default defineComponent({
         }
       }
     );
-    
+
     const validatePolkadotAddress = (value: string): boolean => {
       if (!value) {
         data.errors['polkadotAddress'] = 'Polkadot address is required.';
@@ -172,7 +172,7 @@ export default defineComponent({
       data.estimatedAmount = DEFAULT_REWARD_AMOUNT;
       data.referralAddress = '';
       await setAvailableAmount();
-    }
+    };
 
     const isEnableStaking = computed(
       () =>
