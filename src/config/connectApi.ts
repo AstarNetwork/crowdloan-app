@@ -58,8 +58,6 @@ export async function connectApi(endpoint: string) {
 
   const networkIdx = 4;
   const typeDefinitions = providerEndpoints[networkIdx].typeDef;
-  console.log('t', typeDefinitions);
-
   const api = new ApiPromise({
     provider,
     types: {

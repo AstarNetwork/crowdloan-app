@@ -21,14 +21,10 @@
                 v-model="data.polkadotAddress"
                 :validationMessage="data.errors['polkadotAddress']"
               />
-              <Input
-                v-model="data.availableAmount"
-                label="Available Amount"
-                innerLabel="DOT"
-                type="number"
-                placeholder="0"
-                disabled
-                required
+              <balance
+                :balance="data.availableAmount"
+                :decimals="12"
+                :unit="'DOT'"
               />
               <Input
                 v-model="data.stakingAmount"
@@ -48,23 +44,18 @@
               />
               <Input
                 v-model="data.estimatedAmount"
-                label="Estimated Amount"
+                label="Minimum Amount You Get (Excluded Bonus)"
                 innerLabel="ASTR"
                 type="number"
                 placeholder="0"
                 disabled
-                required
               />
-              <!-- <Input
-                v-model="data.emailAddress"
-                label="Email Address (optional)"
-                type="text"
-                placeholder="youremail@example.com"
-                :validationMessage="data.errors['emailAddress']"
-              /> -->
               <Button :disabled="!isEnableStaking">Stake Now</Button>
             </form>
-            {{ data }}
+            <!-- {{ data }} -->
+            <p class="p-3">
+              {{ resultHash ? `Success to staking: ${resultHash}` : '' }}
+            </p>
           </div>
         </div>
       </div>
@@ -74,84 +65,75 @@
 
 <script lang="ts">
 import { defineComponent, inject, reactive, watch, computed, ref } from 'vue';
-import { AccountInfo, Balance } from '@polkadot/types/interfaces';
+import { AccountInfo } from '@polkadot/types/interfaces';
 import { web3FromSource } from '@polkadot/extension-dapp';
+import BN from 'bn.js';
 import Input from './shared/Input.vue';
 import Button from './shared/Button.vue';
 import Title from './shared/Title.vue';
+import Balance from './shared/Balance.vue';
 import { StakeFormData } from '../data/StakeFormData';
 import { ActionTypes } from '@/store/action-types';
 import { isValidAddressPolkadotAddress } from '@/config/polkadot';
 import { ApiPromise } from '@polkadot/api';
 import { useStore } from 'vuex';
 import { keyring } from '@polkadot/ui-keyring';
+import {
+  PARA_ID,
+  MINIMUM_STAKING_AMOUNT,
+  DEFAULT_REWARD_AMOUNT
+} from '@/config/crowdloan';
 
 export default defineComponent({
-  components: { Input, Button, Title },
+  components: { Input, Button, Title, Balance },
   setup(props, { emit }) {
     const store = useStore();
     const data = reactive<StakeFormData>(new StakeFormData());
     const api: any = inject('api');
 
     const allAccounts = ref();
+    const resultHash = ref('');
+
+    // set accounts from extensions
     keyring.accounts.subject.subscribe((accounts: any) => {
       if (api && accounts) {
-        console.log('accounts', Object.keys(accounts));
+        // console.log('accounts', Object.keys(accounts));
         allAccounts.value = Object.keys(accounts);
         data.polkadotAddress = Object.keys(accounts)[0];
       }
     });
 
-    // watch(
-    //   () => data.emailAddress,
-    //   () => {
-    //     validateEmail(data.emailAddress ?? '');
-    //   }
-    // );
+    const setAvailableAmount = async () => {
+      try {
+        const apiData: ApiPromise = (await api).api;
+        const account: AccountInfo = (await apiData.query.system.account(
+          data.polkadotAddress
+        )) as AccountInfo;
+        console.log('acc', account)
+        data.availableAmount = account.data.free.toBn() || new BN(0);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
     watch(
       () => [api, data.polkadotAddress],
       async () => {
         if (api && validatePolkadotAddress(data.polkadotAddress)) {
-          try {
-            const apiData: ApiPromise = (await api).api;
-            const account: AccountInfo = (await apiData.query.system.account(
-              data.polkadotAddress
-            )) as AccountInfo;
-            data.availableAmount = account.data.free.toNumber() || 0;
-          } catch (e) {
-            console.error(e);
-          }
+          await setAvailableAmount();
         }
       }
     );
     watch(
-      () => [data.stakingAmount, data.referralAddress],
+      () => data.stakingAmount,
       () => {
         if (validateStakingAmount(data.stakingAmount, data.availableAmount)) {
           const baseReward = data.stakingAmount;
-
-          data.estimatedAmount = baseReward;
-
-        // const validReferralAddress =
-        //   data.referralAddress &&
-        //   !validateReferralAddress(data.referralAddress);
-        
-        // if (validReferralAddress) {
-        //   data.estimatedAmount = baseReward * REFERRAL_RATE;
-        // }
+          data.estimatedAmount = baseReward / 2;
         }
       }
     );
-
-    // const validateEmail = (value: string): void => {
-    //   const regEx =
-    //     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    //   if (!value || regEx.test(value)) {
-    //     data.errors['emailAddress'] = '';
-    //   } else {
-    //     data.errors['emailAddress'] = 'Invalid Email Address.';
-    //   }
-    // };
+    
     const validatePolkadotAddress = (value: string): boolean => {
       if (!value) {
         data.errors['polkadotAddress'] = 'Polkadot address is required.';
@@ -167,31 +149,30 @@ export default defineComponent({
     };
     const validateStakingAmount = (
       stakingAmount: number,
-      availableAmount: number
+      availableAmount: BN
     ): boolean => {
       if (stakingAmount <= 0) {
         data.errors['stakingAmount'] =
           'Staking amount should be greater than 0.';
         return false;
       }
-      // if (stakingAmount > availableAmount) {
-      //   data.errors['stakingAmount'] =
-      //     'Staking amount can not be greater than available amount.';
-      //   return false;
-      // }
+      const bnStakingAmount = new BN(stakingAmount * 10 ** 12);
+
+      if (bnStakingAmount.gte(availableAmount)) {
+        data.errors['stakingAmount'] =
+          'Staking amount can not be greater than available amount.';
+        return false;
+      }
       data.errors['stakingAmount'] = '';
       return true;
     };
 
-    const validateReferralAddress = (address: string): boolean => {
-      const isAddressValid = isValidAddressPolkadotAddress(address);
-      if (!isAddressValid) {
-        data.errors['referralAddress'] = 'Enter a valid referral address.';
-        return false;
-      }
-      data.errors['referralAddress'] = '';
-      return true;
-    };
+    const initialize = async () => {
+      data.stakingAmount = MINIMUM_STAKING_AMOUNT;
+      data.estimatedAmount = DEFAULT_REWARD_AMOUNT;
+      data.referralAddress = '';
+      await setAvailableAmount();
+    }
 
     const isEnableStaking = computed(
       () =>
@@ -211,7 +192,7 @@ export default defineComponent({
       const injector = await web3FromSource('polkadot-js');
 
       const contributeTransaction = apiData.tx.crowdloan.contribute(
-        2000,
+        PARA_ID,
         data.stakingAmount * 10 ** 12,
         null
       );
@@ -219,7 +200,7 @@ export default defineComponent({
       if (data.referralAddress) {
         try {
           const memo = apiData.createType('Bytes', data.referralAddress);
-          const memoTransaction = apiData.tx.crowdloan.addMemo(2088, memo);
+          const memoTransaction = apiData.tx.crowdloan.addMemo(PARA_ID, memo);
 
           const batch = apiData.tx.utility.batchAll([
             contributeTransaction,
@@ -237,6 +218,10 @@ export default defineComponent({
               if (status.status.isFinalized) {
                 const hashResult = batch.hash.toHex();
                 console.log('hashResult', hashResult);
+                resultHash.value = hashResult;
+                store.dispatch(ActionTypes.SET_LOADING, { loading: false });
+
+                await initialize();
               }
 
               if (error.length) {
@@ -259,7 +244,7 @@ export default defineComponent({
             { signer: injector.signer },
             async (status) => {
               const error = status.events.filter(({ event }) =>
-                api.events.system.ExtrinsicFailed.is(event)
+                apiData.events.system.ExtrinsicFailed.is(event)
               );
 
               if (status.status.isFinalized) {
@@ -269,6 +254,10 @@ export default defineComponent({
                   msg: `Staking Complete: ${hashResult}`,
                   alertType: 'success'
                 });
+                store.dispatch(ActionTypes.SET_LOADING, { loading: false });
+                resultHash.value = hashResult;
+
+                await initialize();
               }
 
               if (error.length) {
@@ -290,6 +279,7 @@ export default defineComponent({
     return {
       data,
       isEnableStaking,
+      resultHash,
       staking
     };
   }
