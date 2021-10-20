@@ -1,0 +1,5 @@
+export enum ActionTypes {
+  SHOW_ALERT_MSG = 'SHOW_ALERT_MSG',
+  SET_LOADING = 'SET_LOADING',
+  SET_ALL_ACCOUNT = 'SET_ALL_ACCOUNT'
+}

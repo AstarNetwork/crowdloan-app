@@ -29,6 +29,9 @@
       class="absolute bottom-0 right-0 text-xl font-light pt-2 pb-2 pl-4 pr-4"
       >{{ innerLabel }}</span
     >
+    <span v-if="validationMessage" class="text-danger mt-1">{{
+      validationMessage
+    }}</span>
   </div>
 </template>
 
@@ -47,6 +50,10 @@ export default defineComponent({
     },
     modelValue: {
       type: [String, Number],
+      default: ''
+    },
+    validationMessage: {
+      type: String,
       default: ''
     }
   },
