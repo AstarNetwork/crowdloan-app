@@ -53,9 +53,15 @@
               <Button :disabled="!isEnableStaking">Stake Now</Button>
             </form>
             <!-- {{ data }} -->
-            <p class="p-3">
-              {{ resultHash ? `Success to staking: ${resultHash}` : '' }}
-            </p>
+            <div class="p-3" v-if="resultHash">
+              <h3>Staking success:</h3>
+              <a
+                :href="`https://rococo.subscan.io/extrinsic/${resultHash}`"
+                target="_blank"
+              >
+                <div class="font-bold w-36 hashResult">{{ resultHash }}</div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -156,6 +162,11 @@ export default defineComponent({
           'Staking amount should be greater than 0.';
         return false;
       }
+      if (stakingAmount > 9999) {
+        data.errors['stakingAmount'] =
+          'Staking amount should be lower than 9999.';
+        return false;
+      }
       const bnStakingAmount = new BN(stakingAmount * 10 ** 12);
 
       if (bnStakingAmount.gte(availableAmount)) {
@@ -251,7 +262,7 @@ export default defineComponent({
                 const hashResult = contributeTransaction.hash.toHex();
                 console.log('hashResult', hashResult);
                 store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
-                  msg: `Staking Complete: ${hashResult}`,
+                  msg: `Staking Complete...!`,
                   alertType: 'success'
                 });
                 store.dispatch(ActionTypes.SET_LOADING, { loading: false });
@@ -315,5 +326,13 @@ button[disabled] {
   background: linear-gradient(180deg, #f0f5fb 0%, #fff 100%);
   border-radius: 0.15rem;
   box-shadow: -5px 5px 20px #d3c0e1, 5px -5px 20px #b7d1eb;
+}
+
+.hashResult {
+  display: inline-block;
+  width: 15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

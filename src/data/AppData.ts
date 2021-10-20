@@ -3,9 +3,9 @@ import { RuleData } from './RuleData';
 import { FaqData } from './FaqData';
 
 const statusItems = <StatusData[]>[
-  { value: 14164, description: 'Participants' },
-  { value: 501137.7, description: 'DOT Contributed' },
-  { value: 6845464.7, description: 'ASTR to be Distributed' }
+  { value: 0, description: 'Participants' },
+  { value: 0, description: 'DOT Contributed' },
+  { value: 14000000, description: 'ASTR to be Distributed' }
 ];
 
 const ruleItems = <RuleData[]>[
