@@ -22,8 +22,8 @@ const ruleItems = <RuleData[]>[
     rule: '1 month after successfully securing a Polkadot parachain slot, Astar network’s native token (ASN) will be distributed to the crowdloan participants’ addresses. The participants who join the crowdloan through exchanges will be able to see their balance once we enable token transfers.'
   },
   {
-    title: 'Number of ASN token',
-    rule: 'The number of ASN tokens the participants will receive is determined based on the time when they join Astar’s crowdloan, how many DOTs they lock for Astar, and the total amount of locked DOTs in the crowdloan.'
+    title: 'Number of ASTR token',
+    rule: 'The number of ASTR tokens the participants will receive is determined based on the time when they join Astar’s crowdloan, how many DOTs they lock for Astar, and the total amount of locked DOTs in the crowdloan.'
   }
 ];
 
