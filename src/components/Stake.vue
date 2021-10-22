@@ -10,7 +10,8 @@
               class="w-4 h-4 align-middle inline"
             />
             Note: Proxy accounts and multi signatures are not able to receive
-            rewards
+            rewards. <br />
+            That the minimum contribution is set to 5 DOT by Parity.
           </p>
           <div class="form-container p-12">
             <form class="p-4" @submit="staking">
