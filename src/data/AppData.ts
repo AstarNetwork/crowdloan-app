@@ -14,24 +14,24 @@ const ruleItems = <RuleData[]>[
     rule: 'Polkadot is a shared protocol that enables blockchain networks to operate together seamlessly. To be a part of the Polkadot network, Astar Network must secure a slot during the Polkadot parachain auction. We are raising DOT from our community to help win the auction.'
   },
   {
-    title: 'Earlier Participants Earn a Higher Bonus',
-    rule: 'Unlike other projects, we encourage DOT holders to join our crowdloan as early as possible. The bonus rate we distribute will decrease over time - this means that the earlier participants join, the higher the bonus they’ll receive. At the last Kusama auction, the early contributors received around 110 SDN per KSM. On the other hand, the last minute contributors only received around 60 SDN per KSM.'
+    title: 'Huge bonus incentive',
+    rule: 'Astar has created 3 bonus levels! Everyone who is eligible can apply for one or all bonuses levels. In this section, all levels are explained with their requirements. In total there is 5% of the total supply reserved for this bonus scheme.'
   },
   {
-    title: 'ASN Token Distribution',
-    rule: '1 month after successfully securing a Polkadot parachain slot, Astar network’s native token (ASN) will be distributed to the crowdloan participants’ addresses. The participants who join the crowdloan through exchanges will be able to see their balance once we enable token transfers.'
+    title: 'ASTR Token Distribution',
+    rule: '1 month after successfully securing a Polkadot parachain slot, Astar network’s native token (ASTR) will be distributed to the crowdloan participants’ addresses. The participants who join the crowdloan through exchanges will be able to see their balance once we enable token transfers.'
   },
   {
-    title: 'Number of ASN token',
-    rule: 'The number of ASN tokens the participants will receive is determined based on the time when they join Astar’s crowdloan, how many DOTs they lock for Astar, and the total amount of locked DOTs in the crowdloan.'
+    title: 'Number of ASTR token',
+    rule: 'The number of ASTR tokens the participants will receive is determined based on the, how many DOTs they lock for Astar, the total amount of locked DOTs in the crowdloan and bonus.'
   }
 ];
 
 const faqItems = <FaqData[]>[
   {
-    question: 'How many ASN will I get for joining the Polkadot PLO?',
+    question: 'How many ASTR will I get for joining the Polkadot PLO?',
     answer:
-      'This depends on the lease/lock period of DOT and a few other factors such as total locked DOT. The token allocation for the PLO is capped and we will distribute a total of around 30% of our token supply to those who join the PLO.'
+      'This depends on the lease/lock period of DOT and a few other factors such as total locked DOT. The token allocation for the PLO is capped and we will distribute a total of around 20% of our token supply to those who join the PLO (incl bonus).'
   },
   {
     question: 'What does it mean to unbond my DOT, and how do I do it?',
@@ -41,12 +41,17 @@ const faqItems = <FaqData[]>[
   {
     question: 'How long will the DOT tokens be locked?',
     answer:
-      'Your DOT will be locked for the full duration of the Astar parachain lease. This means that DOT will be locked for 24 months. Once the lease expires, DOT will be automatically returned.'
+      'Your DOT will be locked for the full duration of the Astar parachain lease. This means that DOT will be locked for 96 weeks. Once the lease expires, DOT will be automatically returned.'
   },
   {
-    question: 'What if Shiden doesn’t win the parachain auction?',
+    question: 'What if Astar Network doesn’t win the parachain auction?',
     answer:
       'If Astar does not win the auction, your DOT will be automatically returned immediately (but Astar aims to become the first one).'
+  },
+  {
+    question: 'Where can I find all the information?',
+    answer:
+      'You can find all the information regarding Polkadot auctions and Astar Crowdloan event here: <a href="https://docs.astar.network/learn/polkadot-plo" target="_blank" style="color: #0070ff">Docs</a>.'
   }
 ];
 
