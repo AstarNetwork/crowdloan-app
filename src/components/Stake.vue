@@ -14,7 +14,7 @@
             That the minimum contribution is set to 5 DOT by Parity.
           </p>
           <div class="form-container p-12">
-            <form class="p-4" @submit="staking">
+            <form class="p-4" @submit="onShowModalDisclaimer">
               <Input
                 label="Polkadot Address"
                 type="text"
@@ -68,6 +68,11 @@
       </div>
     </div>
   </div>
+
+  <Disclaimer
+    v-if="modalDisclaimer"
+    v-model:isOpen="modalDisclaimer"
+    v-on:agree="staking" />
 </template>
 
 <script lang="ts">
@@ -75,6 +80,7 @@ import { defineComponent, inject, reactive, watch, computed, ref } from 'vue';
 import { AccountInfo } from '@polkadot/types/interfaces';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import BN from 'bn.js';
+import Disclaimer from './Disclaimer.vue';
 import Input from './shared/Input.vue';
 import Button from './shared/Button.vue';
 import Title from './shared/Title.vue';
@@ -92,12 +98,13 @@ import {
 } from '@/config/crowdloan';
 
 export default defineComponent({
-  components: { Input, Button, Title, Balance },
+  components: { Input, Button, Title, Balance, Disclaimer },
   setup(props, { emit }) {
     const store = useStore();
     const data = reactive<StakeFormData>(new StakeFormData());
     const api: any = inject('api');
 
+    const modalDisclaimer = ref(false);
     const allAccounts = ref();
     const resultHash = ref('');
 
@@ -195,9 +202,13 @@ export default defineComponent({
         data.errors['stakingAmount'] === ''
     );
 
-    const staking = async (e: any) => {
+    const onShowModalDisclaimer = (e: any) => {
       e.preventDefault();
 
+      modalDisclaimer.value = true;
+    }
+
+    const staking = async () => {
       store.dispatch(ActionTypes.SET_LOADING, { loading: true });
 
       const apiData: ApiPromise = (await api).api;
@@ -292,7 +303,9 @@ export default defineComponent({
       data,
       isEnableStaking,
       resultHash,
-      staking
+      staking,
+      modalDisclaimer,
+      onShowModalDisclaimer
     };
   }
 });
