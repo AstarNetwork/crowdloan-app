@@ -10,17 +10,26 @@
               class="w-4 h-4 align-middle inline"
             />
             Note: Proxy accounts and multi signatures are not able to receive
-            rewards
+            rewards. <br />
+            That the minimum contribution is set to 5 DOT by Parity.
           </p>
           <div class="form-container p-12">
-            <form class="p-4" @submit="staking">
-              <Input
+            <form class="p-4" @submit="onShowModalDisclaimer">
+              <label class="block text-left mb-2 text-base text-label">
+                Polkadot Address
+                <strong v-if="input && input.required" class="text-danger">*</strong>
+              </label>
+              <AddressSmall
+                v-model:isOpen="modalAccount"
+                :address="data.polkadotAddress"
+              />
+              <!-- <Input
                 label="Polkadot Address"
                 type="text"
                 required
                 v-model="data.polkadotAddress"
                 :validationMessage="data.errors['polkadotAddress']"
-              />
+              /> -->
               <balance
                 :balance="data.availableAmount"
                 :decimals="12"
@@ -67,6 +76,19 @@
       </div>
     </div>
   </div>
+
+  <ModalAccount
+    v-if="modalAccount"
+    v-model:isOpen="modalAccount"
+    :all-accounts="allAccounts"
+    :all-account-names="allAccountNames"
+    v-model:currentAccount="data.polkadotAddress"
+  />
+
+  <Disclaimer
+    v-if="modalDisclaimer"
+    v-model:isOpen="modalDisclaimer"
+    v-on:agree="staking" />
 </template>
 
 <script lang="ts">
@@ -74,10 +96,13 @@ import { defineComponent, inject, reactive, watch, computed, ref } from 'vue';
 import { AccountInfo } from '@polkadot/types/interfaces';
 import { web3FromSource } from '@polkadot/extension-dapp';
 import BN from 'bn.js';
+import Disclaimer from './Disclaimer.vue';
 import Input from './shared/Input.vue';
 import Button from './shared/Button.vue';
 import Title from './shared/Title.vue';
 import Balance from './shared/Balance.vue';
+import AddressSmall from './shared/AddressSmall.vue';
+import ModalAccount from './ModalAccount.vue';
 import { StakeFormData } from '../data/StakeFormData';
 import { ActionTypes } from '@/store/action-types';
 import { isValidAddressPolkadotAddress } from '@/config/polkadot';
@@ -91,13 +116,16 @@ import {
 } from '@/config/crowdloan';
 
 export default defineComponent({
-  components: { Input, Button, Title, Balance },
+  components: { Input, Button, Title, Balance, AddressSmall, ModalAccount, Disclaimer },
   setup(props, { emit }) {
     const store = useStore();
     const data = reactive<StakeFormData>(new StakeFormData());
     const api: any = inject('api');
 
+    const modalAccount = ref(false);
+    const modalDisclaimer = ref(false);
     const allAccounts = ref();
+    const allAccountNames = ref();
     const resultHash = ref('');
 
     // set accounts from extensions
@@ -105,6 +133,8 @@ export default defineComponent({
       if (api && accounts) {
         // console.log('accounts', Object.keys(accounts));
         allAccounts.value = Object.keys(accounts);
+        allAccountNames.value = Object.values(accounts).map((obj: any) => obj.option.name.replace('\n              ', ''));
+        
         data.polkadotAddress = Object.keys(accounts)[0];
       }
     });
@@ -194,9 +224,13 @@ export default defineComponent({
         data.errors['stakingAmount'] === ''
     );
 
-    const staking = async (e: any) => {
+    const onShowModalDisclaimer = (e: any) => {
       e.preventDefault();
 
+      modalDisclaimer.value = true;
+    }
+
+    const staking = async () => {
       store.dispatch(ActionTypes.SET_LOADING, { loading: true });
 
       const apiData: ApiPromise = (await api).api;
@@ -291,7 +325,12 @@ export default defineComponent({
       data,
       isEnableStaking,
       resultHash,
-      staking
+      staking,
+      allAccounts,
+      allAccountNames,
+      modalAccount,
+      modalDisclaimer,
+      onShowModalDisclaimer
     };
   }
 });
