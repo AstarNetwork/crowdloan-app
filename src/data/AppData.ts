@@ -51,7 +51,7 @@ const faqItems = <FaqData[]>[
   {
     question: 'Where can I find all the information?',
     answer:
-      'You can find all the information regarding Polkadot auctions and Astar Crowdloan event here: https://docs.astar.network/learn/polkadot-plo.'
+      'You can find all the information regarding Polkadot auctions and Astar Crowdloan event here: <a href="https://docs.astar.network/learn/polkadot-plo" target="_blank" style="color: #0070ff">Docs</a>.'
   }
 ];
 

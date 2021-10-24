@@ -37,7 +37,8 @@
         >
           <div class="text-base sm:flex-grow text-right">
             <a
-              href="#responsive-header"
+              href="https://docs.astar.network/learn/polkadot-plo/faq"
+              target="_blank"
               class="
                 no-underline
                 block
@@ -51,7 +52,8 @@
               FAQ
             </a>
             <a
-              href="#responsive-header"
+              href="https://docs.astar.network/learn/polkadot-plo/"
+              target="_blank"
               class="
                 no-underline
                 block
@@ -62,7 +64,7 @@
                 mr-4
               "
             >
-              Forum
+              Documentation
             </a>
             <div
               class="

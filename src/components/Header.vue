@@ -11,14 +11,13 @@
             lg:text-4xl lg:font-bold
           "
         >
-          Support the
+          Astar Crowdloan Event - Support
           <ruby
             >Astar Network<rt
               class="text-xs md:text-lg font-thin md:font-normal"
               >(Previously Plasm Network)</rt
             ></ruby
           >
-          Parachain Auction
         </p>
         <h1
           class="

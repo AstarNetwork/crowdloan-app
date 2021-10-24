@@ -7,7 +7,7 @@
           v-for="(faq, index) in faqs"
           :key="index"
           :caption="faq.question"
-          >{{ faq.answer }}</Expander
+          ><div v-html="faq.answer"></div></Expander
         >
       </div>
     </div>
