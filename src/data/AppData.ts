@@ -15,7 +15,7 @@ const ruleItems = <RuleData[]>[
   },
   {
     title: 'Huge bonus incentive',
-    rule: 'Astar has created 3 bonus levels! Everyone who is eligible can apply for one or all bonuses levels. In this section, all levels are explained with their requirements. In total there is 5% of the total supply reserved for this bonus scheme.'
+    rule: 'Astar has created 3 bonus levels! Everyone who is eligible can apply for one or all bonuses levels. In our documentation (see FAQ), all levels are explained with their requirements. In total there is 5% of the total supply reserved for this bonus scheme.'
   },
   {
     title: 'ASTR Token Distribution',
