@@ -9,7 +9,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, inject } from 'vue';
+import { ApiPromise } from '@polkadot/api';
 import StatusItem from './StatusItem.vue';
 
 export default defineComponent({
@@ -21,6 +22,25 @@ export default defineComponent({
       type: Array,
       required: true
     }
+  },
+  setup(props) {
+    const api: any = inject('api');
+
+    const getData = async () => {
+      //get data
+      const apiData: ApiPromise = (await api).api;
+
+      console.log('paraId', apiData);
+      const paraId = [2000];
+      const unsub = await apiData.query.crowdloan?.funds.multi(paraId, (campaigns) => {
+        console.log('c', campaigns)
+      })
+
+      // console.log('campaign', campaign);
+    }
+
+    getData()
+
   }
 });
 </script>

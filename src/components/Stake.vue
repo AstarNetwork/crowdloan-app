@@ -212,6 +212,8 @@ export default defineComponent({
       data.stakingAmount = MINIMUM_STAKING_AMOUNT;
       data.estimatedAmount = DEFAULT_REWARD_AMOUNT;
       data.referralAddress = '';
+      modalDisclaimer.value = false;
+
       await setAvailableAmount();
     };
 
@@ -231,6 +233,7 @@ export default defineComponent({
     }
 
     const staking = async () => {
+      modalDisclaimer.value = false;
       store.dispatch(ActionTypes.SET_LOADING, { loading: true });
 
       const apiData: ApiPromise = (await api).api;
