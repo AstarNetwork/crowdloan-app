@@ -36,12 +36,12 @@ export default defineComponent({
   components: {
     IconBase,
     IconSolidChevronDown,
-    IconAccountSample,
+    IconAccountSample
   },
   props: {
     address: {
       type: String,
-      required: true,
+      required: true
     }
   },
   emits: ['update:is-open'],
@@ -54,7 +54,7 @@ export default defineComponent({
       return address
         ? `${address.slice(0, 9)}${'.'.repeat(6)}${address.slice(-9)}`
         : '';
-    }
+    };
 
     const { address } = toRefs(props);
     const shortenAddress = computed(() => {
@@ -63,9 +63,9 @@ export default defineComponent({
 
     return {
       openModal,
-      shortenAddress,
+      shortenAddress
     };
-  },
+  }
 });
 </script>
 

@@ -20,7 +20,7 @@ export interface Campaign extends WinnerData {
   isWinner?: boolean;
 }
 
-export default function useFunds (apiRef: Ref<ApiPromise>) {
+export default function useFunds(apiRef: Ref<ApiPromise>) {
   const paraId = [2000];
 
   const campaign = ref<Campaign>();
@@ -28,9 +28,12 @@ export default function useFunds (apiRef: Ref<ApiPromise>) {
   watch(
     () => apiRef?.value,
     async () => {
-      const unsub = await apiRef.value.query.crowdloan?.funds.multi(paraId, (campaigns) => {
-        console.log('c', campaigns)
-      })
+      const unsub = await apiRef.value.query.crowdloan?.funds.multi(
+        paraId,
+        (campaigns) => {
+          console.log('c', campaigns);
+        }
+      );
     }
   );
 

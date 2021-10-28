@@ -17,7 +17,9 @@
             <form class="p-4" @submit="onShowModalDisclaimer">
               <label class="block text-left mb-2 text-base text-label">
                 Polkadot Address
-                <strong v-if="input && input.required" class="text-danger">*</strong>
+                <strong v-if="input && input.required" class="text-danger"
+                  >*</strong
+                >
               </label>
               <AddressSmall
                 v-model:isOpen="modalAccount"
@@ -88,7 +90,8 @@
   <Disclaimer
     v-if="modalDisclaimer"
     v-model:isOpen="modalDisclaimer"
-    v-on:agree="staking" />
+    v-on:agree="staking"
+  />
 </template>
 
 <script lang="ts">
@@ -116,7 +119,15 @@ import {
 } from '@/config/crowdloan';
 
 export default defineComponent({
-  components: { Input, Button, Title, Balance, AddressSmall, ModalAccount, Disclaimer },
+  components: {
+    Input,
+    Button,
+    Title,
+    Balance,
+    AddressSmall,
+    ModalAccount,
+    Disclaimer
+  },
   setup(props, { emit }) {
     const store = useStore();
     const data = reactive<StakeFormData>(new StakeFormData());
@@ -133,8 +144,10 @@ export default defineComponent({
       if (api && accounts) {
         // console.log('accounts', Object.keys(accounts));
         allAccounts.value = Object.keys(accounts);
-        allAccountNames.value = Object.values(accounts).map((obj: any) => obj.option.name.replace('\n              ', ''));
-        
+        allAccountNames.value = Object.values(accounts).map((obj: any) =>
+          obj.option.name.replace('\n              ', '')
+        );
+
         data.polkadotAddress = Object.keys(accounts)[0];
       }
     });
@@ -230,7 +243,7 @@ export default defineComponent({
       e.preventDefault();
 
       modalDisclaimer.value = true;
-    }
+    };
 
     const staking = async () => {
       modalDisclaimer.value = false;
