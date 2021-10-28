@@ -4,7 +4,15 @@
       <label class="flex items-center justify-between cursor-pointer">
         <div class="flex items-center">
           <div
-            class="h-8 w-8 rounded-full overflow-hidden border border-gray-100 mr-3 flex-shrink-0"
+            class="
+              h-8
+              w-8
+              rounded-full
+              overflow-hidden
+              border border-gray-100
+              mr-3
+              flex-shrink-0
+            "
           >
             <icon-base class="h-full w-full" viewBox="0 0 64 64">
               <icon-account-sample />
@@ -24,7 +32,18 @@
           <input
             name="choose_account"
             type="radio"
-            class="appearance-none border-2 border-gray-300 rounded-full focus:ring-blue-500 h-4 w-4 mr-3 focus:outline-none bg-white checked:border-4 checked:border-blue-500"
+            class="
+              appearance-none
+              border-2 border-gray-300
+              rounded-full
+              focus:ring-blue-500
+              h-4
+              w-4
+              mr-3
+              focus:outline-none
+              bg-white
+              checked:border-4 checked:border-blue-500
+            "
             :value="keyIdx"
             :checked="checked"
             @change="onChange(keyIdx)"
@@ -42,24 +61,24 @@ import IconAccountSample from '@/components/shared/IconAccountSample.vue';
 export default defineComponent({
   components: {
     IconBase,
-    IconAccountSample,
+    IconAccountSample
   },
   props: {
     keyIdx: {
       type: Number,
-      required: true,
+      required: true
     },
     address: {
       type: String,
-      required: true,
+      required: true
     },
     addressName: {
       type: String,
-      required: true,
+      required: true
     },
     checked: {
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   setup(props, { emit }) {
     const { address } = toRefs(props);
@@ -78,7 +97,7 @@ export default defineComponent({
 
     return {
       shortenAddress,
-      onChange,
+      onChange
     };
   },
   methods: {
@@ -88,7 +107,7 @@ export default defineComponent({
       } else {
         return 'text-blue-900 dark:text-darkGray-100 cursor-default select-none relative py-2 pl-3 pr-6 hover:bg-gray-50 dark:hover:bg-darkGray-800';
       }
-    },
-  },
+    }
+  }
 });
 </script>

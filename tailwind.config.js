@@ -121,8 +121,8 @@ module.exports = {
     extend: {
       backgroundColor: ['checked'],
       borderColor: ['checked'],
-      borderWidth: ['checked'],
-    },
+      borderWidth: ['checked']
+    }
   },
   plugins: []
 };

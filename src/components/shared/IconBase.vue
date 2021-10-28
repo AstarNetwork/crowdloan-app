@@ -22,28 +22,28 @@ export default defineComponent({
   props: {
     iconName: {
       type: String,
-      default: 'box',
+      default: 'box'
     },
     width: {
       type: [Number, String],
-      default: undefined,
+      default: undefined
     },
     height: {
       type: [Number, String],
-      default: undefined,
+      default: undefined
     },
     viewBox: {
       type: String,
-      default: '0 0 24 24',
+      default: '0 0 24 24'
     },
     fill: {
       type: String,
-      default: 'none',
+      default: 'none'
     },
     iconColor: {
       type: String,
-      default: 'currentColor',
-    },
-  },
+      default: 'currentColor'
+    }
+  }
 });
 </script>
