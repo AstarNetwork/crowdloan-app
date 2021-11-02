@@ -260,7 +260,7 @@ export default defineComponent({
 
       if (data.referralAddress) {
         try {
-          const memo = apiData.createType('Bytes', data.referralAddress);
+          const memo = apiData.createType('AccountId', data.referralAddress);
           const memoTransaction = apiData.tx.crowdloan.addMemo(PARA_ID, memo);
 
           const batch = apiData.tx.utility.batchAll([
@@ -276,21 +276,27 @@ export default defineComponent({
                 apiData.events.system.ExtrinsicFailed.is(event)
               );
 
-              if (status.status.isFinalized) {
-                const hashResult = batch.hash.toHex();
-                console.log('hashResult', hashResult);
-                resultHash.value = hashResult;
-                store.dispatch(ActionTypes.SET_LOADING, { loading: false });
-
-                await initialize();
-              }
-
               if (error.length) {
+                console.error(`error occurred: ${error}`);
                 store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
                   msg: `error occurred: ${error}`,
                   alertType: 'error'
                 });
                 store.dispatch(ActionTypes.SET_LOADING, { loading: false });
+                return;
+              }
+
+              if (status.status.isFinalized) {
+                const hashResult = batch.hash.toHex();
+                console.log('hashResult', hashResult);
+                store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
+                  msg: `Staking Complete...!`,
+                  alertType: 'success'
+                });
+                resultHash.value = hashResult;
+                store.dispatch(ActionTypes.SET_LOADING, { loading: false });
+
+                await initialize();
               }
             }
           );
@@ -308,6 +314,16 @@ export default defineComponent({
                 apiData.events.system.ExtrinsicFailed.is(event)
               );
 
+              if (error.length) {
+                console.error(`error occurred: ${error}`);
+                store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
+                  msg: `error occurred: ${error}`,
+                  alertType: 'error'
+                });
+                store.dispatch(ActionTypes.SET_LOADING, { loading: false });
+                return;
+              }
+
               if (status.status.isFinalized) {
                 const hashResult = contributeTransaction.hash.toHex();
                 console.log('hashResult', hashResult);
@@ -319,14 +335,6 @@ export default defineComponent({
                 resultHash.value = hashResult;
 
                 await initialize();
-              }
-
-              if (error.length) {
-                store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
-                  msg: `error occurred: ${error}`,
-                  alertType: 'error'
-                });
-                store.dispatch(ActionTypes.SET_LOADING, { loading: false });
               }
             }
           );
