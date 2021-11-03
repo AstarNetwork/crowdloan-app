@@ -10,10 +10,14 @@
               class="w-4 h-4 align-middle inline"
             />
             Note: Proxy accounts and multi signatures are not able to receive
-            rewards. <br />
+            rewards. Also, the hardware wallet is not supported now! <br />
             The minimum contribution is set to 5 DOT.
           </p>
           <div class="form-container p-12">
+            <!-- <div class="bg-orange text-white mb-4 py-2 text-xs font-bold">
+              Warning: the hardware wallet is not supported now!
+            </div> -->
+
             <form class="p-4" @submit="onShowModalDisclaimer">
               <label class="block text-left mb-2 text-base text-label">
                 Polkadot Address
@@ -374,6 +378,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.bg-orange {
+  background: #ffa500;
+}
+
 button:disabled,
 button[disabled] {
   opacity: 0.5;

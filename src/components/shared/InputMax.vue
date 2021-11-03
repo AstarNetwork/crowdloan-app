@@ -31,12 +31,12 @@
     </div>
     <span
       v-if="innerLabel"
-      class="absolute bottom-0 right-12 text-xl font-light pt-2 pb-2 pl-4 pr-10"
+      class="absolute top-8 right-12 text-xl font-light pt-2 pb-2 pl-4 pr-12"
       >{{ innerLabel }}</span
     >
-    <div v-if="validationMessage" class="text-danger mt-1">
+    <span v-if="validationMessage" class="text-danger mt-1">
       {{ validationMessage }}
-    </div>
+    </span>
   </div>
 </template>
 
