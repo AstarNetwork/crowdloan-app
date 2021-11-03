@@ -10,10 +10,14 @@
               class="w-4 h-4 align-middle inline"
             />
             Note: Proxy accounts and multi signatures are not able to receive
-            rewards. <br />
+            rewards. Also, the hardware wallet is not supported now! <br />
             The minimum contribution is set to 5 DOT.
           </p>
           <div class="form-container p-12">
+            <!-- <div class="bg-orange text-white mb-4 py-2 text-xs font-bold">
+              Warning: the hardware wallet is not supported now!
+            </div> -->
+
             <form class="p-4" @submit="onShowModalDisclaimer">
               <label class="block text-left mb-2 text-base text-label">
                 Polkadot Address
@@ -37,7 +41,7 @@
                 :decimals="12"
                 :unit="'DOT'"
               />
-              <Input
+              <InputMax
                 v-model="data.stakingAmount"
                 label="Staking Amount"
                 innerLabel="DOT"
@@ -45,6 +49,7 @@
                 min="0"
                 placeholder="0"
                 required
+                v-on:max="setMaxAmt"
                 :validationMessage="data.errors['stakingAmount']"
               />
               <Input
@@ -67,10 +72,12 @@
             <div class="p-3" v-if="resultHash">
               <h3>Staking success:</h3>
               <a
-                :href="`https://rococo.subscan.io/extrinsic/${resultHash}`"
+                :href="`https://astar.subscan.io/extrinsic/${resultHash}`"
                 target="_blank"
               >
-                <div class="font-bold w-36 hashResult">{{ resultHash }}</div>
+                <div class="font-bold hashResult">
+                  Check the transaction : {{ resultHash }}
+                </div>
               </a>
             </div>
           </div>
@@ -101,6 +108,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import BN from 'bn.js';
 import Disclaimer from './Disclaimer.vue';
 import Input from './shared/Input.vue';
+import InputMax from './shared/InputMax.vue';
 import Button from './shared/Button.vue';
 import Title from './shared/Title.vue';
 import Balance from './shared/Balance.vue';
@@ -121,6 +129,7 @@ import {
 export default defineComponent({
   components: {
     Input,
+    InputMax,
     Button,
     Title,
     Balance,
@@ -183,6 +192,12 @@ export default defineComponent({
       }
     );
 
+    const setMaxAmt = () => {
+      data.stakingAmount = data.availableAmount
+        .div(new BN(10 ** 12))
+        .toNumber();
+    };
+
     const validatePolkadotAddress = (value: string): boolean => {
       if (!value) {
         data.errors['polkadotAddress'] = 'Polkadot address is required.';
@@ -200,9 +215,10 @@ export default defineComponent({
       stakingAmount: number,
       availableAmount: BN
     ): boolean => {
-      if (stakingAmount <= 0) {
-        data.errors['stakingAmount'] =
-          'Staking amount should be greater than 0.';
+      if (stakingAmount < MINIMUM_STAKING_AMOUNT) {
+        data.errors[
+          'stakingAmount'
+        ] = `Staking amount should be greater than ${MINIMUM_STAKING_AMOUNT}.`;
         return false;
       }
       if (stakingAmount > 9999) {
@@ -210,7 +226,7 @@ export default defineComponent({
           'Staking amount should be lower than 9999.';
         return false;
       }
-      const bnStakingAmount = new BN(stakingAmount * 10 ** 12);
+      const bnStakingAmount = new BN(stakingAmount).mul(new BN(10 ** 12));
 
       if (bnStakingAmount.gte(availableAmount)) {
         data.errors['stakingAmount'] =
@@ -234,7 +250,7 @@ export default defineComponent({
       () =>
         data.polkadotAddress &&
         data.polkadotAddress.length > 0 &&
-        data.stakingAmount > 0 &&
+        data.stakingAmount >= MINIMUM_STAKING_AMOUNT &&
         data.errors['polkadotAddress'] === '' &&
         data.errors['stakingAmount'] === ''
     );
@@ -290,7 +306,7 @@ export default defineComponent({
                 const hashResult = batch.hash.toHex();
                 console.log('hashResult', hashResult);
                 store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
-                  msg: `Staking Complete...!`,
+                  msg: `Thank you for your contribution!...!`,
                   alertType: 'success'
                 });
                 resultHash.value = hashResult;
@@ -350,6 +366,7 @@ export default defineComponent({
       isEnableStaking,
       resultHash,
       staking,
+      setMaxAmt,
       allAccounts,
       allAccountNames,
       modalAccount,
@@ -361,6 +378,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.bg-orange {
+  background: #ffa500;
+}
+
 button:disabled,
 button[disabled] {
   opacity: 0.5;
@@ -393,7 +414,7 @@ button[disabled] {
 
 .hashResult {
   display: inline-block;
-  width: 15rem;
+  width: 25rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
