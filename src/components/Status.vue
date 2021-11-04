@@ -109,7 +109,7 @@ export default defineComponent({
       }
     };
 
-    getData();
+    // getData();
 
     return {
       statusData
