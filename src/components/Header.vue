@@ -1,5 +1,8 @@
 <template>
   <div id="hero">
+    <div class="bg-orange text-white mb-4 py-2 text-xs font-bold">
+      Warning: It's not live yet. Please wait until we officially start!!
+    </div>
     <Navigation class="max-w-full mx-auto" />
     <div class="container flex items-center max-w-screen-xl mx-auto">
       <div class="ml-8 self-center text-center lg:text-left pt-10">
@@ -94,5 +97,9 @@ h1 {
 
 p {
   font-weight: 700;
+}
+
+.bg-orange {
+  background: #ffa500;
 }
 </style>
