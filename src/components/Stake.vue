@@ -68,6 +68,7 @@
               />
               <Button :disabled="!isEnableStaking">Stake Now</Button>
             </form>
+
             <!-- {{ data }} -->
             <div class="p-3" v-if="resultHash">
               <h3>Staking success:</h3>
@@ -79,6 +80,15 @@
                   Check the transaction : {{ resultHash }}
                 </div>
               </a>
+            </div>
+
+            <div class="mt-7">
+              <InputWithCopy
+                v-model="referLink"
+                label="Invite your friends and Get a reward"
+                type="text"
+                disabled
+              />
             </div>
           </div>
         </div>
@@ -108,6 +118,7 @@ import { web3FromSource } from '@polkadot/extension-dapp';
 import BN from 'bn.js';
 import Disclaimer from './Disclaimer.vue';
 import Input from './shared/Input.vue';
+import InputWithCopy from './shared/InputWithCopy.vue';
 import InputMax from './shared/InputMax.vue';
 import Button from './shared/Button.vue';
 import Title from './shared/Title.vue';
@@ -129,6 +140,7 @@ import {
 export default defineComponent({
   components: {
     Input,
+    InputWithCopy,
     InputMax,
     Button,
     Title,
@@ -147,6 +159,15 @@ export default defineComponent({
     const allAccounts = ref();
     const allAccountNames = ref();
     const resultHash = ref('');
+    const referLink = ref('');
+
+    // check referral address as querystring
+    let params = new URL(window.location.href).searchParams;
+    let referral = params.get('referral');
+    console.log('ref', referral);
+    if (referral) {
+      data.referralAddress = referral;
+    }
 
     // set accounts from extensions
     keyring.accounts.subject.subscribe((accounts: any) => {
@@ -179,6 +200,9 @@ export default defineComponent({
       async () => {
         if (api && validatePolkadotAddress(data.polkadotAddress)) {
           await setAvailableAmount();
+
+          //set referral link
+          referLink.value = `${window.location.origin}/?referral=${data.polkadotAddress}`;
         }
       }
     );
@@ -319,6 +343,10 @@ export default defineComponent({
         } catch (err) {
           store.dispatch(ActionTypes.SET_LOADING, { loading: false });
           console.error(err);
+          store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
+            msg: `error occurred: ${err}`,
+            alertType: 'error'
+          });
         }
       } else {
         try {
@@ -357,6 +385,10 @@ export default defineComponent({
         } catch (err) {
           store.dispatch(ActionTypes.SET_LOADING, { loading: false });
           console.error(err);
+          store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
+            msg: `error occurred: ${err}`,
+            alertType: 'error'
+          });
         }
       }
     };
@@ -365,6 +397,7 @@ export default defineComponent({
       data,
       isEnableStaking,
       resultHash,
+      referLink,
       staking,
       setMaxAmt,
       allAccounts,
