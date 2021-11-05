@@ -66,7 +66,8 @@
                 placeholder="0"
                 disabled
               />
-              <Button :disabled="!isEnableStaking">Stake Now</Button>
+              <!-- <Button :disabled="!isEnableStaking">Stake Now</Button> -->
+              <Button disabled>Stake Now</Button>
             </form>
 
             <!-- {{ data }} -->
