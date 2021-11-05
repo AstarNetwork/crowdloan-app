@@ -1,8 +1,8 @@
 <template>
   <div id="hero">
-    <div class="bg-orange text-white mb-4 py-2 text-xs font-bold">
+    <!-- <div class="bg-orange text-white mb-4 py-2 text-xs font-bold">
       Warning: It's not live yet. Please wait until we officially start!!
-    </div>
+    </div> -->
     <Navigation class="max-w-full mx-auto" />
     <div class="container flex items-center max-w-screen-xl mx-auto">
       <div class="ml-8 self-center text-center lg:text-left pt-10">
@@ -43,25 +43,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import Navigation from './Navigation.vue';
-import Button from './shared/Button.vue';
+import { defineComponent } from "vue";
+import Navigation from "./Navigation.vue";
+import Button from "./shared/Button.vue";
 
 export default defineComponent({
-  name: 'Header',
+  name: "Header",
   components: { Navigation, Button },
-  props: {}
+  props: {},
 });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 no-webp #hero {
-  background-image: url('~@/assets/img/hero-image.jpg');
+  background-image: url("~@/assets/img/hero-image.jpg");
 }
 
 #hero {
-  background-image: url('~@/assets/img/hero-image.webp');
+  background-image: url("~@/assets/img/hero-image.webp");
 }
 
 #hero {
