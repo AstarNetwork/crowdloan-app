@@ -87,7 +87,7 @@ export default defineComponent({
               // console.log('totalRaised', result[0].info.raised.toNumber())
               statusData.value[1].value = result[CAMPAIGN_IDX].info.raised
                 .toBn()
-                .div(new BN(10 ** 12))
+                .div(new BN(10 ** 10))
                 .toNumber();
             }
           );

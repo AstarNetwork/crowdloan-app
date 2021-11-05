@@ -38,7 +38,7 @@
               /> -->
               <balance
                 :balance="data.availableAmount"
-                :decimals="12"
+                :decimals="10"
                 :unit="'DOT'"
               />
               <InputMax
@@ -66,15 +66,15 @@
                 placeholder="0"
                 disabled
               />
-              <!-- <Button :disabled="!isEnableStaking">Stake Now</Button> -->
-              <Button disabled>Stake Now</Button>
+              <Button :disabled="!isEnableStaking">Stake Now</Button>
+              <!-- <Button disabled>Stake Now</Button> -->
             </form>
 
             <!-- {{ data }} -->
             <div class="p-3" v-if="resultHash">
               <h3>Staking success:</h3>
               <a
-                :href="`https://astar.subscan.io/extrinsic/${resultHash}`"
+                :href="`https://polkadot.subscan.io/extrinsic/${resultHash}`"
                 target="_blank"
               >
                 <div class="font-bold hashResult">
@@ -220,7 +220,7 @@ export default defineComponent({
 
     const setMaxAmt = () => {
       data.stakingAmount = data.availableAmount
-        .div(new BN(10 ** 12))
+        .div(new BN(10 ** 10))
         .toNumber();
     };
 
@@ -252,7 +252,7 @@ export default defineComponent({
           'Staking amount should be lower than 9999.';
         return false;
       }
-      const bnStakingAmount = new BN(stakingAmount).mul(new BN(10 ** 12));
+      const bnStakingAmount = new BN(stakingAmount).mul(new BN(10 ** 10));
 
       if (bnStakingAmount.gte(availableAmount)) {
         data.errors['stakingAmount'] =
@@ -296,7 +296,7 @@ export default defineComponent({
 
       const contributeTransaction = apiData.tx.crowdloan.contribute(
         PARA_ID,
-        data.stakingAmount * 10 ** 12,
+        data.stakingAmount * 10 ** 10,
         null
       );
 
