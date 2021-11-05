@@ -44,7 +44,7 @@ const loadAccounts = async (api: ApiPromise) => {
     {
       genesisHash: api.genesisHash,
       isDevelopment,
-      ss58Format: 5
+      // ss58Format: 5
     },
     injectedAccounts
   );

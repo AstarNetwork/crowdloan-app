@@ -134,7 +134,8 @@ import { keyring } from '@polkadot/ui-keyring';
 import {
   PARA_ID,
   MINIMUM_STAKING_AMOUNT,
-  DEFAULT_REWARD_AMOUNT
+  DEFAULT_REWARD_AMOUNT,
+  REWARD_RATIO
 } from '@/config/crowdloan';
 
 export default defineComponent({
@@ -211,7 +212,7 @@ export default defineComponent({
       () => {
         if (validateStakingAmount(data.stakingAmount, data.availableAmount)) {
           const baseReward = data.stakingAmount;
-          data.estimatedAmount = baseReward / 2;
+          data.estimatedAmount = baseReward * REWARD_RATIO;
         }
       }
     );
