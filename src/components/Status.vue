@@ -35,6 +35,7 @@ export default defineComponent({
   },
   setup(props) {
     const api: any = inject('api');
+    const CAMPAIGN_IDX = 0;
 
     const statusData = ref<StatusData[]>(props.data);
 
@@ -84,7 +85,7 @@ export default defineComponent({
               console.log('result', result);
               // @assume : retrieve first crowdloan on the campaigns
               // console.log('totalRaised', result[0].info.raised.toNumber())
-              statusData.value[1].value = result[0].info.raised
+              statusData.value[1].value = result[CAMPAIGN_IDX].info.raised
                 .toBn()
                 .div(new BN(10 ** 12))
                 .toNumber();
@@ -109,7 +110,7 @@ export default defineComponent({
       }
     };
 
-    // getData();
+    getData();
 
     return {
       statusData
