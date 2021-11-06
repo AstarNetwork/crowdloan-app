@@ -66,13 +66,13 @@
                 placeholder="0"
                 disabled
               />
-              <Button :disabled="!isEnableStaking">Stake Now</Button>
+              <Button :disabled="!isEnableStaking">Contribute Now</Button>
               <!-- <Button disabled>Stake Now</Button> -->
             </form>
 
             <!-- {{ data }} -->
             <div class="p-3" v-if="resultHash">
-              <h3>Staking success:</h3>
+              <h3>Contribution success:</h3>
               <a
                 :href="`https://polkadot.subscan.io/extrinsic/${resultHash}`"
                 target="_blank"
