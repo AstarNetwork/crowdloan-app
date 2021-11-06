@@ -41,7 +41,8 @@
                 :decimals="10"
                 :unit="'DOT'"
               />
-              <InputMax
+
+              <!-- <InputMax
                 v-model="data.stakingAmount"
                 label="Staking Amount"
                 innerLabel="DOT"
@@ -50,6 +51,17 @@
                 placeholder="0"
                 required
                 v-on:max="setMaxAmt"
+                :validationMessage="data.errors['stakingAmount']"
+              /> -->
+
+              <InputAmount
+                v-model="data.stakingAmount"
+                label="Staking Amount"
+                innerLabel="DOT"
+                type="number"
+                min="0"
+                placeholder="0"
+                required
                 :validationMessage="data.errors['stakingAmount']"
               />
               <Input
@@ -66,7 +78,11 @@
                 placeholder="0"
                 disabled
               />
-              <Button :disabled="!isEnableStaking">Contribute Now</Button>
+              <Button
+                :disabled="!isEnableStaking"
+                :class="!isEnableStaking && 'button-disable'"
+                >Contribute Now</Button
+              >
               <!-- <Button disabled>Stake Now</Button> -->
             </form>
 
@@ -113,37 +129,38 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, reactive, watch, computed, ref } from 'vue';
-import { AccountInfo } from '@polkadot/types/interfaces';
-import { web3FromSource } from '@polkadot/extension-dapp';
-import BN from 'bn.js';
-import Disclaimer from './Disclaimer.vue';
-import Input from './shared/Input.vue';
-import InputWithCopy from './shared/InputWithCopy.vue';
-import InputMax from './shared/InputMax.vue';
-import Button from './shared/Button.vue';
-import Title from './shared/Title.vue';
-import Balance from './shared/Balance.vue';
-import AddressSmall from './shared/AddressSmall.vue';
-import ModalAccount from './ModalAccount.vue';
-import { StakeFormData } from '../data/StakeFormData';
-import { ActionTypes } from '@/store/action-types';
-import { isValidAddressPolkadotAddress } from '@/config/polkadot';
-import { ApiPromise } from '@polkadot/api';
-import { useStore } from 'vuex';
-import { keyring } from '@polkadot/ui-keyring';
 import {
-  PARA_ID,
-  MINIMUM_STAKING_AMOUNT,
   DEFAULT_REWARD_AMOUNT,
+  MINIMUM_STAKING_AMOUNT,
+  MIN_BALANCE,
+  PARA_ID,
   REWARD_RATIO
 } from '@/config/crowdloan';
+import { isValidAddressPolkadotAddress } from '@/config/polkadot';
+import { ActionTypes } from '@/store/action-types';
+import { ApiPromise } from '@polkadot/api';
+import { web3FromSource } from '@polkadot/extension-dapp';
+import { AccountInfo } from '@polkadot/types/interfaces';
+import { keyring } from '@polkadot/ui-keyring';
+import BN from 'bn.js';
+import { computed, defineComponent, inject, reactive, ref, watch } from 'vue';
+import { useStore } from 'vuex';
+import { StakeFormData } from '../data/StakeFormData';
+import Disclaimer from './Disclaimer.vue';
+import ModalAccount from './ModalAccount.vue';
+import AddressSmall from './shared/AddressSmall.vue';
+import Balance from './shared/Balance.vue';
+import Button from './shared/Button.vue';
+import Input from './shared/Input.vue';
+import InputAmount from './shared/InputAmount.vue';
+import InputWithCopy from './shared/InputWithCopy.vue';
+import Title from './shared/Title.vue';
 
 export default defineComponent({
   components: {
     Input,
     InputWithCopy,
-    InputMax,
+    InputAmount,
     Button,
     Title,
     Balance,
@@ -162,6 +179,9 @@ export default defineComponent({
     const allAccountNames = ref();
     const resultHash = ref('');
     const referLink = ref('');
+
+    const burnsWarning =
+      "Account with balance below the existential deposit will be reaped (Polkadot's existential deposit is 1 DOT)";
 
     // check referral address as querystring
     let params = new URL(window.location.href).searchParams;
@@ -218,11 +238,11 @@ export default defineComponent({
       }
     );
 
-    const setMaxAmt = () => {
-      data.stakingAmount = data.availableAmount
-        .div(new BN(10 ** 10))
-        .toNumber();
-    };
+    // const setMaxAmt = () => {
+    //   data.stakingAmount = data.availableAmount
+    //     .div(new BN(10 ** 10))
+    //     .toNumber();
+    // };
 
     const validatePolkadotAddress = (value: string): boolean => {
       if (!value) {
@@ -237,6 +257,7 @@ export default defineComponent({
       }
       return isAddressValid;
     };
+
     const validateStakingAmount = (
       stakingAmount: number,
       availableAmount: BN
@@ -247,6 +268,7 @@ export default defineComponent({
         ] = `Staking amount should be greater than ${MINIMUM_STAKING_AMOUNT}.`;
         return false;
       }
+
       if (stakingAmount > 9999) {
         data.errors['stakingAmount'] =
           'Staking amount should be lower than 9999.';
@@ -259,6 +281,15 @@ export default defineComponent({
           'Staking amount can not be greater than available amount.';
         return false;
       }
+
+      const balance = data.availableAmount.div(new BN(10 ** 10)).toNumber();
+      const remainingBal = balance - stakingAmount;
+      // Ref: https://wiki.polkadot.network/docs/build-protocol-info#existential-deposit
+      if (MIN_BALANCE > remainingBal) {
+        data.errors['stakingAmount'] = burnsWarning;
+        return true;
+      }
+
       data.errors['stakingAmount'] = '';
       return true;
     };
@@ -277,8 +308,11 @@ export default defineComponent({
         data.polkadotAddress &&
         data.polkadotAddress.length > 0 &&
         data.stakingAmount >= MINIMUM_STAKING_AMOUNT &&
+        data.availableAmount.div(new BN(10 ** 10)).toNumber() >=
+          MINIMUM_STAKING_AMOUNT &&
         data.errors['polkadotAddress'] === '' &&
-        data.errors['stakingAmount'] === ''
+        (data.errors['stakingAmount'] === '' ||
+          data.errors['stakingAmount'] === burnsWarning)
     );
 
     const onShowModalDisclaimer = (e: any) => {
@@ -401,7 +435,6 @@ export default defineComponent({
       resultHash,
       referLink,
       staking,
-      setMaxAmt,
       allAccounts,
       allAccountNames,
       modalAccount,
@@ -453,5 +486,8 @@ button[disabled] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.button-disable {
+  cursor: not-allowed;
 }
 </style>
