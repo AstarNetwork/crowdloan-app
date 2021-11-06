@@ -41,6 +41,19 @@
                 :decimals="10"
                 :unit="'DOT'"
               />
+
+              <!-- <InputMax
+                v-model="data.stakingAmount"
+                label="Staking Amount"
+                innerLabel="DOT"
+                type="number"
+                min="0"
+                placeholder="0"
+                required
+                v-on:max="setMaxAmt"
+                :validationMessage="data.errors['stakingAmount']"
+              /> -->
+
               <InputAmount
                 v-model="data.stakingAmount"
                 label="Staking Amount"
@@ -168,7 +181,7 @@ export default defineComponent({
     const referLink = ref('');
 
     const burnsWarning =
-      'All remaining DOT in that account are burned if the account remains less than 1 DOT';
+      "Account with balance below the existential deposit will be reaped (Polkadot's existential deposit is 1 DOT)";
 
     // check referral address as querystring
     let params = new URL(window.location.href).searchParams;
@@ -225,6 +238,12 @@ export default defineComponent({
       }
     );
 
+    // const setMaxAmt = () => {
+    //   data.stakingAmount = data.availableAmount
+    //     .div(new BN(10 ** 10))
+    //     .toNumber();
+    // };
+
     const validatePolkadotAddress = (value: string): boolean => {
       if (!value) {
         data.errors['polkadotAddress'] = 'Polkadot address is required.';
@@ -265,7 +284,7 @@ export default defineComponent({
 
       const balance = data.availableAmount.div(new BN(10 ** 10)).toNumber();
       const remainingBal = balance - stakingAmount;
-      // Ref: https://support.polkadot.network/support/solutions/articles/65000169248-error-balances-transferkeepalive-
+      // Ref: https://wiki.polkadot.network/docs/build-protocol-info#existential-deposit
       if (MIN_BALANCE > remainingBal) {
         data.errors['stakingAmount'] = burnsWarning;
         return true;
