@@ -113,31 +113,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, reactive, watch, computed, ref } from 'vue';
-import { AccountInfo } from '@polkadot/types/interfaces';
-import { web3FromSource } from '@polkadot/extension-dapp';
-import BN from 'bn.js';
-import Disclaimer from './Disclaimer.vue';
-import Input from './shared/Input.vue';
-import InputWithCopy from './shared/InputWithCopy.vue';
-import InputMax from './shared/InputMax.vue';
-import Button from './shared/Button.vue';
-import Title from './shared/Title.vue';
-import Balance from './shared/Balance.vue';
-import AddressSmall from './shared/AddressSmall.vue';
-import ModalAccount from './ModalAccount.vue';
-import { StakeFormData } from '../data/StakeFormData';
-import { ActionTypes } from '@/store/action-types';
-import { isValidAddressPolkadotAddress } from '@/config/polkadot';
-import { ApiPromise } from '@polkadot/api';
-import { useStore } from 'vuex';
-import { keyring } from '@polkadot/ui-keyring';
 import {
-  PARA_ID,
-  MINIMUM_STAKING_AMOUNT,
   DEFAULT_REWARD_AMOUNT,
+  MINIMUM_STAKING_AMOUNT,
+  MIN_BALANCE,
+  PARA_ID,
   REWARD_RATIO
 } from '@/config/crowdloan';
+import { isValidAddressPolkadotAddress } from '@/config/polkadot';
+import { ActionTypes } from '@/store/action-types';
+import { ApiPromise } from '@polkadot/api';
+import { web3FromSource } from '@polkadot/extension-dapp';
+import { AccountInfo } from '@polkadot/types/interfaces';
+import { keyring } from '@polkadot/ui-keyring';
+import BN from 'bn.js';
+import { computed, defineComponent, inject, reactive, ref, watch } from 'vue';
+import { useStore } from 'vuex';
+import { StakeFormData } from '../data/StakeFormData';
+import Disclaimer from './Disclaimer.vue';
+import ModalAccount from './ModalAccount.vue';
+import AddressSmall from './shared/AddressSmall.vue';
+import Balance from './shared/Balance.vue';
+import Button from './shared/Button.vue';
+import Input from './shared/Input.vue';
+import InputMax from './shared/InputMax.vue';
+import InputWithCopy from './shared/InputWithCopy.vue';
+import Title from './shared/Title.vue';
 
 export default defineComponent({
   components: {
@@ -162,6 +163,9 @@ export default defineComponent({
     const allAccountNames = ref();
     const resultHash = ref('');
     const referLink = ref('');
+
+    const burnsWarning =
+      'All remaining DOT in that account are burned if the account remains less than 1 DOT';
 
     // check referral address as querystring
     let params = new URL(window.location.href).searchParams;
@@ -237,6 +241,7 @@ export default defineComponent({
       }
       return isAddressValid;
     };
+
     const validateStakingAmount = (
       stakingAmount: number,
       availableAmount: BN
@@ -259,6 +264,14 @@ export default defineComponent({
           'Staking amount can not be greater than available amount.';
         return false;
       }
+
+      const balance = data.availableAmount.div(new BN(10 ** 10)).toNumber();
+      const remainingBal = balance - stakingAmount;
+      // Ref: https://support.polkadot.network/support/solutions/articles/65000169248-error-balances-transferkeepalive-
+      if (MIN_BALANCE > remainingBal) {
+        data.errors['stakingAmount'] = burnsWarning;
+        return true;
+      }
       data.errors['stakingAmount'] = '';
       return true;
     };
@@ -278,7 +291,8 @@ export default defineComponent({
         data.polkadotAddress.length > 0 &&
         data.stakingAmount >= MINIMUM_STAKING_AMOUNT &&
         data.errors['polkadotAddress'] === '' &&
-        data.errors['stakingAmount'] === ''
+        (data.errors['stakingAmount'] === '' ||
+          data.errors['stakingAmount'] === burnsWarning)
     );
 
     const onShowModalDisclaimer = (e: any) => {
