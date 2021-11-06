@@ -41,7 +41,7 @@
                 :decimals="10"
                 :unit="'DOT'"
               />
-              <InputMax
+              <InputAmount
                 v-model="data.stakingAmount"
                 label="Staking Amount"
                 innerLabel="DOT"
@@ -49,7 +49,6 @@
                 min="0"
                 placeholder="0"
                 required
-                v-on:max="setMaxAmt"
                 :validationMessage="data.errors['stakingAmount']"
               />
               <Input
@@ -136,7 +135,7 @@ import AddressSmall from './shared/AddressSmall.vue';
 import Balance from './shared/Balance.vue';
 import Button from './shared/Button.vue';
 import Input from './shared/Input.vue';
-import InputMax from './shared/InputMax.vue';
+import InputAmount from './shared/InputAmount.vue';
 import InputWithCopy from './shared/InputWithCopy.vue';
 import Title from './shared/Title.vue';
 
@@ -144,7 +143,7 @@ export default defineComponent({
   components: {
     Input,
     InputWithCopy,
-    InputMax,
+    InputAmount,
     Button,
     Title,
     Balance,
@@ -221,12 +220,6 @@ export default defineComponent({
         }
       }
     );
-
-    const setMaxAmt = () => {
-      data.stakingAmount = data.availableAmount
-        .div(new BN(10 ** 10))
-        .toNumber();
-    };
 
     const validatePolkadotAddress = (value: string): boolean => {
       if (!value) {
@@ -417,7 +410,6 @@ export default defineComponent({
       resultHash,
       referLink,
       staking,
-      setMaxAmt,
       allAccounts,
       allAccountNames,
       modalAccount,
