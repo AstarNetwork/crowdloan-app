@@ -65,7 +65,11 @@
                 placeholder="0"
                 disabled
               />
-              <Button :disabled="!isEnableStaking">Contribute Now</Button>
+              <Button
+                :disabled="!isEnableStaking"
+                :class="!isEnableStaking && 'button-disable'"
+                >Contribute Now</Button
+              >
               <!-- <Button disabled>Stake Now</Button> -->
             </form>
 
@@ -285,6 +289,8 @@ export default defineComponent({
         data.polkadotAddress &&
         data.polkadotAddress.length > 0 &&
         data.stakingAmount >= MINIMUM_STAKING_AMOUNT &&
+        data.availableAmount.div(new BN(10 ** 10)).toNumber() >=
+          MINIMUM_STAKING_AMOUNT &&
         data.errors['polkadotAddress'] === '' &&
         (data.errors['stakingAmount'] === '' ||
           data.errors['stakingAmount'] === burnsWarning)
@@ -461,5 +467,8 @@ button[disabled] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.button-disable {
+  cursor: not-allowed;
 }
 </style>
