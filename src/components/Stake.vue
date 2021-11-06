@@ -252,6 +252,7 @@ export default defineComponent({
         ] = `Staking amount should be greater than ${MINIMUM_STAKING_AMOUNT}.`;
         return false;
       }
+
       if (stakingAmount > 9999) {
         data.errors['stakingAmount'] =
           'Staking amount should be lower than 9999.';
@@ -272,6 +273,7 @@ export default defineComponent({
         data.errors['stakingAmount'] = burnsWarning;
         return true;
       }
+
       data.errors['stakingAmount'] = '';
       return true;
     };
