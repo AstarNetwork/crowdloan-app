@@ -2,7 +2,7 @@
   <div class="bg-dark py-20 background">
     <h2 class="title text-5xl lg:text-6xl font-black pb-4">Remaining Time</h2>
     <p class="text-danger text-xl lg:text-2xl font-bold mb-4">
-      The start of the First Auction:
+      +20% Early Bird Bonus Ends In:
     </p>
     <div class="flex flex-wrap justify-center">
       <RemainingTimeItem
