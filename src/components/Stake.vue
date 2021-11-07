@@ -269,11 +269,11 @@ export default defineComponent({
         return false;
       }
 
-      if (stakingAmount > 9999) {
-        data.errors['stakingAmount'] =
-          'Staking amount should be lower than 9999.';
-        return false;
-      }
+      // if (stakingAmount > 9999) {
+      //   data.errors['stakingAmount'] =
+      //     'Staking amount should be lower than 9999.';
+      //   return false;
+      // }
       const bnStakingAmount = new BN(stakingAmount).mul(new BN(10 ** 10));
 
       if (bnStakingAmount.gte(availableAmount)) {
