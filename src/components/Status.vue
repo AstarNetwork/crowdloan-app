@@ -21,7 +21,7 @@ import type { FundInfo, ParaId } from '@polkadot/types/interfaces';
 import type { Campaign } from '../hooks/useFunds';
 import { StatusData } from '../data/StatusData';
 import StatusItem from './StatusItem.vue';
-import { PARA_ID } from '@/config/crowdloan';
+import { PARA_ID, UNIT } from '@/config/crowdloan';
 
 export default defineComponent({
   components: {
@@ -87,7 +87,7 @@ export default defineComponent({
               // console.log('totalRaised', result[0].info.raised.toNumber())
               statusData.value[1].value = result[CAMPAIGN_IDX].info.raised
                 .toBn()
-                .div(new BN(10 ** 10))
+                .div(new BN(10 ** UNIT))
                 .toNumber();
             }
           );
