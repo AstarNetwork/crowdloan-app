@@ -23,7 +23,7 @@ const ruleItems = <RuleData[]>[
   },
   {
     title: 'Number of ASTR token',
-    rule: 'The number of ASTR tokens the participants will receive is determined based on the, how many DOTs they lock for Astar, the total amount of locked DOTs in the crowdloan and bonus.'
+    rule: 'The number of ASTR tokens the participants will receive is determined based on many DOTs they lock for Astar, the total amount of locked DOTs in the crowdloan and bonus.'
   }
 ];
 
