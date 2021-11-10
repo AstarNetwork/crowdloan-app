@@ -38,7 +38,7 @@
               /> -->
               <balance
                 :balance="data.availableAmount"
-                :decimals="10"
+                :decimals="UNIT"
                 :unit="'DOT'"
               />
 
@@ -134,7 +134,8 @@ import {
   MINIMUM_STAKING_AMOUNT,
   MIN_BALANCE,
   PARA_ID,
-  REWARD_RATIO
+  REWARD_RATIO,
+  UNIT
 } from '@/config/crowdloan';
 import { isValidAddressPolkadotAddress } from '@/config/polkadot';
 import { ActionTypes } from '@/store/action-types';
@@ -240,7 +241,7 @@ export default defineComponent({
 
     // const setMaxAmt = () => {
     //   data.stakingAmount = data.availableAmount
-    //     .div(new BN(10 ** 10))
+    //     .div(new BN(10 ** UNIT))
     //     .toNumber();
     // };
 
@@ -274,7 +275,9 @@ export default defineComponent({
       //     'Staking amount should be lower than 9999.';
       //   return false;
       // }
-      const bnStakingAmount = new BN(stakingAmount).mul(new BN(10 ** 10));
+
+      // const bnStakingAmount = new BN(stakingAmount).mul(new BN(10 ** UNIT));
+      const bnStakingAmount = new BN(data.stakingAmount * 10 ** UNIT);
 
       if (bnStakingAmount.gte(availableAmount)) {
         data.errors['stakingAmount'] =
@@ -282,7 +285,7 @@ export default defineComponent({
         return false;
       }
 
-      const balance = data.availableAmount.div(new BN(10 ** 10)).toNumber();
+      const balance = data.availableAmount.div(new BN(10 ** UNIT)).toNumber();
       const remainingBal = balance - stakingAmount;
       // Ref: https://wiki.polkadot.network/docs/build-protocol-info#existential-deposit
       if (MIN_BALANCE > remainingBal) {
@@ -308,7 +311,7 @@ export default defineComponent({
         data.polkadotAddress &&
         data.polkadotAddress.length > 0 &&
         data.stakingAmount >= MINIMUM_STAKING_AMOUNT &&
-        data.availableAmount.div(new BN(10 ** 10)).toNumber() >=
+        data.availableAmount.div(new BN(10 ** UNIT)).toNumber() >=
           MINIMUM_STAKING_AMOUNT &&
         data.errors['polkadotAddress'] === '' &&
         (data.errors['stakingAmount'] === '' ||
@@ -330,7 +333,7 @@ export default defineComponent({
 
       const contributeTransaction = apiData.tx.crowdloan.contribute(
         PARA_ID,
-        data.stakingAmount * 10 ** 10,
+        data.stakingAmount * 10 ** UNIT,
         null
       );
 
@@ -430,6 +433,7 @@ export default defineComponent({
     };
 
     return {
+      UNIT,
       data,
       isEnableStaking,
       resultHash,
