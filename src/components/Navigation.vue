@@ -66,6 +66,21 @@
             >
               Documentation
             </a>
+            <a
+              href="https://docs.astar.network/learn/token-economics/token-allocation"
+              target="_blank"
+              class="
+                no-underline
+                block
+                mt-4
+                sm:inline-block sm:mt-0
+                text-teal-lighter
+                hover:underline hover:text-primary
+                mr-4
+              "
+            >
+              Token Economics
+            </a>
             <div
               class="
                 no-underline
