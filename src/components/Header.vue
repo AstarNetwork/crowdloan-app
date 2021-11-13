@@ -34,9 +34,15 @@
             pb-6
           "
         >
-          Stake DOT <small>&amp;</small> <br />Get ASTR Today!
+          Contribute DOT <small>&amp;</small> <br />Get ASTR Today!
         </h1>
-        <a href="#stake-dot"><Button>Stake DOT now</Button></a>
+        <a href="#stake-dot"><Button>Contribute DOT now</Button></a>
+        <a
+          href="https://medium.com/astar-network/astar-crowdloan-event-summary-a7d64629a1c1"
+          target="_blank"
+          class="ml-6"
+          ><Button>Learn More</Button></a
+        >
       </div>
     </div>
   </div>

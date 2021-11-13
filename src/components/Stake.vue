@@ -3,7 +3,7 @@
     <div class="background-left">
       <div class="background-right pt-20 pb-20">
         <div class="max-w-2xl mx-auto pl-4 pr-4">
-          <Title>Stake DOT</Title>
+          <Title>Contribute DOT</Title>
           <p class="mb-12">
             <img
               src="@/assets/img/info.svg"
@@ -11,7 +11,14 @@
             />
             Note: Proxy accounts and multi signatures are not able to receive
             rewards. Also, the hardware wallet is not supported now! <br />
-            The minimum contribution is set to 5 DOT.
+            The minimum contribution is set to 5 DOT. <br />
+            You can learn more about the Crowdloan from
+            <a
+              href="https://medium.com/astar-network/astar-crowdloan-event-summary-a7d64629a1c1"
+              target="_blank"
+              class="underline text-primary"
+              >this article</a
+            >.
           </p>
           <div class="form-container p-12">
             <!-- <div class="bg-orange text-white mb-4 py-2 text-xs font-bold">
@@ -56,7 +63,7 @@
 
               <InputAmount
                 v-model="data.stakingAmount"
-                label="Staking Amount"
+                label="Contribution Amount"
                 innerLabel="DOT"
                 type="number"
                 min="0"
