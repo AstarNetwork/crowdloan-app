@@ -36,7 +36,13 @@
         >
           Contribute DOT <small>&amp;</small> <br />Get ASTR Today!
         </h1>
-        <a href="#stake-dot"><Button>Contribute DOT now</Button></a>
+        <!-- <Button v-on:click="goToStakingArea">Contribute DOT now</Button> -->
+        <button
+          @click="goToStakingArea"
+          class="px-12 py-3 bg-primary text-xl text-white button-gradient"
+        >
+          Contribute DOT now
+        </button>
         <a
           href="https://medium.com/astar-network/astar-crowdloan-event-summary-a7d64629a1c1"
           target="_blank"
@@ -56,7 +62,16 @@ import Button from './shared/Button.vue';
 export default defineComponent({
   name: 'Header',
   components: { Navigation, Button },
-  props: {}
+  props: {},
+  setup() {
+    const goToStakingArea = () => {
+      window.scrollTo(0, 1200);
+    }
+
+    return {
+      goToStakingArea
+    };
+  }
 });
 </script>
 
@@ -107,5 +122,19 @@ p {
 
 .bg-orange {
   background: #ffa500;
+}
+
+.button-gradient {
+  background: linear-gradient(
+    83.83deg,
+    #694ea4 0%,
+    #1b6dc1 37.5%,
+    #1b6dc1 65.1%,
+    #2ea0c4 100%
+  );
+  box-shadow: 0px 2px 2px rgb(0 0 0 / 30%);
+  border: 0;
+  color: #fff;
+  transition: all 0.15s ease-in-out;
 }
 </style>
