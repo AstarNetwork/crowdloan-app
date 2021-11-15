@@ -4,6 +4,7 @@
     <RemainingTime :startTime="startTime" :endTime="endTime" />
     <Stake />
     <Status :data="statuses" />
+    <HubSpot />
     <Rules :rules="rules" />
     <Faq :faqs="faqs" />
     <Footer />
@@ -20,6 +21,7 @@ import Status from '../components/Status.vue';
 import Rules from '../components/Rules.vue';
 import Faq from '../components/Faq.vue';
 import Footer from '../components/Footer.vue';
+import HubSpot from '../components/HubSpot.vue';
 import { statusItems, ruleItems, faqItems } from '../data/AppData';
 import { StatusData } from '../data/StatusData';
 import { RuleData } from '../data/RuleData';
@@ -32,7 +34,8 @@ export default defineComponent({
     Status,
     Rules,
     Faq,
-    Footer
+    Footer,
+    HubSpot
   },
   setup() {
     const startTime = moment.utc([2021, 1, 1]);
