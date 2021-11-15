@@ -1,23 +1,17 @@
 <template>
-  <div class="pt-20 pb-20 status-background">
-    <div class="max-w-6xl mx-auto">
-      <div class="flex flex-wrap justify-center">
-        <!-- Participants -->
-        <div class="flex-col text-center mt-4 mb-4 ml-6 mr-6">
-          <div class="status-item-value font-bold text-6xl lg:text-7xl">
-            {{ $n(participants, 'decimal') }}
-          </div>
-          <div class="text-xl font-normal">Participants</div>
-        </div>
-        <!-- DOT Contributed -->
-        <div class="flex-col text-center mt-4 mb-4 ml-6 mr-6">
-          <div class="status-item-value font-bold text-6xl lg:text-7xl">
-            {{ $n(dotContributed, 'decimal') }}
-          </div>
-          <div class="text-xl font-normal">DOT Contributed</div>
-        </div>
-      </div>
-    </div>
+  <div class="head-widget">
+    <a
+      href="https://crowdloan.astar.network/"
+      style="color: #fff"
+      target="_blank"
+      >ASTAR CrowdLoan is Live!
+      <span
+        v-if="dotContributed > 0"
+        style="color: #b3eef1; text-decoration: underline"
+        >{{ $n(dotContributed, 'decimal') }} DOT Contributed
+      </span>
+      &#128640; JOIN NOW!!!</a
+    >
   </div>
 </template>
 
@@ -31,13 +25,11 @@ import type { Campaign } from '../../hooks/useFunds';
 import { PARA_ID, UNIT } from '@/config/crowdloan';
 
 export default defineComponent({
-  components: {
-  },
   setup(props) {
     const api: any = inject('api');
     const CAMPAIGN_IDX = 0;
 
-    const participants = ref(0);
+    // const participants = ref(0);
     const dotContributed = ref(0);
 
     const transformMulti = ([[paraIds], optFunds]: [
@@ -93,13 +85,13 @@ export default defineComponent({
             }
           );
 
-          const unsub2 = await apiData.derive.crowdloan.contributions(
-            PARA_ID,
-            (derive: any) => {
-              console.log('d', derive);
-              participants.value = derive.contributorsHex.length;
-            }
-          );
+          // const unsub2 = await apiData.derive.crowdloan.contributions(
+          //   PARA_ID,
+          //   (derive: any) => {
+          //     console.log('d', derive);
+          //     participants.value = derive.contributorsHex.length;
+          //   }
+          // );
         } else {
           //FIXME: tricky way to call crowdloan query again
           setTimeout(() => {
@@ -114,7 +106,7 @@ export default defineComponent({
     getData();
 
     return {
-      participants,
+      // participants,
       dotContributed
     };
   }
@@ -122,6 +114,22 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.head-widget {
+  font-weight: 900 !important;
+  background: linear-gradient(
+    83.83deg,
+    #694ea4,
+    #1b6dc1 37.5%,
+    #1b6dc1 65.1%,
+    #2ea0c4
+  );
+  color: #fff;
+  font-weight: bold;
+  height: 40px;
+  text-align: center;
+  padding-top: 7px;
+}
+
 no-webp .status-background {
   background-image: url('~@/assets/img/holo-bg.jpg');
 }
