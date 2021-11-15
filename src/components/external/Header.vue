@@ -7,6 +7,7 @@
       >ASTAR CrowdLoan is Live!
       <span
         v-if="dotContributed > 0"
+        class="hidden md:inline-block"
         style="color: #b3eef1; text-decoration: underline"
         >{{ $n(dotContributed, 'decimal') }} DOT Contributed
       </span>
