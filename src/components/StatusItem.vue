@@ -1,7 +1,15 @@
 <template>
   <div class="flex-col text-center mt-4 mb-4 ml-6 mr-6">
     <div class="status-item-value font-bold text-6xl lg:text-7xl">
-      {{ $n(item.value, 'decimal') }}
+      <span v-if="item.value">
+        {{ $n(item.value, 'decimal') }}
+      </span>
+      <div
+        v-else
+        class="skeleton-animation column-skeleton hidden md:inline-block"
+      >
+        <span class="inline-block" />
+      </div>
     </div>
     <div class="text-xl font-normal">{{ item.description }}</div>
   </div>
@@ -31,5 +39,14 @@ export default defineComponent({
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.skeleton-block {
+  border-radius: 10px;
+}
+.column-skeleton {
+  background: #e7e8eb;
+  height: 46px;
+  width: 210px;
+  border-radius: 8px;
 }
 </style>
