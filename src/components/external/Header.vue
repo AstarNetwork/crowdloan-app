@@ -3,21 +3,30 @@
     <a
       href="https://crowdloan.astar.network/"
       style="color: #fff"
+      class="flex justify-center items-center gap-x-2"
       target="_blank"
-      >ASTAR CrowdLoan is Live!
-      <span
+      >ASTAR Crowdloan is Live!
+      <div
         v-if="dotContributed > 0"
         class="hidden md:inline-block"
         style="color: #b3eef1; text-decoration: underline"
-        >{{ $n(dotContributed, 'decimal') }} DOT Contributed
-      </span>
-      &#128640; JOIN NOW!!!</a
-    >
+      >
+        {{ $n(dotContributed, 'decimal') }}
+      </div>
+      <div
+        v-else
+        class="skeleton-animation column-skeleton hidden md:inline-block"
+      >
+        <span class="inline-block" />
+      </div>
+      <div class="hidden md:inline-block">DOT Contributed</div>
+      <div>&#128640; JOIN NOW!!!</div>
+    </a>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, watch } from 'vue';
+import { defineComponent, inject, ref } from 'vue';
 import { ApiPromise } from '@polkadot/api';
 import BN from 'bn.js';
 import type { Option } from '@polkadot/types';
@@ -154,5 +163,11 @@ no-webp .status-background {
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.column-skeleton {
+  background: #e7e8eb;
+  height: 14px;
+  width: 76px;
+  border-radius: 8px;
 }
 </style>
