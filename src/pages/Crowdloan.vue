@@ -39,7 +39,7 @@ export default defineComponent({
   },
   setup() {
     const startTime = moment.utc([2021, 1, 1]);
-    const endTime = moment.utc([2021, 11, 17]).add(5, 'h').add(56, 'm');
+    const endTime = moment.utc('2021-12-02').add(15, 'h');
     const statuses = ref<StatusData[]>(statusItems);
     const rules = ref<RuleData[]>(ruleItems);
     const faqs = ref<FaqData[]>(faqItems);
