@@ -6,14 +6,70 @@
       >
         <h2 class="font-bold text-xl">Referral Leaderboard</h2>
         <div class="list-container">
-          <VirtualList :data="dataSource">
+          <div class="flex flex-col mb-8">
+            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div
+                class="
+                  py-2
+                  align-middle
+                  inline-block
+                  min-w-full
+                  sm:px-6
+                  lg:px-8
+                "
+              >
+                <div
+                  class="
+                    shadow
+                    overflow-hidden
+                    border-b border-gray-200
+                    dark:border-darkGray-600
+                    rounded-lg
+                  "
+                >
+                  <table
+                    class="
+                      min-w-full
+                      divide-y divide-gray-200
+                      dark:divide-darkGray-600
+                    "
+                  >
+                    <tbody
+                      class="
+                        bg-white
+                        dark:bg-darkGray-800
+                        divide-y divide-gray-200
+                        dark:divide-darkGray-600
+                      "
+                    >
+                      <tr v-for="(item) in dataSource" :key="item.index">
+                        <td class="px-3 py-4 text-center">
+                          <div class="relative h-5 mx-auto truncate">
+                            {{ item.referAddress }}
+                          </div>
+                        </td>
+                        <td class="px-3 py-4 text-center">
+                          <div class="relative w-5 h-5 mx-auto">
+                            {{ item.numStakers }}
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <VirtualList :data="dataSource">
             <template v-slot="{ item, index }">
               <div class="item-container">
                 <div class="cell mx-4 rAddress">{{index}}</div>
-                <div class="cell rAmount">{{item}} ASTR</div>
+                <div class="cell mx-4 rAddress">{{item.referAddress}}</div>
+                <div class="cell rAmount">{{item.numStakers}}</div>
               </div>
             </template>
-          </VirtualList>
+          </VirtualList> -->
         </div>
       </div>
     </div>
@@ -22,78 +78,40 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, watch } from 'vue';
-import { ApiPromise, WsProvider } from '@polkadot/api';
 import { VirtualList } from 'vue3-virtual-list';
-import {
-  PARA_ID
-} from '@/config/crowdloan';
+import { db, fetchEvent } from '@/db';
+import { encodeAddress } from '@polkadot/util-crypto';
 
 export default defineComponent({
   components: {
-    VirtualList
+    // VirtualList
   },
   props: {},
   setup() {
-    const api: any = inject('api');
-    const dataSource = ref<any>([]);
-
-    const fetchEvent = async () => {
-      const apiData: ApiPromise = (await api).api;
-      const qEvents = await apiData.query.system.events.range(['0x6de1501ba660b975a2fa2425425fe57e04c8ec8691b6b69f688d8dd92dc43320','0x5de5306c9afcf8d66151889349f903e63ae759227b6e5ee5fcbb2850b7eadb1b'])
-      qEvents.forEach((record: any) => {
-        // Extract the event
-        const { event } = record;
-        console.log('dd', event.method)
-
-        // Only get the `MemoUpdated` event
-        if (event.method === 'MemoUpdated') {
-          console.log('ddd:', event.data[1])
-          const contributeMemo = {
-            source: event.data[0].toHuman(),
-            paraId: event.data[1].toHuman(),
-            memo: event.data[2].toHuman(),
-          };
-            // Show what we are busy with
-          console.log(`\t${event.section}:${event.method}:: (event ID=${event.index.toHuman()})`);
-          console.log(contributeMemo);
-        }
-      });
-
-      // apiData.query.system.events((events: any) => {
-      //   console.log(`\nReceived ${events.length} events`);
-
-      //   // Loop through the Vec<EventRecord>
-      //   events.forEach((record: any) => {
-      //     // Extract the event
-      //     const { event } = record;
-
-      //     // Only get the `MemoUpdated` event
-      //     if (event.method === 'MemoUpdated') {
-      //       console.log('ddd:', event.data[1])
-      //       const contributeMemo = {
-      //         source: event.data[0].toHuman(),
-      //         paraId: event.data[1].toHuman(),
-      //         memo: event.data[2].toHuman(),
-      //       };
-      //         // Show what we are busy with
-      //       console.log(`\t${event.section}:${event.method}:: (event ID=${event.index.toHuman()})`);
-      //       console.log(contributeMemo);
-      //     }
-      //   });
-      // });
+    interface MEMO_DATA {
+      numStakers: number;
+      referMemo: string;
+      referAddress: string;
+      stakers: any;
     }
+    const dataSource = ref<MEMO_DATA[]>([]);
 
-    setTimeout(fetchEvent, 3000);
-
-    for (let i=0; i<100; i++) {
-      dataSource.value.push({
-        name: 'test'
-      })
-    }
+    fetchEvent().then((data) => {
+      const list: MEMO_DATA[] = data?.list;
+      list
+        .map((obj) => {
+          obj.referAddress = encodeAddress(obj.referMemo);
+          return obj;
+        })
+        .forEach((item) => {
+          dataSource.value.push(item);
+        });
+      console.log(dataSource.value);
+    });
 
     return {
       dataSource
-    }
+    };
   }
 });
 </script>
