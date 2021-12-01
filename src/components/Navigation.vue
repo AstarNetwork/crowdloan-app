@@ -2,10 +2,12 @@
   <div class="container max-w-screen-xl mx-auto">
     <div class="flex">
       <nav class="flex justify-between flex-wrap p-6 w-full">
-        <div class="flex items-center flex-no-shrink mr-6">
-          <img src="@/assets/img/brand-logo-mark.png" class="w-12" />
-          <img src="@/assets/img/brand-logo.svg" class="h-7 ml-3" />
-        </div>
+        <a href="/">
+          <div class="flex items-center flex-no-shrink mr-6">
+            <img src="@/assets/img/brand-logo-mark.png" class="w-12" />
+            <img src="@/assets/img/brand-logo.svg" class="h-7 ml-3" />
+          </div>
+        </a>
         <div class="block sm:hidden">
           <button
             @click="toggle"

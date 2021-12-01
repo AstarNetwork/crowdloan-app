@@ -4,9 +4,9 @@
       <div
         class="mt-5 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
       >
-        <h2 class="font-bold text-xl">Referral Leaderboard</h2>
+        <h2 class="font-bold text-xl">Referral Leaderboard ({{dataSize}})</h2>
         <div class="list-container">
-          <div class="flex flex-col mb-8">
+          <!-- <div class="flex flex-col mb-8">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div
                 class="
@@ -59,17 +59,42 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <!-- <VirtualList :data="dataSource">
+          <!-- <DynamicScroller
+            class="scroller"
+            :items="dataSource"
+            :min-item-size="32"
+            key-field="referAddress"
+          >
             <template v-slot="{ item, index }">
-              <div class="item-container">
-                <div class="cell mx-4 rAddress">{{index}}</div>
-                <div class="cell mx-4 rAddress">{{item.referAddress}}</div>
-                <div class="cell rAmount">{{item.numStakers}}</div>
-              </div>
+              <DynamicScrollerItem
+                :item="item"
+                :size-dependencies="[item.referAddress]"
+                :data-index="index">
+                <div class="item-container">
+                  <div class="cell mx-4 rAddress">{{ index }}</div>
+                  <div class="cell mx-4 rAddress">{{ item.referAddress }}</div>
+                  <div class="cell rAmount">{{ item.numStakers }}</div>
+                </div>
+              </DynamicScrollerItem>
             </template>
-          </VirtualList> -->
+          </DynamicScroller>
+           -->
+
+          <RecycleScroller
+            class="scroller"
+            :items="dataSource"
+            :item-size="32"
+            key-field="referAddress"
+            v-slot="{ item, index }"
+          >
+            <div class="item-container flex">
+              <div class="flex-none mx-4 rIndex">{{ index+1 }}</div>
+              <div class="flex-grow rAddress">{{ item.referAddress }}</div>
+              <div class="flex-none mx-4 rAmount">{{ item.numStakers }}</div>
+            </div>
+          </RecycleScroller>
         </div>
       </div>
     </div>
@@ -77,14 +102,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, watch } from 'vue';
-import { VirtualList } from 'vue3-virtual-list';
-import { db, fetchEvent } from '@/db';
+import 'vue3-virtual-scroller/dist/vue3-virtual-scroller.css'
+import { defineComponent, ref, watch } from 'vue';
+import { RecycleScroller } from 'vue3-virtual-scroller';
+import { fetchEvent } from '@/db';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 export default defineComponent({
   components: {
-    // VirtualList
+    RecycleScroller
   },
   props: {},
   setup() {
@@ -95,21 +121,20 @@ export default defineComponent({
       stakers: any;
     }
     const dataSource = ref<MEMO_DATA[]>([]);
+    const dataSize = ref(0);
 
     fetchEvent().then((data) => {
       const list: MEMO_DATA[] = data?.list;
-      list
-        .map((obj) => {
-          obj.referAddress = encodeAddress(obj.referMemo);
-          return obj;
-        })
-        .forEach((item) => {
-          dataSource.value.push(item);
-        });
+      dataSize.value = list.length;
+      dataSource.value = list.map((obj) => {
+        obj.referAddress = encodeAddress(obj.referMemo);
+        return obj;
+      })
       console.log(dataSource.value);
     });
 
     return {
+      dataSize,
       dataSource
     };
   }
@@ -125,10 +150,15 @@ export default defineComponent({
 }
 .item-container {
   height: 40px;
-  display: flex;
-  flex-direction: row;
   align-items: center;
   border-bottom: 1px solid #ccc;
+}
+.scroller {
+  height: 100%;
+}
+.rIndex {
+  font-family: 'Kanit', sans-serif;
+  color: #ff5cb3;
 }
 .rAmount {
   font-family: 'Kanit', sans-serif;
