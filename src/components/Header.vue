@@ -66,7 +66,7 @@ export default defineComponent({
   setup() {
     const goToStakingArea = () => {
       window.scrollTo(0, 1200);
-    }
+    };
 
     return {
       goToStakingArea

@@ -5,11 +5,11 @@ import {
   getDoc,
   doc,
   QuerySnapshot,
-  DocumentData,
+  DocumentData
 } from 'firebase/firestore/lite';
 
 const firebaseConfig = {
-  projectId: "crowdloan-app-cef78"
+  projectId: 'crowdloan-app-cef78'
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -20,6 +20,6 @@ const fetchEvent = async () => {
   const docData = await getDoc(docRef);
   // console.log('snap', docData.data())
   return docData.data();
-}
+};
 
 export { db, fetchEvent };

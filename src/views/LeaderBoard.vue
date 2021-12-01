@@ -28,7 +28,7 @@ export default defineComponent({
     const statuses = ref<StatusData[]>(statusItems);
     return {
       statuses
-    }
+    };
   }
 });
 </script>

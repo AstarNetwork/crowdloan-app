@@ -9,10 +9,8 @@
 import { defineComponent, inject, ref, watch } from 'vue';
 
 export default defineComponent({
-  components: {
-  },
-  props: {
-  },
+  components: {},
+  props: {}
 });
 </script>
 

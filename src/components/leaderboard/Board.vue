@@ -4,7 +4,9 @@
       <div
         class="mt-5 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
       >
-        <h2 class="font-bold text-xl">Referral Leaderboard ({{dataSize}}...51%)</h2>
+        <h2 class="font-bold text-xl">
+          Referral Leaderboard ({{ dataSize }}...51%)
+        </h2>
         <div class="list-container">
           <!-- <div class="flex flex-col mb-8">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -90,7 +92,7 @@
             v-slot="{ item, index }"
           >
             <div class="item-container flex">
-              <div class="flex-none mx-4 rIndex">{{ index+1 }}</div>
+              <div class="flex-none mx-4 rIndex">{{ index + 1 }}</div>
               <div class="flex-grow rAddress">{{ item.referAddress }}</div>
               <div class="flex-none mx-4 rAmount">{{ item.numStakers }}</div>
             </div>
@@ -102,7 +104,7 @@
 </template>
 
 <script lang="ts">
-import 'vue3-virtual-scroller/dist/vue3-virtual-scroller.css'
+import 'vue3-virtual-scroller/dist/vue3-virtual-scroller.css';
 import { defineComponent, ref, watch } from 'vue';
 import { RecycleScroller } from 'vue3-virtual-scroller';
 import { fetchEvent } from '@/db';
@@ -129,7 +131,7 @@ export default defineComponent({
       dataSource.value = list.map((obj) => {
         obj.referAddress = encodeAddress(obj.referMemo, 0);
         return obj;
-      })
+      });
       console.log(dataSource.value);
     });
 
