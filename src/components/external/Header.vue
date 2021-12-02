@@ -5,7 +5,7 @@
       style="color: #fff"
       class="flex justify-center items-center gap-x-2"
       target="_blank"
-      >ASTAR Crowdloan is Live!
+      >ASTAR has won the 3rd auction!
       <div
         v-if="dotContributed > 0"
         class="hidden md:inline-block"
@@ -20,7 +20,7 @@
         <span class="inline-block" />
       </div>
       <div class="hidden md:inline-block">DOT Contributed</div>
-      <div>&#128640; JOIN NOW!!!</div>
+      <div>🎉</div>
     </a>
   </div>
 </template>
