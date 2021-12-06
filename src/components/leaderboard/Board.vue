@@ -4,9 +4,7 @@
       <div
         class="mt-5 py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
       >
-        <h2 class="font-bold text-xl">
-          Referral Leaderboard ({{ dataSize }}...51%)
-        </h2>
+        <h2 class="font-bold text-xl">Referral Leaderboard ({{ dataSize }})</h2>
         <div class="list-container">
           <!-- <div class="flex flex-col mb-8">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -84,6 +82,11 @@
           </DynamicScroller>
            -->
 
+          <div class="item-container flex">
+            <div class="flex-none mx-4 rIndex">Ranking</div>
+            <div class="flex-grow rAddress">Address</div>
+            <div class="flex-none mx-4 rAmount">Total Rewards(Referrers)</div>
+          </div>
           <RecycleScroller
             class="scroller"
             :items="dataSource"
@@ -94,7 +97,9 @@
             <div class="item-container flex">
               <div class="flex-none mx-4 rIndex">{{ index + 1 }}</div>
               <div class="flex-grow rAddress">{{ item.referAddress }}</div>
-              <div class="flex-none mx-4 rAmount">{{ item.numStakers }}</div>
+              <div class="flex-none mx-4 rAmount">
+                {{ item.reward }} ASTR ({{ item.numStakers }})
+              </div>
             </div>
           </RecycleScroller>
         </div>
@@ -106,8 +111,10 @@
 <script lang="ts">
 import 'vue3-virtual-scroller/dist/vue3-virtual-scroller.css';
 import { defineComponent, ref, watch } from 'vue';
+import BN from 'bn.js';
 import { RecycleScroller } from 'vue3-virtual-scroller';
-import { fetchEvent } from '@/db';
+import json from '@/static/final-result.json';
+// import { fetchEvent } from '@/db';
 import { encodeAddress } from '@polkadot/util-crypto';
 
 export default defineComponent({
@@ -116,24 +123,42 @@ export default defineComponent({
   },
   props: {},
   setup() {
+    const UNIT = 10; // polkadot unit
     interface MEMO_DATA {
       numStakers: number;
       referMemo: string;
       referAddress: string;
-      stakers: any;
+      contributed: string;
+      referrer_bonus_astr: string;
+      reward: number;
     }
     const dataSource = ref<MEMO_DATA[]>([]);
     const dataSize = ref(0);
 
-    fetchEvent().then((data) => {
-      const list: MEMO_DATA[] = data?.list;
+    // fetchEvent().then((data) => {
+    //   const list: MEMO_DATA[] = data?.list;
+    //   dataSize.value = list.length;
+    //   dataSource.value = list.map((obj) => {
+    //     obj.referAddress = encodeAddress(`0x${obj.referMemo}`, 0);
+    //     return obj;
+    //   });
+    //   console.log(dataSource.value);
+    // });
+
+    const getJson = async () => {
+      const list: any = json;
       dataSize.value = list.length;
       dataSource.value = list.map((obj) => {
-        obj.referAddress = encodeAddress(obj.referMemo, 0);
+        obj.referAddress = encodeAddress(`0x${obj.referMemo}`, 0);
+        obj.reward =
+          new BN(obj.referrer_bonus_astr)
+            .div(new BN(10 ** (UNIT - 2)))
+            .toNumber() / 100;
         return obj;
       });
-      console.log(dataSource.value);
-    });
+    };
+
+    getJson();
 
     return {
       dataSize,
