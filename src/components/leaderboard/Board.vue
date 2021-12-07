@@ -151,7 +151,7 @@ export default defineComponent({
       dataSource.value = list.map((obj) => {
         obj.referAddress = encodeAddress(`0x${obj.referMemo}`, 0);
         obj.reward =
-          new BN(obj.referrer_bonus_astr)
+          new BN(obj.referral_bonus_astr)
             .div(new BN(10 ** (UNIT - 2)))
             .toNumber() / 100;
         return obj;
@@ -181,7 +181,7 @@ export default defineComponent({
   border-bottom: 1px solid #ccc;
 }
 .scroller {
-  height: 100%;
+  height: 90%;
 }
 .rIndex {
   font-family: 'Kanit', sans-serif;
