@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Main from '@/views/Main.vue';
 import ExternalHeader from '@/views/ExternalHeader.vue';
 import LeaderBoard from '@/views/LeaderBoard.vue';
+import EarlyAdopter from '@/views/EarlyAdopter.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -14,6 +15,11 @@ const routes: RouteRecordRaw[] = [
     path: '/leader-board',
     name: 'LeaderBoard',
     component: LeaderBoard
+  },
+  {
+    path: '/early-adopter',
+    name: 'EarlyAdopter',
+    component: EarlyAdopter
   },
   {
     path: '/external-header',
