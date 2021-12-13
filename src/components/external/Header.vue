@@ -11,7 +11,8 @@
         class="hidden md:inline-block"
         style="color: #b3eef1; text-decoration: underline"
       >
-        {{ $n(dotContributed, 'decimal') }}
+        <!-- {{ $n(dotContributed, 'decimal') }} -->
+        10,333,552
       </div>
       <div
         v-else
@@ -27,19 +28,21 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref } from 'vue';
-import { ApiPromise } from '@polkadot/api';
-import BN from 'bn.js';
-import type { Option } from '@polkadot/types';
-import type { FundInfo, ParaId } from '@polkadot/types/interfaces';
-import type { Campaign } from '../../hooks/useFunds';
-import { PARA_ID, UNIT } from '@/config/crowdloan';
+// import { ApiPromise } from '@polkadot/api';
+// import BN from 'bn.js';
+// import type { Option } from '@polkadot/types';
+// import type { FundInfo, ParaId } from '@polkadot/types/interfaces';
+// import type { Campaign } from '../../hooks/useFunds';
+// import { PARA_ID, UNIT } from '@/config/crowdloan';
 
 export default defineComponent({
   setup(props) {
+    /*
     const api: any = inject('api');
     const CAMPAIGN_IDX = 0;
 
     // const participants = ref(0);
+    
     const dotContributed = ref(0);
 
     const transformMulti = ([[paraIds], optFunds]: [
@@ -119,6 +122,7 @@ export default defineComponent({
       // participants,
       dotContributed
     };
+    */
   }
 });
 </script>

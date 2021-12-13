@@ -192,6 +192,7 @@ export default defineComponent({
     const resultHash = ref('');
     const referLink = ref('');
 
+    /*
     const burnsWarning =
       "Account with balance below the existential deposit will be reaped (Polkadot's existential deposit is 1 DOT)";
 
@@ -314,7 +315,7 @@ export default defineComponent({
       data.referralAddress = '';
       modalDisclaimer.value = false;
 
-      await setAvailableAmount();
+      // await setAvailableAmount();
     };
 
     // const isEnableStaking = computed(
@@ -445,19 +446,20 @@ export default defineComponent({
         }
       }
     };
+    */
 
     return {
       UNIT,
       data,
-      isEnableStaking,
+      // isEnableStaking,
       resultHash,
       referLink,
-      staking,
+      // staking,
       allAccounts,
       allAccountNames,
       modalAccount,
       modalDisclaimer,
-      onShowModalDisclaimer
+      // onShowModalDisclaimer
     };
   }
 });

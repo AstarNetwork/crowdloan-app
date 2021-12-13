@@ -38,6 +38,7 @@ export default defineComponent({
     const CAMPAIGN_IDX = 0;
 
     const statusData = ref<StatusData[]>(props.data);
+    /*
 
     const transformMulti = ([[paraIds], optFunds]: [
       [ParaId[]],
@@ -111,7 +112,7 @@ export default defineComponent({
     };
 
     getData();
-
+    */
     return {
       statusData
     };
