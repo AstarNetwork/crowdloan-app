@@ -2,7 +2,9 @@
   <div class="pt-20 pb-20 status-background">
     <div class="max-w-6xl mx-auto">
       <div class="justify-center">
-        <h1 class="font-bold text-xl">Early adopter participation confirmation</h1>
+        <h1 class="font-bold text-xl">
+          Early adopter participation confirmation
+        </h1>
         <div>
           <div>
             <div
@@ -16,10 +18,13 @@
                 dark:border-darkGray-500
               "
             >
-              <div v-if="!showConnectMetamsk" class="transform text-gray-400 dark:text-darkGray-500">
+              <div
+                v-if="!showConnectMetamsk"
+                class="transform text-gray-400 dark:text-darkGray-500"
+              >
                 Loading....
               </div>
-              
+
               <h3
                 v-if="showConnectMetamsk"
                 class="
@@ -57,10 +62,16 @@
 
               <div class="border-2 border-dashed" />
 
-              <div>
-                <MetamaskOption v-show="showConnectMetamsk" @connectMetamask="connectMetamask" />
+              <div class="my-2">
+                <MetamaskOption
+                  v-show="showConnectMetamsk"
+                  @connectMetamask="connectMetamask"
+                />
                 <div v-if="isResultReward" class="mt-3 font-bold">
-                  <div v-if="prevLockdropInfo">You deserve a bonus: {{formatASTR(prevLockdropInfo.bonusAmt)}} ASTR</div>
+                  <div v-if="prevLockdropInfo">
+                    You deserve a bonus:
+                    {{ formatASTR(prevLockdropInfo.bonusAmt) }} ASTR
+                  </div>
                   <div v-else>You don't deserve a bonus</div>
                 </div>
               </div>
@@ -76,8 +87,6 @@
 import { defineComponent, inject, ref, watch } from 'vue';
 import { keyring } from '@polkadot/ui-keyring';
 import allJson from '@/static/allContributors.json';
-// import { addressToEvm, evmToAddress } from '@polkadot/util-crypto';
-// import { hexToU8a, isHex, isString, u8aToHex } from '@polkadot/util';
 import BN from 'bn.js';
 import MetamaskOption from '@/components/earlyadopter/MetamaskOption.vue';
 import AccountOption from '@/components/earlyadopter/AccountOption.vue';
@@ -89,7 +98,7 @@ export default defineComponent({
     MetamaskOption,
     AccountOption
   },
-  setup(props, { emit }) {    
+  setup(props, { emit }) {
     const api: any = inject('api');
     const showConnectMetamsk = ref<boolean>(false);
     const allAccounts = ref<string[]>([]);
@@ -99,10 +108,6 @@ export default defineComponent({
     const isResultReward = ref<boolean>(false);
     const prevLockdropInfo = ref();
     const selAccount = ref(0);
-
-    // const toEvmAddress = (ss58Address: string) => {
-    //   return u8aToHex(addressToEvm(ss58Address));
-    // };
 
     const findContributed = async (addr) => {
       let contributed = new BN(0);
@@ -138,7 +143,9 @@ export default defineComponent({
             const contributed = await findContributed(account);
             // console.log('a', account + '/' + contributed.toString(10));
             allContributed.value.push(contributed);
-            allContributedD.value.push(contributed.div(new BN(10 ** UNIT)).toNumber())
+            allContributedD.value.push(
+              contributed.div(new BN(10 ** UNIT)).toNumber()
+            );
           }
         }
       }
@@ -171,10 +178,10 @@ export default defineComponent({
           prevInfo: jsonObj,
           targetBonusAddress: allAccounts.value[selAccount.value],
           amtContribution: amtContribution.toString(10),
-          bonusAmt: amtContribution.muln(REWARD_RATIO/10).toString(10)
+          bonusAmt: amtContribution.muln(REWARD_RATIO / 10).toString(10)
         };
         prevLockdropInfo.value = jsonObj;
-        console.log('f', jsonObj)
+        console.log('f', jsonObj);
         saveForBonusUser(jsonObj);
       } else {
         console.log('no bonus reward');
@@ -183,34 +190,14 @@ export default defineComponent({
 
     // connectMetamask('0x7d5aAD39da469B6496841215CeC5B14e3FcaDaDF', '');
 
-    // const test = async () => {
-    //   const contributed = await findContributed('13SogGTjBotCGufsg2e1kBB8pajv9GJBZSjHYrAUZtFtveZy')
-
-    //   console.log(contributed);
-    // }
-
-    // test()
-
     const formatASTR = (reward) => {
       if (reward) {
-        const formatted = new BN(reward).div(new BN(10 ** (UNIT - 2))).toNumber() / 100;
+        const formatted =
+          new BN(reward).div(new BN(10 ** (UNIT - 2))).toNumber() / 100;
         return formatted;
       }
       return 0;
-    }
-
-    // const getJson = async () => {
-    //   const list: any = json;
-    //   dataSize.value = list.length;
-    //   dataSource.value = list.map((obj) => {
-    //     obj.referAddress = encodeAddress(`0x${obj.referMemo}`, 0);
-    //     obj.reward =
-    //       new BN(obj.referral_bonus_astr)
-    //         .div(new BN(10 ** (UNIT - 2)))
-    //         .toNumber() / 100;
-    //     return obj;
-    //   });
-    // };
+    };
 
     return {
       showConnectMetamsk,

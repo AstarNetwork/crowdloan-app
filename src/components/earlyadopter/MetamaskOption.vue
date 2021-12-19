@@ -42,8 +42,8 @@ export default defineComponent({
   components: {},
   props: {
     checked: {
-      type: Boolean,
-    },
+      type: Boolean
+    }
   },
   emits: ['update:sel-checked', 'connectMetamask'],
   setup(props, { emit }) {
@@ -88,7 +88,11 @@ export default defineComponent({
         }
 
         // FIXME: keccak issue should be resolved : https://github.com/cryptocoinjs/keccak/pull/22
-        const pubKey = utils.recoverPublicKeyFromSig(loadingAddr, loginMsg, signature);
+        const pubKey = utils.recoverPublicKeyFromSig(
+          loadingAddr,
+          loginMsg,
+          signature
+        );
 
         console.log(`Public key: ${pubKey}`);
 
@@ -116,7 +120,7 @@ export default defineComponent({
       ecdsaAccounts,
       errorMsg,
       onLoadAccount,
-      onSelectMetamask,
+      onSelectMetamask
     };
   },
   methods: {
@@ -126,8 +130,8 @@ export default defineComponent({
       } else {
         return 'not-checkerd';
       }
-    },
-  },
+    }
+  }
 });
 </script>
 

@@ -11,20 +11,23 @@ export function useMetamask() {
     }
 
     const accounts = (await ethProvider.value.request({
-      method: 'eth_requestAccounts',
+      method: 'eth_requestAccounts'
     })) as string[];
     loadedAccounts.value = accounts;
     return accounts;
   };
 
-  const requestSignature = async (message: string, account: string = loadedAccounts.value[0]) => {
+  const requestSignature = async (
+    message: string,
+    account: string = loadedAccounts.value[0]
+  ) => {
     if (!account || !ethProvider.value) {
       throw new Error('No account was provided for the signature');
     }
 
     const sigResponse = await ethProvider.value.request({
       method: 'personal_sign',
-      params: [account, message],
+      params: [account, message]
     });
     if (!sigResponse || typeof sigResponse !== 'string') {
       throw new Error('Failed to get signature');

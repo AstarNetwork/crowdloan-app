@@ -458,7 +458,7 @@ export default defineComponent({
       allAccounts,
       allAccountNames,
       modalAccount,
-      modalDisclaimer,
+      modalDisclaimer
       // onShowModalDisclaimer
     };
   }
