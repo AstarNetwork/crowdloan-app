@@ -2,7 +2,7 @@
   <div>
     <li role="option" :class="opClass(checked)">
       <label class="flex items-center justify-between cursor-pointer">
-        <div class="flex items-center">
+        <div class="flex-1 flex items-center">
           <div
             class="
               h-8
@@ -26,9 +26,9 @@
           </div>
         </div>
 
-        <div class="text-sm font-bold">{{ contributed }} DOT</div>
+        <div class="flex-1 text-sm font-bold w-18">{{ contributed }} DOT</div>
 
-        <div class="relative w-5 h-5">
+        <div class="flex-1 relative w-5 h-5">
           <input
             name="choose_account"
             type="radio"
@@ -39,7 +39,7 @@
               focus:ring-blue-500
               h-4
               w-4
-              mr-3
+              ml-5
               focus:outline-none
               bg-white
               checked:border-4 checked:border-blue-500

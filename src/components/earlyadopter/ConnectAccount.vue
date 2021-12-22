@@ -38,7 +38,12 @@
               >
                 Choose Account that you want to apply the lockdrop bonus.
               </h3>
+
+              <div v-if="showConnectMetamsk && filterAccounts.length === 0">
+                <h3>You did not participated in the Polkadot Crowdloan</h3>
+              </div>
               <ul
+                v-else
                 class="
                   max-h-56
                   rounded-md
@@ -49,7 +54,7 @@
                 "
               >
                 <AccountOption
-                  v-for="(account, index) in allAccounts"
+                  v-for="(account, index) in filterAccounts"
                   :key="index"
                   :key-idx="index"
                   :address="account"
@@ -69,10 +74,12 @@
                 />
                 <div v-if="isResultReward" class="mt-3 font-bold">
                   <div v-if="prevLockdropInfo">
-                    You deserve a bonus:
+                    This account is eligible for a early bird bonus :
                     {{ formatASTR(prevLockdropInfo.bonusAmt) }} ASTR
                   </div>
-                  <div v-else>You don't deserve a bonus</div>
+                  <div v-else>
+                    This account did not participate in the Lockdrop
+                  </div>
                 </div>
               </div>
             </div>
@@ -102,6 +109,7 @@ export default defineComponent({
     const api: any = inject('api');
     const showConnectMetamsk = ref<boolean>(false);
     const allAccounts = ref<string[]>([]);
+    const filterAccounts = ref<string[]>([]);
     const allAccountNames = ref<string[]>([]);
     const allContributed = ref<BN[]>([]);
     const allContributedD = ref<number[]>([]);
@@ -138,6 +146,7 @@ export default defineComponent({
       async (accounts) => {
         if (accounts) {
           showConnectMetamsk.value = true;
+          filterAccounts.value = [];
           allContributed.value = [];
           for await (const account of allAccounts.value) {
             const contributed = await findContributed(account);
@@ -146,6 +155,10 @@ export default defineComponent({
             allContributedD.value.push(
               contributed.div(new BN(10 ** UNIT)).toNumber()
             );
+
+            if (contributed.gtn(0)) {
+              filterAccounts.value.push(account);
+            }
           }
         }
       }
@@ -153,20 +166,18 @@ export default defineComponent({
 
     const connectMetamask = async (ethAddr: string, ss58: string) => {
       // ethAddr = '0x7d5aAD39da469B6496841215CeC5B14e3FcaDaDF';
-      console.log(ethAddr + '/' + ss58);
+      // console.log(ethAddr + '/' + ss58);
       let response = await fetch('static/first-crowdloan.json');
-      const firstCrowdloan = await response.json();
-      // console.log('d', firstCrowdloan);
-
-      let jsonObj = firstCrowdloan.find((item) => item.lockOwner === ethAddr);
-      console.log('cr1', jsonObj);
+      const firstLockdrop = await response.json();
+      let jsonObj = firstLockdrop.find((item) => item.lockOwner === ethAddr);
+      // console.log('cr1', jsonObj);
 
       if (!jsonObj) {
-        console.log('fetch second crowdloan');
+        // console.log('fetch second lockdrop');
         response = await fetch('static/second-crowdloan.json');
-        const secondCrowdloan = await response.json();
-        jsonObj = secondCrowdloan.find((item) => item.lockOwner === ethAddr);
-        console.log('cr2', jsonObj);
+        const secondLockdrop = await response.json();
+        jsonObj = secondLockdrop.find((item) => item.lockOwner === ethAddr);
+        // console.log('cr2', jsonObj);
       }
 
       isResultReward.value = true;
@@ -178,7 +189,8 @@ export default defineComponent({
           prevInfo: jsonObj,
           targetBonusAddress: allAccounts.value[selAccount.value],
           amtContribution: amtContribution.toString(10),
-          bonusAmt: amtContribution.muln(REWARD_RATIO / 10).toString(10)
+          bonusAmt: amtContribution.muln(REWARD_RATIO / 10).toString(10),
+          createdAt: new Date()
         };
         prevLockdropInfo.value = jsonObj;
         console.log('f', jsonObj);
@@ -202,6 +214,7 @@ export default defineComponent({
     return {
       showConnectMetamsk,
       allAccounts,
+      filterAccounts,
       allAccountNames,
       allContributed,
       allContributedD,

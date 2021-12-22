@@ -81,7 +81,7 @@ export default defineComponent({
         const loginMsg = `Sign to apply the lockdrop bonus ${loadingAddr}`;
 
         const signature = await requestSignature(loginMsg, loadingAddr);
-        console.log(signature);
+        // console.log(signature);
 
         if (typeof signature !== 'string') {
           throw new Error('Failed to fetch signature');
@@ -94,11 +94,11 @@ export default defineComponent({
           signature
         );
 
-        console.log(`Public key: ${pubKey}`);
+        // console.log(`Public key: ${pubKey}`);
 
         const ss58Address = utils.ecdsaPubKeyToSs58(pubKey, ASTAR_SS58_FORMAT);
 
-        console.log(`ethereum: ${loadingAddr} / ss58: ${ss58Address}`);
+        // console.log(`ethereum: ${loadingAddr} / ss58: ${ss58Address}`);
 
         ecdsaAccounts.value = { ethereum: loadingAddr, ss58: ss58Address };
         curAddress.value = ss58Address;
