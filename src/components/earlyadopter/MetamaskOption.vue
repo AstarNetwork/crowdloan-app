@@ -25,7 +25,7 @@
             </div>
           </template>
         </div>
-        <div v-if="errorMsg" class="text-sm">{{ errorMsg }}</div>
+        <div v-if="errorMsg" class="ml-3 text-sm">{{ errorMsg }}</div>
       </div>
     </label>
   </div>

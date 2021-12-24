@@ -18,67 +18,82 @@
                 dark:border-darkGray-500
               "
             >
-              <div
-                v-if="!showConnectMetamsk"
-                class="transform text-gray-400 dark:text-darkGray-500"
-              >
-                Loading....
-              </div>
+              <MetamaskOption @connectMetamask="connectMetamask" />
 
-              <h3
-                v-if="showConnectMetamsk"
-                class="
-                  text-lg
-                  font-extrabold
-                  text-blue-900
-                  dark:text-white
-                  mb-6
-                  text-center
-                "
-              >
-                Choose Account that you want to apply the lockdrop bonus.
-              </h3>
+              <div v-if="isMetamaskConnected">
+                <div
+                  v-if="allAccounts.length === 0"
+                  class="transform text-gray-400 dark:text-darkGray-500"
+                >
+                  Loading....
+                </div>
 
-              <div v-if="showConnectMetamsk && filterAccounts.length === 0">
-                <h3>You did not participated in the Polkadot Crowdloan</h3>
-              </div>
-              <ul
-                v-else
-                class="
-                  max-h-56
-                  rounded-md
-                  py-1
-                  text-base
-                  overflow-auto
-                  focus:outline-none
-                "
-              >
-                <AccountOption
-                  v-for="(account, index) in filterAccounts"
-                  :key="index"
-                  :key-idx="index"
-                  :address="account"
-                  :addressName="allAccountNames[index]"
-                  :contributed="allContributedD[index]"
-                  :checked="selAccount === index"
-                  v-model:selOption="selAccount"
-                />
-              </ul>
+                <h3
+                  v-else
+                  class="
+                    text-lg
+                    font-extrabold
+                    text-blue-900
+                    dark:text-white
+                    mb-6
+                    text-center
+                  "
+                >
+                  Choose Account that you want to apply the lockdrop bonus.
+                </h3>
 
-              <div class="border-2 border-dashed" />
+                <div
+                  v-if="allAccounts.length > 0 && filterAccounts.length === 0"
+                >
+                  <h3>You did not participated in the Polkadot Crowdloan</h3>
+                </div>
+                <ul
+                  v-else
+                  class="
+                    max-h-56
+                    rounded-md
+                    py-1
+                    text-base
+                    overflow-auto
+                    focus:outline-none
+                  "
+                >
+                  <AccountOption
+                    v-for="(account, index) in filterAccounts"
+                    :key="index"
+                    :key-idx="index"
+                    :address="account"
+                    :addressName="allAccountNames[index]"
+                    :contributed="allContributedD[index]"
+                    :checked="selAccount === index"
+                    v-model:selOption="selAccount"
+                  />
+                </ul>
 
-              <div class="my-2">
-                <MetamaskOption
-                  v-show="showConnectMetamsk"
-                  @connectMetamask="connectMetamask"
-                />
-                <div v-if="isResultReward" class="mt-3 font-bold">
-                  <div v-if="prevLockdropInfo">
-                    This account is eligible for a early bird bonus :
-                    {{ formatASTR(prevLockdropInfo.bonusAmt) }} ASTR
-                  </div>
-                  <div v-else>
-                    This account did not participate in the Lockdrop
+                <div class="border-2 border-dashed" />
+
+                <div class="my-2">
+                  <div class="mt-3 font-bold">
+                    <div v-if="prevLockdropInfo">
+                      This account is eligible for a early bird bonus :
+                      {{ formatASTR(bonusAmt) }} ASTR
+
+                      <button
+                        class="
+                          ml-5
+                          px-3
+                          bg-primary
+                          text-xl text-white
+                          button-gradient
+                        "
+                        @click="applyBonus"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                    <div v-else>
+                      This account did not participate in the Lockdrop
+                    </div>
                   </div>
                 </div>
               </div>
@@ -95,10 +110,12 @@ import { defineComponent, inject, ref, watch } from 'vue';
 import { keyring } from '@polkadot/ui-keyring';
 import allJson from '@/static/allContributors.json';
 import BN from 'bn.js';
+import { ActionTypes } from '@/store/action-types';
 import MetamaskOption from '@/components/earlyadopter/MetamaskOption.vue';
 import AccountOption from '@/components/earlyadopter/AccountOption.vue';
 import { saveForBonusUser } from '@/db';
 import { UNIT, REWARD_RATIO } from '@/config/crowdloan';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   components: {
@@ -106,16 +123,24 @@ export default defineComponent({
     AccountOption
   },
   setup(props, { emit }) {
+    interface META_TYPE {
+      ethAddr: string;
+      ss58: string;
+    }
+
+    const store = useStore();
+
     const api: any = inject('api');
-    const showConnectMetamsk = ref<boolean>(false);
     const allAccounts = ref<string[]>([]);
     const filterAccounts = ref<string[]>([]);
     const allAccountNames = ref<string[]>([]);
     const allContributed = ref<BN[]>([]);
     const allContributedD = ref<number[]>([]);
-    const isResultReward = ref<boolean>(false);
+    const isMetamaskConnected = ref<boolean>(false);
     const prevLockdropInfo = ref();
+    const metaInfo = ref<META_TYPE>();
     const selAccount = ref(0);
+    const bonusAmt = ref<string>();
 
     const findContributed = async (addr) => {
       let contributed = new BN(0);
@@ -145,7 +170,6 @@ export default defineComponent({
       () => allAccounts.value,
       async (accounts) => {
         if (accounts) {
-          showConnectMetamsk.value = true;
           filterAccounts.value = [];
           allContributed.value = [];
           for await (const account of allAccounts.value) {
@@ -160,6 +184,21 @@ export default defineComponent({
               filterAccounts.value.push(account);
             }
           }
+
+          const amtContribution = allContributed.value[selAccount.value];
+          bonusAmt.value = amtContribution.muln(REWARD_RATIO / 10).toString(10);
+        }
+      }
+    );
+
+    watch(
+      () => selAccount.value,
+      async () => {
+        if (allAccounts.value.length > 0) {
+          console.log('sel', selAccount.value);
+          // set current crowdloan info : bonus 10% of contribution
+          const amtContribution = allContributed.value[selAccount.value];
+          bonusAmt.value = amtContribution.muln(REWARD_RATIO / 10).toString(10);
         }
       }
     );
@@ -167,6 +206,7 @@ export default defineComponent({
     const connectMetamask = async (ethAddr: string, ss58: string) => {
       // ethAddr = '0x7d5aAD39da469B6496841215CeC5B14e3FcaDaDF';
       console.log(ethAddr + '/' + ss58);
+
       let response = await fetch('static/first-crowdloan.json');
       const firstLockdrop = await response.json();
       let jsonObj = firstLockdrop.find((item) => item.lockOwner === ethAddr);
@@ -180,25 +220,37 @@ export default defineComponent({
         // console.log('cr2', jsonObj);
       }
 
-      isResultReward.value = true;
+      isMetamaskConnected.value = true;
+      metaInfo.value = {
+        ethAddr,
+        ss58
+      };
 
       if (jsonObj) {
-        // set current crowdloan info : bonus 10% of contribution
-        const amtContribution = allContributed.value[selAccount.value];
-        jsonObj = {
-          prevInfo: jsonObj,
-          userEth: ethAddr,
-          userSS58: ss58,
-          targetBonusAddress: allAccounts.value[selAccount.value],
-          amtContribution: amtContribution.toString(10),
-          bonusAmt: amtContribution.muln(REWARD_RATIO / 10).toString(10),
-          createdAt: new Date()
-        };
         prevLockdropInfo.value = jsonObj;
-        console.log('f', jsonObj);
-        saveForBonusUser(jsonObj);
       } else {
         console.log('no bonus reward');
+      }
+    };
+
+    const applyBonus = async () => {
+      if (prevLockdropInfo.value && metaInfo.value) {
+        const jsonObj = {
+          prevInfo: prevLockdropInfo.value,
+          userEth: metaInfo.value.ethAddr,
+          userSS58: metaInfo.value.ss58,
+          targetBonusAddress: allAccounts.value[selAccount.value],
+          createdAt: new Date()
+          // amtContribution: amtContribution.toString(10),
+          // bonusAmt: amtContribution.muln(REWARD_RATIO / 10).toString(10),
+        };
+        console.log('f', jsonObj);
+        await saveForBonusUser(jsonObj);
+
+        store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
+          msg: `The bonus form is applied successfully...!`,
+          alertType: 'success'
+        });
       }
     };
 
@@ -214,15 +266,16 @@ export default defineComponent({
     };
 
     return {
-      showConnectMetamsk,
       allAccounts,
       filterAccounts,
       allAccountNames,
       allContributed,
       allContributedD,
-      prevLockdropInfo,
       selAccount,
-      isResultReward,
+      isMetamaskConnected,
+      prevLockdropInfo,
+      bonusAmt,
+      applyBonus,
       formatASTR,
       connectMetamask
     };
