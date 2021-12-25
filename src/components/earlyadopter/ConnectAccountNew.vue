@@ -204,20 +204,20 @@ export default defineComponent({
     );
 
     const connectMetamask = async (ethAddr: string, ss58: string) => {
-      // ethAddr = '0x7d5aAD39da469B6496841215CeC5B14e3FcaDaDF';
+      // ethAddr = '0x01734005354d569716291cD1CFbc67f3f56a0b6F';
       console.log(ethAddr + '/' + ss58);
 
       let response = await fetch('static/first-crowdloan.json');
       const firstLockdrop = await response.json();
       let jsonObj = firstLockdrop.find((item) => item.lockOwner === ethAddr);
-      // console.log('cr1', jsonObj);
+      console.log('cr1', jsonObj);
 
       if (!jsonObj) {
         // console.log('fetch second lockdrop');
         response = await fetch('static/second-crowdloan.json');
         const secondLockdrop = await response.json();
         jsonObj = secondLockdrop.find((item) => item.lockOwner === ethAddr);
-        // console.log('cr2', jsonObj);
+        console.log('cr2', jsonObj);
       }
 
       isMetamaskConnected.value = true;
