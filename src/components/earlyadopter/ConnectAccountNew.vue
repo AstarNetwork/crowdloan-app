@@ -209,15 +209,19 @@ export default defineComponent({
 
       let response = await fetch('static/first-crowdloan.json');
       const firstLockdrop = await response.json();
-      let jsonObj = firstLockdrop.find((item) => item.lockOwner === ethAddr);
-      console.log('cr1', jsonObj);
+      let jsonObj = firstLockdrop.find(
+        (item) => item.lockOwner.toLowerCase() === ethAddr
+      );
+      // console.log('cr1', jsonObj);
 
       if (!jsonObj) {
         // console.log('fetch second lockdrop');
         response = await fetch('static/second-crowdloan.json');
         const secondLockdrop = await response.json();
-        jsonObj = secondLockdrop.find((item) => item.lockOwner === ethAddr);
-        console.log('cr2', jsonObj);
+        jsonObj = secondLockdrop.find(
+          (item) => item.lockOwner.toLowerCase() === ethAddr
+        );
+        // console.log('cr2', jsonObj);
       }
 
       isMetamaskConnected.value = true;
