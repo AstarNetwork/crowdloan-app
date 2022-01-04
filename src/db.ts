@@ -3,6 +3,7 @@ import {
   getFirestore,
   collection,
   getDoc,
+  setDoc,
   doc,
   QuerySnapshot,
   DocumentData
@@ -15,11 +16,16 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
-const fetchEvent = async () => {
-  const docRef = doc(db, 'board-list-s/data');
-  const docData = await getDoc(docRef);
-  // console.log('snap', docData.data())
-  return docData.data();
+// const fetchEvent = async () => {
+//   const docRef = doc(db, 'board-list-s/data');
+//   const docData = await getDoc(docRef);
+//   // console.log('snap', docData.data())
+//   return docData.data();
+// };
+
+const saveForBonusUser = async (infoData) => {
+  const docRef = doc(db, 'bonus-user', infoData.prevInfo.lockOwner);
+  await setDoc(docRef, infoData);
 };
 
-export { db, fetchEvent };
+export { db, saveForBonusUser };

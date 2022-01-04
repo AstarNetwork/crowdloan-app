@@ -3,8 +3,8 @@ import { RuleData } from './RuleData';
 import { FaqData } from './FaqData';
 
 const statusItems = <StatusData[]>[
-  { value: 0, description: 'Participants' },
-  { value: 0, description: 'DOT Contributed' },
+  { value: 27170, description: 'Participants' },
+  { value: 10333552, description: 'DOT Contributed' },
   { value: 1400000000, description: 'ASTR to be Distributed' }
 ];
 
