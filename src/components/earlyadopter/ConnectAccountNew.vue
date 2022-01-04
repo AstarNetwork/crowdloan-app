@@ -63,8 +63,8 @@
                     :key="index"
                     :key-idx="index"
                     :address="account"
-                    :addressName="allAccountNames[index]"
-                    :contributed="allContributedD[index]"
+                    :addressName="filterAccountNames[index]"
+                    :contributed="filterContributedD[index]"
                     :checked="selAccount === index"
                     v-model:selOption="selAccount"
                   />
@@ -132,10 +132,11 @@ export default defineComponent({
 
     const api: any = inject('api');
     const allAccounts = ref<string[]>([]);
-    const filterAccounts = ref<string[]>([]);
     const allAccountNames = ref<string[]>([]);
-    const allContributed = ref<BN[]>([]);
-    const allContributedD = ref<number[]>([]);
+    const filterAccounts = ref<string[]>([]);
+    const filterAccountNames = ref<string[]>([]);
+    const filterContributed = ref<BN[]>([]);
+    const filterContributedD = ref<number[]>([]);
     const isMetamaskConnected = ref<boolean>(false);
     const prevLockdropInfo = ref();
     const metaInfo = ref<META_TYPE>();
@@ -171,21 +172,26 @@ export default defineComponent({
       async (accounts) => {
         if (accounts) {
           filterAccounts.value = [];
-          allContributed.value = [];
+          filterAccountNames.value = [];
+          filterContributed.value = [];
+          filterContributedD.value = [];
+          let index = 0;
           for await (const account of allAccounts.value) {
             const contributed = await findContributed(account);
             // console.log('a', account + '/' + contributed.toString(10));
-            allContributed.value.push(contributed);
-            allContributedD.value.push(
-              contributed.div(new BN(10 ** UNIT)).toNumber()
-            );
 
             if (contributed.gtn(0)) {
               filterAccounts.value.push(account);
+              filterAccountNames.value.push(allAccountNames.value[index]);
+              filterContributed.value.push(contributed);
+              filterContributedD.value.push(
+                contributed.div(new BN(10 ** UNIT)).toNumber()
+              );
             }
+            index++;
           }
 
-          const amtContribution = allContributed.value[selAccount.value];
+          const amtContribution = filterContributed.value[selAccount.value];
           bonusAmt.value = amtContribution.muln(REWARD_RATIO / 10).toString(10);
         }
       }
@@ -194,10 +200,10 @@ export default defineComponent({
     watch(
       () => selAccount.value,
       async () => {
-        if (allAccounts.value.length > 0) {
+        if (filterAccounts.value.length > 0) {
           console.log('sel', selAccount.value);
           // set current crowdloan info : bonus 10% of contribution
-          const amtContribution = allContributed.value[selAccount.value];
+          const amtContribution = filterContributed.value[selAccount.value];
           bonusAmt.value = amtContribution.muln(REWARD_RATIO / 10).toString(10);
         }
       }
@@ -272,9 +278,9 @@ export default defineComponent({
     return {
       allAccounts,
       filterAccounts,
-      allAccountNames,
-      allContributed,
-      allContributedD,
+      filterAccountNames,
+      filterContributed,
+      filterContributedD,
       selAccount,
       isMetamaskConnected,
       prevLockdropInfo,
