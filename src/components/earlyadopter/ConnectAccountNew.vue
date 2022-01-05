@@ -220,7 +220,7 @@ export default defineComponent({
     );
 
     const connectMetamask = async (ethAddr: string, ss58: string) => {
-      ethAddr = '0x01734005354d569716291cd1cfbc67f3f56a0b6f';
+      // ethAddr = '0x01734005354d569716291cd1cfbc67f3f56a0b6f';
       console.log(ethAddr + '/' + ss58);
 
       let response = await fetch('static/first-crowdloan.json');
