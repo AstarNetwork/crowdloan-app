@@ -2,7 +2,7 @@
   <div class="pt-20 pb-20 status-background">
     <div class="max-w-6xl mx-auto">
       <div class="justify-center">
-        <h1 class="font-bold text-xl">
+        <h1 class="font-bold text-xl mb-2">
           Early adopter participation confirmation
         </h1>
         <div>
@@ -86,10 +86,19 @@
                           text-xl text-white
                           button-gradient
                         "
+                        v-if="!isAlreadyApplied && filterAccounts.length > 0"
                         @click="applyBonus"
                       >
                         Apply
                       </button>
+                      <div
+                        class="font-bold mt-2"
+                        v-else-if="
+                          isAlreadyApplied && filterAccounts.length > 0
+                        "
+                      >
+                        Applied
+                      </div>
                     </div>
                     <div v-else>
                       This account did not participate in the Lockdrop
@@ -113,7 +122,7 @@ import BN from 'bn.js';
 import { ActionTypes } from '@/store/action-types';
 import MetamaskOption from '@/components/earlyadopter/MetamaskOption.vue';
 import AccountOption from '@/components/earlyadopter/AccountOption.vue';
-import { saveForBonusUser } from '@/db';
+import { saveForBonusUser, isAlreadyAppliedForBonus } from '@/db';
 import { UNIT, REWARD_RATIO } from '@/config/crowdloan';
 import { useStore } from 'vuex';
 
@@ -142,6 +151,7 @@ export default defineComponent({
     const metaInfo = ref<META_TYPE>();
     const selAccount = ref(0);
     const bonusAmt = ref<string>();
+    const isAlreadyApplied = ref<boolean>(false);
 
     const findContributed = async (addr) => {
       let contributed = new BN(0);
@@ -210,7 +220,7 @@ export default defineComponent({
     );
 
     const connectMetamask = async (ethAddr: string, ss58: string) => {
-      // ethAddr = '0x01734005354d569716291cD1CFbc67f3f56a0b6F';
+      // ethAddr = '0x01734005354d569716291cd1cfbc67f3f56a0b6f';
       console.log(ethAddr + '/' + ss58);
 
       let response = await fetch('static/first-crowdloan.json');
@@ -238,6 +248,9 @@ export default defineComponent({
 
       if (jsonObj) {
         prevLockdropInfo.value = jsonObj;
+        isAlreadyApplied.value = await isAlreadyAppliedForBonus(
+          jsonObj.lockOwner
+        );
       } else {
         console.log('no bonus reward');
       }
@@ -249,13 +262,14 @@ export default defineComponent({
           prevInfo: prevLockdropInfo.value,
           userEth: metaInfo.value.ethAddr,
           userSS58: metaInfo.value.ss58,
-          targetBonusAddress: allAccounts.value[selAccount.value],
+          targetBonusAddress: filterAccounts.value[selAccount.value],
           createdAt: new Date()
           // amtContribution: amtContribution.toString(10),
           // bonusAmt: amtContribution.muln(REWARD_RATIO / 10).toString(10),
         };
         console.log('f', jsonObj);
         await saveForBonusUser(jsonObj);
+        isAlreadyApplied.value = true;
 
         store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
           msg: `The bonus form is applied successfully...!`,
@@ -285,6 +299,7 @@ export default defineComponent({
       isMetamaskConnected,
       prevLockdropInfo,
       bonusAmt,
+      isAlreadyApplied,
       applyBonus,
       formatASTR,
       connectMetamask

@@ -23,9 +23,15 @@ const db = getFirestore(firebaseApp);
 //   return docData.data();
 // };
 
+const isAlreadyAppliedForBonus = async (lockOwner) => {
+  const docRef = doc(db, 'bonus-user', lockOwner);
+  const docData = await getDoc(docRef);
+  return docData.data() !== undefined;
+};
+
 const saveForBonusUser = async (infoData) => {
   const docRef = doc(db, 'bonus-user', infoData.prevInfo.lockOwner);
   await setDoc(docRef, infoData);
 };
 
-export { db, saveForBonusUser };
+export { db, saveForBonusUser, isAlreadyAppliedForBonus };
