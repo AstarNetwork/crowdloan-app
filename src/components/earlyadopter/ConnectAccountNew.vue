@@ -18,6 +18,14 @@
                 dark:border-darkGray-500
               "
             >
+              <div class="text-sm font-bold border border-gray-200 py-2">
+                To apply for the lockdrop bonus, you must meet the following
+                criteria: <br />
+                1. You have participated on 1st or 2nd lockdrop <br />
+                2. You have contributed to the Polkadot crowdloan campaign with
+                a different account from the lockdrop
+              </div>
+
               <MetamaskOption @connectMetamask="connectMetamask" />
 
               <div v-if="isMetamaskConnected">
@@ -72,7 +80,7 @@
 
                 <div class="border-2 border-dashed" />
 
-                <div class="my-2">
+                <div v-if="filterAccounts.length > 0" class="my-2">
                   <div class="mt-3 font-bold">
                     <div v-if="prevLockdropInfo">
                       This account is eligible for a early bird bonus :
@@ -220,7 +228,7 @@ export default defineComponent({
     );
 
     const connectMetamask = async (ethAddr: string, ss58: string) => {
-      // ethAddr = '0x01734005354d569716291cd1cfbc67f3f56a0b6f';
+      // ethAddr = '0x477af0aa0c9cb5b1708b5fbd87b953d76270e981';
       console.log(ethAddr + '/' + ss58);
 
       let response = await fetch('static/first-crowdloan.json');
