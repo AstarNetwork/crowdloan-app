@@ -228,7 +228,7 @@ export default defineComponent({
     );
 
     const connectMetamask = async (ethAddr: string, ss58: string) => {
-      // ethAddr = '0x477af0aa0c9cb5b1708b5fbd87b953d76270e981';
+      // ethAddr = '0xaa9ff8d823369c8499e80eba9f26646e94e2e2ea';
       console.log(ethAddr + '/' + ss58);
 
       let response = await fetch('static/first-crowdloan.json');
@@ -266,11 +266,21 @@ export default defineComponent({
 
     const applyBonus = async () => {
       if (prevLockdropInfo.value && metaInfo.value) {
+        const targetBonusAddress = filterAccounts.value[selAccount.value];
+
+        if (targetBonusAddress === metaInfo.value.ss58) {
+          store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
+            msg: `Your bonus has been automatically applied...!`,
+            alertType: 'warning'
+          });
+          return;
+        }
+
         const jsonObj = {
           prevInfo: prevLockdropInfo.value,
           userEth: metaInfo.value.ethAddr,
           userSS58: metaInfo.value.ss58,
-          targetBonusAddress: filterAccounts.value[selAccount.value],
+          targetBonusAddress,
           createdAt: new Date()
           // amtContribution: amtContribution.toString(10),
           // bonusAmt: amtContribution.muln(REWARD_RATIO / 10).toString(10),
