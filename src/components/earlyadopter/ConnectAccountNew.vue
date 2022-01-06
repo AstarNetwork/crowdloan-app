@@ -266,11 +266,21 @@ export default defineComponent({
 
     const applyBonus = async () => {
       if (prevLockdropInfo.value && metaInfo.value) {
+        const targetBonusAddress = filterAccounts.value[selAccount.value];
+
+        if (targetBonusAddress === metaInfo.value.ss58) {
+          store.dispatch(ActionTypes.SHOW_ALERT_MSG, {
+            msg: `Your bonus has been automatically applied...!`,
+            alertType: 'warning'
+          });
+          return;
+        }
+
         const jsonObj = {
           prevInfo: prevLockdropInfo.value,
           userEth: metaInfo.value.ethAddr,
           userSS58: metaInfo.value.ss58,
-          targetBonusAddress: filterAccounts.value[selAccount.value],
+          targetBonusAddress,
           createdAt: new Date()
           // amtContribution: amtContribution.toString(10),
           // bonusAmt: amtContribution.muln(REWARD_RATIO / 10).toString(10),
