@@ -4,6 +4,7 @@
     <!-- <RemainingTime :startTime="startTime" :endTime="endTime" /> -->
     <!-- <Stake /> -->
     <Status :data="statuses" />
+    <Board />
     <HubSpot />
     <Rules :rules="rules" />
     <Faq :faqs="faqs" />
@@ -18,6 +19,7 @@ import Header from '../components/Header.vue';
 // import RemainingTime from '../components/RemainingTime.vue';
 // import Stake from '../components/Stake.vue';
 import Status from '../components/Status.vue';
+import Board from '../components/leaderboard/Board.vue';
 import Rules from '../components/Rules.vue';
 import Faq from '../components/Faq.vue';
 import Footer from '../components/Footer.vue';
@@ -32,6 +34,7 @@ export default defineComponent({
     // RemainingTime,
     // Stake,
     Status,
+    Board,
     Rules,
     Faq,
     Footer,
