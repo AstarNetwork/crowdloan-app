@@ -1,8 +1,8 @@
 <template>
   <div class="font-sans">
     <Header />
-    <RemainingTime :startTime="startTime" :endTime="endTime" />
-    <Stake />
+    <!-- <RemainingTime :startTime="startTime" :endTime="endTime" /> -->
+    <!-- <Stake /> -->
     <Status :data="statuses" />
     <HubSpot />
     <Rules :rules="rules" />
@@ -15,8 +15,8 @@
 import { defineComponent, ref } from 'vue';
 import moment from 'moment';
 import Header from '../components/Header.vue';
-import RemainingTime from '../components/RemainingTime.vue';
-import Stake from '../components/Stake.vue';
+// import RemainingTime from '../components/RemainingTime.vue';
+// import Stake from '../components/Stake.vue';
 import Status from '../components/Status.vue';
 import Rules from '../components/Rules.vue';
 import Faq from '../components/Faq.vue';
@@ -29,8 +29,8 @@ import { FaqData } from '../data/FaqData';
 export default defineComponent({
   components: {
     Header,
-    RemainingTime,
-    Stake,
+    // RemainingTime,
+    // Stake,
     Status,
     Rules,
     Faq,
