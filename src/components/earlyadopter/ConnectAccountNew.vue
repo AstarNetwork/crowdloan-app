@@ -231,6 +231,8 @@ export default defineComponent({
       // ethAddr = '0xaa9ff8d823369c8499e80eba9f26646e94e2e2ea';
       console.log(ethAddr + '/' + ss58);
 
+      store.dispatch(ActionTypes.SET_LOADING, { loading: true });
+
       let response = await fetch('static/first-crowdloan.json');
       const firstLockdrop = await response.json();
       let jsonObj = firstLockdrop.find(
@@ -262,6 +264,8 @@ export default defineComponent({
       } else {
         console.log('no bonus reward');
       }
+
+      store.dispatch(ActionTypes.SET_LOADING, { loading: false });
     };
 
     const applyBonus = async () => {
