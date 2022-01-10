@@ -5,6 +5,8 @@
       <ConnectAccountNew />
     </ApiProvider>
 
+    <modal-loading v-if="isLoading" />
+
     <transition name="fade">
       <alert-box v-if="showAlertMsg" :msg="alertMsg" :alert-type="alertType" />
     </transition>
@@ -16,6 +18,7 @@ import ApiProvider from '../config/ApiProvider.vue';
 import Navigation from '../components/Navigation.vue';
 import ConnectAccountNew from '../components/earlyadopter/ConnectAccountNew.vue';
 import AlertBox from '../components/shared/AlertBox.vue';
+import ModalLoading from '../components/shared/ModalLoading.vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -24,16 +27,19 @@ export default defineComponent({
     ApiProvider,
     Navigation,
     ConnectAccountNew,
-    AlertBox
+    AlertBox,
+    ModalLoading
   },
   setup() {
     const store = useStore();
 
+    const isLoading = computed(() => store.getters.isLoading);
     const showAlertMsg = computed(() => store.getters.showAlert.showAlertMsg);
     const alertMsg = computed(() => store.getters.showAlert.alertMsg);
     const alertType = computed(() => store.getters.showAlert.alertType);
 
     return {
+      isLoading,
       showAlertMsg,
       alertMsg,
       alertType
