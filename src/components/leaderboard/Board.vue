@@ -85,20 +85,20 @@
           <div class="item-container flex">
             <div class="flex-none mx-4 rIndex">Ranking</div>
             <div class="flex-grow rAddress">Address</div>
-            <div class="flex-none mx-4 rAmount">Total Rewards(Referrers)</div>
+            <div class="flex-none mx-4 rAmount">Total number of Referrals</div>
           </div>
           <RecycleScroller
             class="scroller"
             :items="dataSource"
             :item-size="32"
-            key-field="referAddress"
+            key-field="referMemo"
             v-slot="{ item, index }"
           >
             <div class="item-container flex">
               <div class="flex-none mx-4 rIndex">{{ index + 1 }}</div>
-              <div class="flex-grow rAddress">{{ item.referAddress }}</div>
+              <div class="flex-grow rAddress">{{ item.referMemo }}</div>
               <div class="flex-none mx-4 rAmount">
-                {{ item.reward }} ASTR ({{ item.numStakers }})
+                {{ item.numStakers }}
               </div>
             </div>
           </RecycleScroller>
@@ -111,11 +111,10 @@
 <script lang="ts">
 import 'vue3-virtual-scroller/dist/vue3-virtual-scroller.css';
 import { defineComponent, ref, watch } from 'vue';
-import BN from 'bn.js';
 import { RecycleScroller } from 'vue3-virtual-scroller';
-import json from '@/static/final-result.json';
+import json from '@/static/leaderboard-result.json';
 // import { fetchEvent } from '@/db';
-import { encodeAddress } from '@polkadot/util-crypto';
+// import { encodeAddress } from '@polkadot/util-crypto';
 
 export default defineComponent({
   components: {
@@ -148,14 +147,15 @@ export default defineComponent({
     const getJson = async () => {
       const list: any = json;
       dataSize.value = list.length;
-      dataSource.value = list.map((obj) => {
-        obj.referAddress = encodeAddress(`0x${obj.referMemo}`, 0);
-        obj.reward =
-          new BN(obj.referral_bonus_astr)
-            .div(new BN(10 ** (UNIT - 2)))
-            .toNumber() / 100;
-        return obj;
-      });
+      dataSource.value = list;
+      // dataSource.value = list.map((obj) => {
+      // obj.referAddress = encodeAddress(`0x${obj.referMemo}`, 0);
+      // obj.reward =
+      //   new BN(obj.referral_bonus_astr)
+      //     .div(new BN(10 ** (UNIT - 2)))
+      //     .toNumber() / 100;
+      // return obj;
+      // });
     };
 
     getJson();
