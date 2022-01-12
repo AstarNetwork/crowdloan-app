@@ -28,7 +28,7 @@
           </RecycleScroller>
         </div>
 
-        <SearchContribution />
+        <SearchContribution :leaderboard-data="dataSource" />
       </div>
     </div>
   </div>

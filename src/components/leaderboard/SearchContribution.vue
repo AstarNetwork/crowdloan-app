@@ -16,6 +16,15 @@
 
           <div class="p-3" v-if="resultInfo.length > 0">
             <h2 class="font-bold text-xl mt-2">Your Contribution Info:</h2>
+
+            <div v-if="rankInfo">
+              <h3 class="font-bold text-sm mt-3 rank_info">Referral Rank:</h3>
+              <div class="mb-3">
+                Total number of Referrals:
+                <span class="rank_info text-xl">{{ rankInfo.numStakers }}</span>
+              </div>
+            </div>
+
             <ul
               v-for="rInfo of resultInfo"
               :key="rInfo"
@@ -49,12 +58,19 @@ export default defineComponent({
     Input,
     Button
   },
-  setup() {
+  props: {
+    leaderboardData: {
+      type: Array,
+      required: true
+    }
+  },
+  setup(props) {
     const store = useStore();
     const searching = ref(false);
     const myAddress = ref('');
     const headersInfo = ref<string[]>([]);
     const resultInfo = ref<any>([]);
+    const rankInfo = ref();
 
     const onResult = async (e: any) => {
       e.preventDefault();
@@ -83,6 +99,18 @@ export default defineComponent({
         }
       }
 
+      //find ranking
+      const leaderboardData: any = props.leaderboardData;
+      let ranking = 1;
+      for (const item of leaderboardData) {
+        if (item.referMemo === myAddr) {
+          item.ranking = ranking;
+          rankInfo.value = item;
+          break;
+        }
+        ranking++;
+      }
+
       store.dispatch(ActionTypes.SET_LOADING, { loading: false });
     };
 
@@ -91,6 +119,7 @@ export default defineComponent({
       myAddress,
       headersInfo,
       resultInfo,
+      rankInfo,
       onResult
     };
   }
@@ -107,5 +136,10 @@ button[disabled] {
   background: linear-gradient(180deg, #f0f5fb 0%, #fff 100%);
   border-radius: 0.15rem;
   box-shadow: -5px 5px 20px #d3c0e1, 5px -5px 20px #b7d1eb;
+}
+
+.rank_info {
+  font-family: 'Kanit', sans-serif;
+  color: #1b6dc1;
 }
 </style>
