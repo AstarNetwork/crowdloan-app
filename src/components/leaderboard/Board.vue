@@ -6,82 +6,6 @@
       >
         <h2 class="font-bold text-xl">Referral Leaderboard ({{ dataSize }})</h2>
         <div class="list-container">
-          <!-- <div class="flex flex-col mb-8">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div
-                class="
-                  py-2
-                  align-middle
-                  inline-block
-                  min-w-full
-                  sm:px-6
-                  lg:px-8
-                "
-              >
-                <div
-                  class="
-                    shadow
-                    overflow-hidden
-                    border-b border-gray-200
-                    dark:border-darkGray-600
-                    rounded-lg
-                  "
-                >
-                  <table
-                    class="
-                      min-w-full
-                      divide-y divide-gray-200
-                      dark:divide-darkGray-600
-                    "
-                  >
-                    <tbody
-                      class="
-                        bg-white
-                        dark:bg-darkGray-800
-                        divide-y divide-gray-200
-                        dark:divide-darkGray-600
-                      "
-                    >
-                      <tr v-for="(item) in dataSource" :key="item.index">
-                        <td class="px-3 py-4 text-center">
-                          <div class="relative h-5 mx-auto truncate">
-                            {{ item.referAddress }}
-                          </div>
-                        </td>
-                        <td class="px-3 py-4 text-center">
-                          <div class="relative w-5 h-5 mx-auto">
-                            {{ item.numStakers }}
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
-          <!-- <DynamicScroller
-            class="scroller"
-            :items="dataSource"
-            :min-item-size="32"
-            key-field="referAddress"
-          >
-            <template v-slot="{ item, index }">
-              <DynamicScrollerItem
-                :item="item"
-                :size-dependencies="[item.referAddress]"
-                :data-index="index">
-                <div class="item-container">
-                  <div class="cell mx-4 rAddress">{{ index }}</div>
-                  <div class="cell mx-4 rAddress">{{ item.referAddress }}</div>
-                  <div class="cell rAmount">{{ item.numStakers }}</div>
-                </div>
-              </DynamicScrollerItem>
-            </template>
-          </DynamicScroller>
-           -->
-
           <div class="item-container flex">
             <div class="flex-none mx-4 rIndex">Ranking</div>
             <div class="flex-grow rAddress">Address</div>
@@ -103,6 +27,8 @@
             </div>
           </RecycleScroller>
         </div>
+
+        <SearchContribution :leaderboard-data="dataSource" />
       </div>
     </div>
   </div>
@@ -113,12 +39,13 @@ import 'vue3-virtual-scroller/dist/vue3-virtual-scroller.css';
 import { defineComponent, ref, watch } from 'vue';
 import { RecycleScroller } from 'vue3-virtual-scroller';
 import json from '@/static/leaderboard-result.json';
-// import { fetchEvent } from '@/db';
+import SearchContribution from '@/components/leaderboard/SearchContribution.vue';
 // import { encodeAddress } from '@polkadot/util-crypto';
 
 export default defineComponent({
   components: {
-    RecycleScroller
+    RecycleScroller,
+    SearchContribution
   },
   props: {},
   setup() {
