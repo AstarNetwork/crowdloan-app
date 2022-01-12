@@ -34,6 +34,9 @@
                 <h4>
                   <span class="font-bold">{{ header }} : </span>
                   {{ rInfo[index] }}
+                  <span class="font-bold text-xl" v-if="index === 1"
+                    >({{ convertUnitToDot(rInfo[index]) }} DOT)</span
+                  >
                 </h4>
               </li>
             </ul>
@@ -52,6 +55,7 @@ import { useStore } from 'vuex';
 import { ActionTypes } from '@/store/action-types';
 import Input from '../shared/Input.vue';
 import Button from '../shared/Button.vue';
+import BN from 'bn.js';
 
 export default defineComponent({
   components: {
@@ -122,6 +126,12 @@ export default defineComponent({
       rankInfo,
       onResult
     };
+  },
+  methods: {
+    convertUnitToDot(amount) {
+      const UNIT = 10; // polkadot unit
+      return new BN(amount).div(new BN(10 ** (UNIT - 2))).toNumber() / 100;
+    }
   }
 });
 </script>
