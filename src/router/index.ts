@@ -16,11 +16,11 @@ const routes: RouteRecordRaw[] = [
   //   name: 'LeaderBoard',
   //   component: LeaderBoard
   // },
-  {
-    path: '/early-adopter',
-    name: 'EarlyAdopter',
-    component: EarlyAdopter
-  },
+  // {
+  //   path: '/early-adopter',
+  //   name: 'EarlyAdopter',
+  //   component: EarlyAdopter
+  // },
   {
     path: '/external-header',
     name: 'ExternalHeader',
