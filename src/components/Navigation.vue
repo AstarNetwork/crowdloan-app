@@ -83,7 +83,7 @@
             >
               Token Economics
             </a>
-            <a
+            <!-- <a
               href="/#/early-adopter"
               class="
                 no-underline
@@ -96,7 +96,7 @@
               "
             >
               For Early Adopter
-            </a>
+            </a> -->
             <div
               class="
                 no-underline
