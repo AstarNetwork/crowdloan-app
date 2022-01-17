@@ -9,7 +9,8 @@ import { hexAddPrefix, hexToU8a, isHex, u8aToHex } from '@polkadot/util';
 import {
   blake2AsU8a,
   encodeAddress,
-  isEthereumAddress
+  isEthereumAddress,
+  decodeAddress
 } from '@polkadot/util-crypto';
 
 /**
@@ -37,6 +38,17 @@ export const ecdsaPubKeyToSs58 = (
   const ss58Address = encodeAddress(ss58PubKey, networkPrefix);
 
   return ss58Address;
+};
+
+export const convertToPolkadotAddress = (address: string) => {
+  if (address) {
+    const addr = encodeAddress(
+      isHex(address) ? hexToU8a(address) : decodeAddress(address),
+      0
+    );
+    return addr;
+  }
+  return '';
 };
 
 /**

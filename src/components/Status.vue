@@ -14,14 +14,14 @@
 
 <script lang="ts">
 import { defineComponent, inject, ref, watch } from 'vue';
-import { ApiPromise } from '@polkadot/api';
-import BN from 'bn.js';
-import type { Option } from '@polkadot/types';
-import type { FundInfo, ParaId } from '@polkadot/types/interfaces';
-import type { Campaign } from '../hooks/useFunds';
+// import { ApiPromise } from '@polkadot/api';
+// import BN from 'bn.js';
+// import type { Option } from '@polkadot/types';
+// import type { FundInfo, ParaId } from '@polkadot/types/interfaces';
+// import type { Campaign } from '../hooks/useFunds';
 import { StatusData } from '../data/StatusData';
 import StatusItem from './StatusItem.vue';
-import { PARA_ID, UNIT } from '@/config/crowdloan';
+// import { PARA_ID, UNIT } from '@/config/crowdloan';
 
 export default defineComponent({
   components: {
@@ -34,8 +34,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const api: any = inject('api');
-    const CAMPAIGN_IDX = 0;
+    // const api: any = inject('api');
+    // const CAMPAIGN_IDX = 0;
 
     const statusData = ref<StatusData[]>(props.data);
     /*

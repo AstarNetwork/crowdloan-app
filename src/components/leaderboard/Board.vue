@@ -28,7 +28,8 @@
           </RecycleScroller>
         </div>
 
-        <SearchContribution :leaderboard-data="dataSource" />
+        <SearchReward />
+        <!-- <SearchContribution :leaderboard-data="dataSource" /> -->
       </div>
     </div>
   </div>
@@ -39,17 +40,17 @@ import 'vue3-virtual-scroller/dist/vue3-virtual-scroller.css';
 import { defineComponent, ref, watch } from 'vue';
 import { RecycleScroller } from 'vue3-virtual-scroller';
 import json from '@/static/leaderboard-result.json';
-import SearchContribution from '@/components/leaderboard/SearchContribution.vue';
+import SearchReward from '@/components/leaderboard/SearchReward.vue';
+// import SearchContribution from '@/components/leaderboard/SearchContribution.vue';
 // import { encodeAddress } from '@polkadot/util-crypto';
 
 export default defineComponent({
   components: {
     RecycleScroller,
-    SearchContribution
+    SearchReward
   },
   props: {},
   setup() {
-    const UNIT = 10; // polkadot unit
     interface MEMO_DATA {
       numStakers: number;
       referMemo: string;
