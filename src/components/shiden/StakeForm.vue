@@ -66,7 +66,7 @@
       <div class="row--input">
         <div class="estimation">
           <span class="text--label">Your rewards</span>
-          <span>(You will get at least 1KSM=22.4SDN+)</span>
+          <span>(You will get at least 1KSM={{ REWARD_RATIO }}SDN+)</span>
         </div>
         <div class="box--amount">
           <span class="text--earning">{{ earningRewards }}</span>
@@ -99,11 +99,14 @@
 </template>
 
 <script lang="ts">
+import {
+  MINIMUM_STAKING_AMOUNT,
+  REWARD_RATIO
+} from '@/config/shiden/crowdloan';
 import { defineComponent, ref, computed } from 'vue';
 
 export default defineComponent({
   setup() {
-    const minimumStakeAmount = 1;
     const stakeAmount = ref<string>('');
     const isTyping = ref<boolean>(false);
     const setIsTyping = (typing: boolean): void => {
@@ -127,8 +130,7 @@ export default defineComponent({
 
     const earningRewards = computed(() => {
       if (stakeAmount.value) {
-        const rate = 22.4;
-        const value = Number(stakeAmount.value) * rate;
+        const value = Number(stakeAmount.value) * REWARD_RATIO;
         return `At least ${value.toLocaleString('en-US')} SDN+`;
       }
       return '0 SDN';
@@ -137,16 +139,16 @@ export default defineComponent({
     const errMsg = computed(() => {
       if (
         stakeAmount.value &&
-        minimumStakeAmount >= Number(stakeAmount.value)
+        MINIMUM_STAKING_AMOUNT >= Number(stakeAmount.value)
       ) {
-        return `Minimum contribute amount: ${minimumStakeAmount} KSM`;
+        return `Minimum contribute amount: ${MINIMUM_STAKING_AMOUNT} KSM`;
       } else {
         return null;
       }
     });
 
     const isDisable = computed(() => {
-      if (minimumStakeAmount >= Number(stakeAmount.value)) {
+      if (MINIMUM_STAKING_AMOUNT >= Number(stakeAmount.value)) {
         return true;
       } else {
         return false;
@@ -162,7 +164,8 @@ export default defineComponent({
       availableBalance,
       earningRewards,
       errMsg,
-      isDisable
+      isDisable,
+      REWARD_RATIO
     };
   }
 });
