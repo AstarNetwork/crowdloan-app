@@ -25,6 +25,9 @@ export default defineComponent({
     AlertBox,
     ApiProvider
   },
+  created() {
+    document.title = 'Shiden Network Crowdloan - Stake KSM and Get SDN Today!';
+  },
   setup() {
     const store = useStore();
 

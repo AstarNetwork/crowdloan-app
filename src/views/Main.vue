@@ -25,6 +25,9 @@ export default defineComponent({
     ModalLoading,
     AlertBox
   },
+  created() {
+    document.title = 'Astar Network Crowdloan - Stake DOT and Get ASTR Today!';
+  },
   setup() {
     const store = useStore();
 
