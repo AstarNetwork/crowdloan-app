@@ -1,0 +1,139 @@
+.logo {
+  width: 220px;
+  margin-left: 12px;
+  @media (min-width: $md) {
+    margin-left: 24px;
+  }
+  @media (min-width: $lg) {
+    margin-left: 42px;
+  }
+}
+
+.container--navigation {
+  width: 100%;
+  max-width: 1440px;
+  margin: auto;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 24px 12px;
+  align-items: center;
+}
+
+.button--menu {
+  display: flex;
+  padding: 8px 12px;
+  align-items: center;
+  border-radius: 0.25rem;
+  border-width: 0;
+}
+
+.column--logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.column--mobile-menu {
+  display: block;
+  @media (min-width: $sm) {
+    display: none;
+  }
+}
+
+.column--right {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  flex-grow: 1;
+  @media (min-width: $sm) {
+    width: auto;
+  }
+}
+
+.column--links {
+  display: flex;
+  column-gap: 32px;
+  margin-right: 12px;
+  flex-direction: column;
+  align-items: flex-end;
+  text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+  @media (min-width: $sm) {
+    align-items: center;
+    flex-direction: row;
+  }
+  @media (min-width: $md) {
+    column-gap: 64px;
+    margin-right: 24px;
+  }
+  @media (min-width: $lg) {
+    column-gap: 64px;
+    margin-right: 42px;
+  }
+  @media (min-width: $xl) {
+    margin-right: 64px;
+  }
+}
+
+.menu {
+  fill: white;
+  height: 24px;
+  width: 24px;
+}
+
+.link-item {
+  font-size: 16px;
+  color: white !important;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.9);
+  background-clip: padding-box;
+  min-width: 160px;
+  box-shadow: 0 0 3px rgba(2, 2, 2, 0.2);
+  border-radius: 0.15rem;
+  text-align: left;
+  padding: 0.5rem 0;
+  z-index: 1000;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 0.25rem 1rem;
+  font-size: 16px;
+  color: black;
+  transition: color 0.15s ease-in-out;
+}
+
+.dropdown-content a:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.dropdown {
+  cursor: pointer;
+}
+
+.dropdown::after {
+  background-image: url('~@/assets/shiden/chevron-down.svg');
+  background-size: 16px 16px;
+  background-position-y: 5px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  content: '';
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
