@@ -192,14 +192,12 @@ export default defineComponent({
     const resultHash = ref('');
     const referLink = ref('');
 
-    /*
     const burnsWarning =
       "Account with balance below the existential deposit will be reaped (Polkadot's existential deposit is 1 DOT)";
 
     // check referral address as querystring
     let params = new URL(window.location.href).searchParams;
     let referral = params.get('referral');
-    console.log('ref', referral);
     if (referral) {
       data.referralAddress = referral;
     }
@@ -224,6 +222,8 @@ export default defineComponent({
           data.polkadotAddress
         )) as AccountInfo;
         console.log('acc', account);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         data.availableAmount = account.data.free.toBn() || new BN(0);
       } catch (e) {
         console.error(e);
@@ -446,7 +446,6 @@ export default defineComponent({
         }
       }
     };
-    */
 
     return {
       UNIT,

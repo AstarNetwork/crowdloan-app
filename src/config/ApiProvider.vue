@@ -5,10 +5,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { connectApi } from './connectApi';
+import { CROWDLOAN_ENDPOINT } from '../config/crowdloan';
 
 // const endpoint = 'ws://127.0.0.1:9944';
-// const endpoint = 'wss://rpc.tokyo-relay.astar.network';
-const endpoint = 'wss://rpc.polkadot.io';
+const endpoint = CROWDLOAN_ENDPOINT;
 
 export default defineComponent({
   provide: {

@@ -1,7 +1,7 @@
 <template>
-  <!-- <ApiProvider> -->
-  <Crowdloan />
-  <!-- </ApiProvider> -->
+  <ApiProvider>
+    <Crowdloan />
+  </ApiProvider>
 
   <modal-loading v-if="isLoading" />
 
@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import Crowdloan from '../pages/Crowdloan.vue';
-// import ApiProvider from '../config/ApiProvider.vue';
+import ApiProvider from '../config/ApiProvider.vue';
 import ModalLoading from '../components/shared/ModalLoading.vue';
 import AlertBox from '../components/shared/AlertBox.vue';
 import { useStore } from 'vuex';
@@ -21,7 +21,7 @@ export default defineComponent({
   name: 'Main',
   components: {
     Crowdloan,
-    // ApiProvider,
+    ApiProvider,
     ModalLoading,
     AlertBox
   },
