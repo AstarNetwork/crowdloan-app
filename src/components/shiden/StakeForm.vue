@@ -75,9 +75,8 @@
       <div class="row--disclaimer">
         <span class="text--label">
           KSM will be locked for 48weeks. Rewards SDN has vesting.
-          <!-- Todo: Add article url -->
           <a
-            href="/"
+            href="https://medium.com/astar-network/announcing-the-second-official-shiden-crowdloan-d11d71debd52"
             class="text--learn-more"
             target="_blank"
             rel="noopener noreferrer"
