@@ -39,11 +39,12 @@ no-webp #hero {
 .row--head-line {
   text-align: center;
   width: 350px;
-  margin-top: -108px;
+  margin-top: -122px;
   @media (min-width: $sm) {
     width: 580px;
   }
   @media (min-width: $md) {
+    margin-top: -128px;
     width: 600px;
   }
   @media (min-width: $lg) {
