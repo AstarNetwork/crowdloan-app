@@ -39,6 +39,7 @@ no-webp #hero {
 .row--head-line {
   text-align: center;
   width: 350px;
+  margin-top: -108px;
   @media (min-width: $sm) {
     width: 580px;
   }
