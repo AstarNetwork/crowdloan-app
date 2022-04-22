@@ -13,6 +13,9 @@
   }
   @media (min-width: $md) {
     padding: 56px 70px;
+    width: 600px;
+  }
+  @media (min-width: $lg) {
     width: 700px;
   }
 }
@@ -138,6 +141,10 @@
   border: 1px solid #2e2e2e;
   box-sizing: border-box;
   border-radius: 4px;
+  &:hover {
+    transition: all 0.3s ease;
+    border: 1px solid #613cf9;
+  }
 }
 
 .table--input {
@@ -152,12 +159,7 @@
   display: flex;
   align-items: center;
   box-sizing: content-box;
-  @media (min-width: $sm) {
-    width: 430px;
-  }
-  @media (min-width: $md) {
-    width: 500px;
-  }
+  width: 100%;
 }
 
 .input {
@@ -179,12 +181,6 @@
   &:focus {
     transition: all 0.3s ease;
     outline: none;
-  }
-  @media (min-width: $sm) {
-    width: 430px;
-  }
-  @media (min-width: $md) {
-    width: 500px;
   }
 }
 
