@@ -1,0 +1,248 @@
+.container--form {
+  padding: 24px;
+  width: 300px;
+  box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.41);
+  box-sizing: content-box;
+  border-radius: 3px;
+  border: 1px solid #000000;
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  @media (min-width: $sm) {
+    width: 480px;
+  }
+  @media (min-width: $md) {
+    padding: 56px 70px;
+    width: 600px;
+  }
+  @media (min-width: $lg) {
+    width: 700px;
+  }
+}
+
+.row--stake-status {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  @media (min-width: $sm) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.row--input {
+}
+
+.row--input-amount {
+  position: relative;
+  width: 100%;
+}
+
+.row--disclaimer {
+  margin-bottom: 16px;
+}
+
+.row--contribute-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.row--error {
+  position: absolute;
+  right: 0;
+  bottom: -26px;
+}
+
+.box--status {
+  position: relative;
+  height: 62px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  @media (min-width: $sm) {
+    width: 260px;
+  }
+}
+
+.box-status-bg {
+  position: absolute;
+  width: 100%;
+  height: 62px;
+  background: linear-gradient(
+    90deg,
+    #1b6dc1 4.46%,
+    #8b5bc5 61.01%,
+    #d55cb9 97.63%,
+    #ff5cb3 118.75%
+  );
+  opacity: 0.4;
+  z-index: 0;
+  @media (min-width: $sm) {
+    width: 260px;
+  }
+}
+
+.status--value {
+  position: absolute;
+  z-index: 1;
+  padding-right: 24px;
+}
+
+.text--label {
+  color: #f2f2f2;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.text--err-msg {
+  color: red;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.text--input-value {
+  font-weight: 800;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: #f2f2f2;
+}
+
+.column--stake-status {
+  display: grid;
+}
+
+.box--amount {
+  margin-top: 8px;
+  border-radius: 6px;
+  width: 100%;
+  height: 62px;
+  border: 1px solid transparent;
+  padding: 0 6px;
+  border: 1px solid #2e2e2e;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 22px;
+}
+
+.box--input {
+  margin-top: 8px;
+  position: relative;
+  border-radius: 6px;
+  width: 100%;
+  height: 62px;
+  border: 1px solid transparent;
+  padding: 0 6px;
+  border: 1px solid #2e2e2e;
+  box-sizing: border-box;
+  border-radius: 4px;
+  &:hover {
+    transition: all 0.3s ease;
+    border: 1px solid #613cf9;
+  }
+}
+
+.table--input {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 16px;
+}
+
+.tr--input {
+  display: flex;
+  align-items: center;
+  box-sizing: content-box;
+  width: 100%;
+}
+
+.input {
+  height: 60px;
+  border: none;
+  width: 100%;
+  padding: 0 4px;
+  background-color: transparent;
+  transition: all 0.3s ease;
+  text-align: right;
+  color: #f2f2f2;
+  font-weight: 800;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 22px;
+  padding-bottom: 2px;
+  box-sizing: content-box;
+
+  &:focus {
+    transition: all 0.3s ease;
+    outline: none;
+  }
+}
+
+.input--active {
+  .box--input {
+    transition: all 0.3s ease;
+    border: 1px solid #613cf9;
+    &:focus {
+      transition: all 0.3s ease;
+    }
+  }
+}
+
+.input--no-spin::-webkit-inner-spin-button,
+.input--no-spin::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  -moz-appearance: textfield;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input::placeholder {
+  color: #555;
+  font-weight: 800;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.text--learn-more {
+  color: #a370ff;
+  font-size: 16px;
+}
+
+.text--earning {
+  font-weight: 800;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 22px;
+  background: linear-gradient(
+    90deg,
+    #1b6dc1 4.46%,
+    #8b5bc5 61.01%,
+    #d55cb9 97.63%,
+    #ff5cb3 118.75%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.estimation {
+  display: flex;
+  flex-direction: column;
+  @media (min-width: $md) {
+    flex-direction: row;
+    column-gap: 4px;
+  }
+}
+
+.btn--disabled {
+  opacity: 0.6;
+}

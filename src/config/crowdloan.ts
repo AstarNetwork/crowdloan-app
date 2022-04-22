@@ -1,11 +1,8 @@
-// export const CROWDLOAN_ENDPOINT = 'wss://rpc.polkadot.io';
-// export const CROWDLOAN_ENDPOINT = 'wss://kusama.api.onfinality.io';
-export const CROWDLOAN_ENDPOINT = 'wss://osaka.astar.network';
+/* for astar-polkadot */
+export const CROWDLOAN_ENDPOINT = 'wss://rpc.polkadot.io';
 export const PARA_ID = 2000;
-// export const PARA_ID = 2022; // kusama parachain
-export const MINIMUM_STAKING_AMOUNT = 1; // 1 KSM
+export const MINIMUM_STAKING_AMOUNT = 1;
 export const DEFAULT_REWARD_AMOUNT = 150;
 export const REWARD_RATIO = 101;
 export const MIN_BALANCE = 1.1;
-export const UNIT = 12; // kusama unit
-// export const UNIT = 10; // polkadot unit
+export const UNIT = 10; // polkadot unit

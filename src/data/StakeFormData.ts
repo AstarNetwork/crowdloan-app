@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import {
   MINIMUM_STAKING_AMOUNT,
   DEFAULT_REWARD_AMOUNT
-} from '@/config/crowdloan';
+} from '@/config/shiden/crowdloan';
 
 export class StakeFormData {
   polkadotAddress: string;

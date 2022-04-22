@@ -1,0 +1,64 @@
+no-webp #hero {
+  background-image: url('~@/assets/shiden/shiden-cl-hero.png');
+}
+
+#hero {
+  background-image: url('~@/assets/shiden/shiden-cl-hero.svg');
+}
+
+#hero {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+@media (orientation: landscape) {
+  #hero {
+    height: 100vh;
+  }
+}
+
+@media (orientation: portrait) {
+  #hero {
+    min-height: 80vh;
+  }
+}
+
+.container--header-main {
+  height: calc(100vh - 108px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 58px;
+  @media (min-width: $md) {
+    row-gap: 78px;
+  }
+}
+
+.row--head-line {
+  text-align: center;
+  width: 350px;
+  margin-top: -122px;
+  @media (min-width: $sm) {
+    width: 580px;
+  }
+  @media (min-width: $md) {
+    margin-top: -128px;
+    width: 600px;
+  }
+  @media (min-width: $lg) {
+    width: 900px;
+  }
+}
+
+.text--head-line {
+  font-size: 56px;
+  font-weight: 900;
+  line-height: 130%;
+  text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+  @media (min-width: $lg) {
+    line-height: 120%;
+    font-size: 84px;
+  }
+}
