@@ -1,5 +1,5 @@
 .container--rules {
-  padding: 80px 24px;
+  padding: 120px 24px;
   background: #0f0f0f;
   display: flex;
   justify-content: center;
@@ -7,7 +7,7 @@
   flex-direction: column;
   width: 100%;
   @media (min-width: $md) {
-    padding: 80px 120px;
+    padding: 120px;
   }
 }
 

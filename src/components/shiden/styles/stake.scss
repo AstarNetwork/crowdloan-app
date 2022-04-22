@@ -1,12 +1,12 @@
 .container--stake {
-  padding: 80px 24px;
+  padding: 120px 24px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
   @media (min-width: $md) {
-    padding: 80px;
+    padding: 120px 80px;
   }
 }
 
@@ -15,7 +15,9 @@
   flex-direction: column;
 }
 
-.wrapper-user-information {
+.wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .login__row--note {
