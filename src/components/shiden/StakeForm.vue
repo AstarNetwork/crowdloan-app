@@ -90,6 +90,7 @@
           :disabled="isDisable"
           :class="isDisable && 'btn--disabled'"
           class="btn--gradient"
+          @click="contribute"
         >
           Contribute
         </button>
@@ -101,11 +102,11 @@
 <script lang="ts">
 import {
   MINIMUM_STAKING_AMOUNT,
+  MIN_BALANCE,
   REWARD_RATIO,
   UNIT
 } from '@/config/shiden/crowdloan';
-import { StakeFormData } from '@/data/StakeFormData';
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { formatBalance } from '@polkadot/util';
 import BN from 'bn.js';
 
@@ -116,25 +117,17 @@ export default defineComponent({
       default: false
     },
     availableAmount: {
-      type: BN
+      type: BN,
+      required: true
     },
   },
-  setup(props) {
+  emits: ['staking'],
+  setup(props, { emit }) {
     const stakeAmount = ref<string>('');
     const isTyping = ref<boolean>(false);
     const setIsTyping = (typing: boolean): void => {
       isTyping.value = typing;
     };
-
-    // const currentContributions = computed(() => {
-    //   const value = 123.456;
-    //   return `${value.toLocaleString('en-US')} KSM`;
-    // });
-
-    // const yourEstimatedRewards = computed(() => {
-    //   const value = 2829;
-    //   return `${value.toLocaleString('en-US')} SDN`;
-    // });
 
     const availableBalance = computed(() => {
       const value = props.availableAmount;
@@ -152,44 +145,86 @@ export default defineComponent({
       return `${formattedValue.toLocaleString()} KSM`;
     });
 
-    const earningRewards = computed(() => {
-      if (stakeAmount.value) {
-        const value = Number(stakeAmount.value) * REWARD_RATIO;
-        return `At least ${value.toLocaleString('en-US')} SDN+`;
-      }
-      return '0 SDN';
-    });
+    const earningRewards = ref('0 SDN');
+    const errMsg = ref('');
 
-    const errMsg = computed(() => {
-      if (
-        stakeAmount.value &&
-        MINIMUM_STAKING_AMOUNT >= Number(stakeAmount.value)
-      ) {
-        return `Minimum contribute amount: ${MINIMUM_STAKING_AMOUNT} KSM`;
-      } else {
-        return null;
-      }
-    });
-
-    const isDisable = computed(() => {
-      if (MINIMUM_STAKING_AMOUNT >= Number(stakeAmount.value)) {
-        return true;
-      } else {
+    const validateStakingAmount = (
+      stakingAmount: number,
+      availableAmount: BN
+    ): boolean => {
+      if (stakingAmount < MINIMUM_STAKING_AMOUNT) {
+        errMsg.value = `Minimum contribute amount: ${MINIMUM_STAKING_AMOUNT} KSM`
         return false;
       }
+
+      const bnStakingAmount = new BN(stakingAmount * 10 ** UNIT);
+      if (bnStakingAmount.gte(availableAmount)) {
+        errMsg.value =
+          'Staking amount can not be greater than available amount.';
+        return false;
+      }
+
+      // const balance = availableAmount.div(new BN(10 ** UNIT)).toNumber();
+      // const remainingBal = balance - stakingAmount;
+      // // Ref: https://wiki.polkadot.network/docs/build-protocol-info#existential-deposit
+      // if (MIN_BALANCE > remainingBal) {
+      //   errMsg.value =
+      //     `Account with balance below the existential deposit will be reaped (Kusama's existential deposit is ${MIN_BALANCE} KSM)`;
+      //   return false;
+      // }
+
+      errMsg.value = '';
+      return true;
+    };
+
+    watch(
+      () => stakeAmount.value,
+      () => {
+        console.log('ddd', props.availableAmount.toString(10))
+        if (
+          validateStakingAmount(
+            Number(stakeAmount.value),
+            props.availableAmount
+          )
+        ) {
+          const baseReward = Number(stakeAmount.value);
+          const estimatedAmount = baseReward * REWARD_RATIO;
+          earningRewards.value = `At least ${estimatedAmount.toLocaleString(
+            'en-US'
+          )} SDN+`;
+        }
+      }
+    );
+
+    const isDisable = computed(() => {
+      if (!props.isEnableStaking || errMsg.value.length > 0) {
+        return true;
+      } else {
+        if (MINIMUM_STAKING_AMOUNT >= Number(stakeAmount.value)) {
+          return true;
+        } else {
+          return false;
+        }
+      }
     });
+
+    const contribute = () => {
+      stakeAmount.value = '';
+      earningRewards.value = '';
+
+      emit('staking', Number(stakeAmount.value));
+    }
 
     return {
       stakeAmount,
       isTyping,
       setIsTyping,
-      // currentContributions,
-      // yourEstimatedRewards,
       availableBalance,
       earningRewards,
       errMsg,
       isDisable,
-      REWARD_RATIO
+      REWARD_RATIO,
+      contribute
     };
   }
 });

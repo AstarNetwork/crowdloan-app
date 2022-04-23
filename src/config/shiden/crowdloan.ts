@@ -1,9 +1,9 @@
+// export const CROWDLOAN_ENDPOINT = 'wss://rpc.polkadot.io';
 export const CROWDLOAN_ENDPOINT = 'wss://osaka.astar.network';
 // export const CROWDLOAN_ENDPOINT = 'wss://kusama.api.onfinality.io';
 export const PARA_ID = 2000;
 // export const PARA_ID = 2022;
 export const MINIMUM_STAKING_AMOUNT = 1;
-export const DEFAULT_REWARD_AMOUNT = 150;
 export const REWARD_RATIO = 24.4;
-export const MIN_BALANCE = 1.1;
-export const UNIT = 12; // kusama unit
+export const MIN_BALANCE = 0.01;
+export const UNIT = 10; // kusama unit

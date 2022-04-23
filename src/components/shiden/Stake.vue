@@ -25,7 +25,11 @@
             </button>
           </div>
         </div>
-        <StakeForm :is-enable-staking="isEnableStaking" :data="data" />
+        <StakeForm
+          :is-enable-staking="isEnableStaking"
+          :available-amount="data.availableAmount"
+          @staking="handleStaking"
+        />
       </div>
     </div>
   </div>
@@ -44,11 +48,8 @@ import StakeForm from './StakeForm.vue';
 import ModalAccount from '../ModalAccount.vue';
 import { StakeFormData } from '../../data/StakeFormData';
 import {
-  DEFAULT_REWARD_AMOUNT,
   MINIMUM_STAKING_AMOUNT,
-  MIN_BALANCE,
   PARA_ID,
-  REWARD_RATIO,
   UNIT
 } from '@/config/shiden/crowdloan';
 import { isValidAddressPolkadotAddress } from '@/config/polkadot';
@@ -80,9 +81,6 @@ export default defineComponent({
     const openModal = () => {
       modalAccount.value = true;
     };
-
-    const burnsWarning =
-      "Account with balance below the existential deposit will be reaped (Polkadot's existential deposit is 1 DOT)";
 
     // set accounts from extensions
     keyring.accounts.subject.subscribe((accounts: any) => {
@@ -120,15 +118,6 @@ export default defineComponent({
         }
       }
     );
-    watch(
-      () => data.stakingAmount,
-      () => {
-        if (validateStakingAmount(data.stakingAmount, data.availableAmount)) {
-          const baseReward = data.stakingAmount;
-          data.estimatedAmount = baseReward * REWARD_RATIO;
-        }
-      }
-    );
 
     const validatePolkadotAddress = (value: string): boolean => {
       if (!value) {
@@ -144,43 +133,7 @@ export default defineComponent({
       return isAddressValid;
     };
 
-    const validateStakingAmount = (
-      stakingAmount: number,
-      availableAmount: BN
-    ): boolean => {
-      if (stakingAmount < MINIMUM_STAKING_AMOUNT) {
-        data.errors[
-          'stakingAmount'
-        ] = `Staking amount should be greater than ${MINIMUM_STAKING_AMOUNT}.`;
-        return false;
-      }
-
-      // const bnStakingAmount = new BN(stakingAmount).mul(new BN(10 ** UNIT));
-      const bnStakingAmount = new BN(data.stakingAmount * 10 ** UNIT);
-
-      if (bnStakingAmount.gte(availableAmount)) {
-        data.errors['stakingAmount'] =
-          'Staking amount can not be greater than available amount.';
-        return false;
-      }
-
-      const balance = data.availableAmount.div(new BN(10 ** UNIT)).toNumber();
-      const remainingBal = balance - stakingAmount;
-      // Ref: https://wiki.polkadot.network/docs/build-protocol-info#existential-deposit
-      if (MIN_BALANCE > remainingBal) {
-        data.errors['stakingAmount'] = burnsWarning;
-        return true;
-      }
-
-      data.errors['stakingAmount'] = '';
-      return true;
-    };
-
     const initialize = async () => {
-      data.stakingAmount = MINIMUM_STAKING_AMOUNT;
-      data.estimatedAmount = DEFAULT_REWARD_AMOUNT;
-      data.referralAddress = '';
-
       await setAvailableAmount();
     };
 
@@ -188,18 +141,11 @@ export default defineComponent({
       () =>
         data.polkadotAddress &&
         data.polkadotAddress.length > 0 &&
-        data.stakingAmount >= MINIMUM_STAKING_AMOUNT &&
         data.availableAmount.div(new BN(10 ** UNIT)).toNumber() >=
-          MINIMUM_STAKING_AMOUNT &&
-        data.errors['polkadotAddress'] === '' &&
-        (data.errors['stakingAmount'] === '' ||
-          data.errors['stakingAmount'] === burnsWarning)
+          MINIMUM_STAKING_AMOUNT
     );
 
-    // QUICK_FIX: the crowdloan period has been over
-    // const isEnableStaking = computed(() => false);
-
-    const staking = async () => {
+    const handleStaking = async (stakingAmount: number) => {
       store.dispatch(ActionTypes.SET_LOADING, { loading: true });
 
       const apiData: ApiPromise = (await api).api;
@@ -207,7 +153,7 @@ export default defineComponent({
 
       const contributeTransaction = apiData.tx.crowdloan.contribute(
         PARA_ID,
-        data.stakingAmount * 10 ** UNIT,
+        stakingAmount * 10 ** UNIT,
         null
       );
 
@@ -269,7 +215,8 @@ export default defineComponent({
       modalAccount,
       isEnableStaking,
       openModal,
-      getShortenAddress
+      getShortenAddress,
+      handleStaking
     };
   }
 });
