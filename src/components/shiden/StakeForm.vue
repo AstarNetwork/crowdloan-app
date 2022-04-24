@@ -118,7 +118,7 @@ export default defineComponent({
     availableAmount: {
       type: BN,
       required: true
-    },
+    }
   },
   emits: ['staking'],
   setup(props, { emit }) {
@@ -152,7 +152,7 @@ export default defineComponent({
       availableAmount: BN
     ): boolean => {
       if (stakingAmount < MINIMUM_STAKING_AMOUNT) {
-        errMsg.value = `Minimum contribute amount: ${MINIMUM_STAKING_AMOUNT} KSM`
+        errMsg.value = `Minimum contribute amount: ${MINIMUM_STAKING_AMOUNT} KSM`;
         return false;
       }
 
@@ -216,7 +216,7 @@ export default defineComponent({
 
       stakeAmount.value = '';
       earningRewards.value = '';
-    }
+    };
 
     return {
       stakeAmount,

@@ -87,12 +87,14 @@ export default defineComponent({
       if (api && accounts) {
         // console.log('accounts', Object.keys(accounts));
         // adjust ss58format for kusama
-        allAccounts.value = Object.keys(accounts).map(account => keyring.encodeAddress(account, 2))
+        allAccounts.value = Object.keys(accounts).map((account) =>
+          keyring.encodeAddress(account, 2)
+        );
         allAccountNames.value = Object.values(accounts).map((obj: any) =>
           obj.option.name.replace('\n              ', '')
         );
 
-        data.polkadotAddress = allAccounts.value[0];;
+        data.polkadotAddress = allAccounts.value[0];
       }
     });
 
@@ -197,7 +199,7 @@ export default defineComponent({
           alertType: 'error'
         });
       }
-    }
+    };
 
     const getShortenAddress = (address: string): string => {
       return address
