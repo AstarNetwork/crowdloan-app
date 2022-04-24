@@ -102,7 +102,7 @@ export default defineComponent({
         const account: AccountInfo = (await apiData.query.system.account(
           data.polkadotAddress
         )) as AccountInfo;
-        console.log('acc', account);
+        // console.log('acc', account);
         data.availableAmount =
           (account.data.free.toBn() as any) || (new BN(0) as any);
       } catch (e) {
@@ -150,7 +150,6 @@ export default defineComponent({
 
       const apiData: ApiPromise = (await api).api;
       const injector = await web3FromSource('polkadot-js');
-
       const contributeTransaction = apiData.tx.crowdloan.contribute(
         PARA_ID,
         stakingAmount * 10 ** UNIT,

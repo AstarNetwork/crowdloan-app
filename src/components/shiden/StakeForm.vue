@@ -156,6 +156,11 @@ export default defineComponent({
         return false;
       }
 
+      if (stakingAmount > 9999) {
+        errMsg.value = 'Staking amount should be lower than 9999.';
+        return false;
+      }
+
       const bnStakingAmount = new BN(stakingAmount * 10 ** UNIT);
       if (bnStakingAmount.gte(availableAmount)) {
         errMsg.value =
@@ -207,10 +212,10 @@ export default defineComponent({
     });
 
     const contribute = () => {
+      emit('staking', Number(stakeAmount.value));
+
       stakeAmount.value = '';
       earningRewards.value = '';
-
-      emit('staking', Number(stakeAmount.value));
     }
 
     return {
