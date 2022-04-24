@@ -163,14 +163,14 @@ export default defineComponent({
         return false;
       }
 
-      // const balance = availableAmount.div(new BN(10 ** UNIT)).toNumber();
-      // const remainingBal = balance - stakingAmount;
+      const remainingBal = availableAmount.sub(
+        new BN(10 ** UNIT * stakingAmount)
+      );
       // // Ref: https://wiki.polkadot.network/docs/build-protocol-info#existential-deposit
-      // if (MIN_BALANCE > remainingBal) {
-      //   errMsg.value =
-      //     `Account with balance below the existential deposit will be reaped (Kusama's existential deposit is ${MIN_BALANCE} KSM)`;
-      //   return false;
-      // }
+      if (remainingBal.lt(new BN(MIN_BALANCE * 10 ** UNIT))) {
+        errMsg.value = `Account with balance below the existential deposit will be reaped (Kusama's existential deposit is ${MIN_BALANCE} KSM)`;
+        return false;
+      }
 
       errMsg.value = '';
       return true;
@@ -179,7 +179,6 @@ export default defineComponent({
     watch(
       () => stakeAmount.value,
       () => {
-        console.log('ddd', props.availableAmount.toString(10))
         if (
           validateStakingAmount(
             Number(stakeAmount.value),
@@ -199,7 +198,7 @@ export default defineComponent({
       if (!props.isEnableStaking || errMsg.value.length > 0) {
         return true;
       } else {
-        if (MINIMUM_STAKING_AMOUNT >= Number(stakeAmount.value)) {
+        if (MINIMUM_STAKING_AMOUNT > Number(stakeAmount.value)) {
           return true;
         } else {
           return false;

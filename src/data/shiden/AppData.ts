@@ -5,9 +5,9 @@ import { FaqData } from '../FaqData';
 // Todo: update value and words
 
 const statusItems = <StatusData[]>[
-  { value: 27170, description: 'Participants' },
-  { value: 10333552, description: 'KSM Contributed' },
-  { value: 1400000000, description: 'SDN to be Distributed' }
+  { value: 0, description: 'Participants' },
+  { value: 0, description: 'KSM Contributed' },
+  { value: 350000, description: 'SDN to be Distributed' }
 ];
 
 const ruleItems = <RuleData[]>[
