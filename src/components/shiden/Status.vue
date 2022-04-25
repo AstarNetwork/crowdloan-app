@@ -84,20 +84,21 @@ export default defineComponent({
               // console.log('c', campaigns);
               const result = transformMulti([[paraIds], campaigns]);
               // console.log('result', result);
-              statusData.value[1].value = result[CAMPAIGN_IDX].info.raised
+              statusData.value[0].value = result[CAMPAIGN_IDX].info.raised
                 .toBn()
                 .div(new BN(10 ** UNIT))
                 .toNumber();
             }
           );
 
-          await apiData.derive.crowdloan.contributions(
-            PARA_ID,
-            (derive: any) => {
-              // console.log('d', derive);
-              statusData.value[0].value = derive.contributorsHex.length;
-            }
-          );
+          // MEMO: not working on kusama rpc endpoint - participants
+          // await apiData.derive.crowdloan.contributions(
+          //   PARA_ID,
+          //   (derive: any) => {
+          //     // console.log('d', derive);
+          //     statusData.value[0].value = derive.contributorsHex.length;
+          //   }
+          // );
         } else {
           setTimeout(() => {
             getData();
