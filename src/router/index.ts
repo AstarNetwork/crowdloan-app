@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Main',
-    component: Main
+    component: MainShiden
   },
   {
     path: '/shiden',
