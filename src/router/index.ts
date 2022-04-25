@@ -9,7 +9,11 @@ import ExternalHeader from '@/views/ExternalHeader.vue';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Main',
+    redirect: '/shiden'
+  },
+  {
+    path: '/astar',
+    name: 'Astar',
     component: Main
   },
   {
