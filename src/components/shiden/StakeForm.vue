@@ -84,7 +84,7 @@
             <div>
               <div>
                 <span class="text--form"
-                  >KSM will be locked for 48weeks. Rewards SDN has
+                  >KSM will be locked for 48 weeks. Rewards SDN has
                   vesting.</span
                 >
               </div>
@@ -100,8 +100,8 @@
           <div class="row--disclaimer">
             <span class="text--form-order">2.</span>
             <span class="text--form"
-              >Please DO NOT join from Ledger/Lockdrop accounts. We might not
-              able to support if any issues occur.</span
+              >Please DO NOT join from a Ledger/Lockdrop account. We cannot
+              provide any support for those accounts.</span
             >
           </div>
           <div class="row--disclaimer">
