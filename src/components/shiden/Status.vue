@@ -15,7 +15,7 @@
 <script lang="ts">
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import { defineComponent, ref, inject, watch } from 'vue';
+import { defineComponent, ref, inject } from 'vue';
 import { StatusData } from '@/data/StatusData';
 import StatusItem from './StatusItem.vue';
 import { ApiPromise } from '@polkadot/api';
@@ -75,17 +75,15 @@ export default defineComponent({
         const apiData: ApiPromise = (await api).api;
 
         if (apiData.query.crowdloan) {
-          console.log('paraId', apiData.query.crowdloan);
+          // console.log('paraId', apiData.query.crowdloan);
           const paraIds: any[] = [PARA_ID];
 
-          const unsub = await apiData.query.crowdloan?.funds.multi(
+          await apiData.query.crowdloan?.funds.multi(
             paraIds,
             (campaigns: Option<FundInfo>[]) => {
-              console.log('c', campaigns);
+              // console.log('c', campaigns);
               const result = transformMulti([[paraIds], campaigns]);
-              console.log('result', result);
-              // @assume : retrieve first crowdloan on the campaigns
-              // console.log('totalRaised', result[0].info.raised.toNumber())
+              // console.log('result', result);
               statusData.value[1].value = result[CAMPAIGN_IDX].info.raised
                 .toBn()
                 .div(new BN(10 ** UNIT))
@@ -93,15 +91,14 @@ export default defineComponent({
             }
           );
 
-          const unsub2 = await apiData.derive.crowdloan.contributions(
+          await apiData.derive.crowdloan.contributions(
             PARA_ID,
             (derive: any) => {
-              console.log('d', derive);
+              // console.log('d', derive);
               statusData.value[0].value = derive.contributorsHex.length;
             }
           );
         } else {
-          //FIXME: tricky way to call crowdloan query again
           setTimeout(() => {
             getData();
           }, 2000);

@@ -161,7 +161,7 @@ export default defineComponent({
         return false;
       }
 
-      const bnStakingAmount = new BN(stakingAmount * 10 ** UNIT);
+      const bnStakingAmount = new BN(10 ** UNIT).muln(stakingAmount);
       if (bnStakingAmount.gte(availableAmount)) {
         errMsg.value =
           'Staking amount can not be greater than available amount.';
@@ -169,9 +169,9 @@ export default defineComponent({
       }
 
       const remainingBal = availableAmount.sub(
-        new BN(10 ** UNIT * stakingAmount)
+        new BN(10 ** UNIT).muln(stakingAmount)
       );
-      // // Ref: https://wiki.polkadot.network/docs/build-protocol-info#existential-deposit
+      // MEMO: https://wiki.polkadot.network/docs/build-protocol-info#existential-deposit
       if (remainingBal.lt(new BN(MIN_BALANCE * 10 ** UNIT))) {
         errMsg.value = `Account with balance below the existential deposit will be reaped (Kusama's existential deposit is ${MIN_BALANCE} KSM)`;
         return false;

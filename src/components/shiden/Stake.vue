@@ -154,7 +154,7 @@ export default defineComponent({
       const injector = await web3FromSource('polkadot-js');
       const contributeTransaction = apiData.tx.crowdloan.contribute(
         PARA_ID,
-        stakingAmount * 10 ** UNIT,
+        new BN(10 ** UNIT).muln(stakingAmount),
         null
       );
 
