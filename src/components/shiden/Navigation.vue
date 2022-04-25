@@ -19,21 +19,31 @@
             </svg>
           </button>
         </div>
-        <div :class="open ? 'block' : 'hidden'" class="sm:flex column--right">
+        <div :class="open ? 'block' : 'hidden'" class="lg:flex column--right">
           <div class="column--links">
+            <a
+              href="https://shiden.astar.network/"
+              target="_blank"
+              class="link-item"
+              rel="noopener noreferrer"
+            >
+              Shiden Network
+            </a>
+            <a
+              href="https://astar.network/"
+              target="_blank"
+              class="link-item"
+              rel="noopener noreferrer"
+            >
+              Astar Network
+            </a>
             <a
               href="https://docs.astar.network/learn/polkadot-plo/faq"
               target="_blank"
               class="link-item"
+              rel="noopener noreferrer"
             >
               FAQ
-            </a>
-            <a
-              href="https://docs.astar.network/learn/polkadot-plo/"
-              target="_blank"
-              class="link-item"
-            >
-              Forum
             </a>
             <div class="link-item dropdown">
               Community

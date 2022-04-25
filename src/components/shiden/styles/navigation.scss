@@ -40,7 +40,7 @@
 
 .column--mobile-menu {
   display: block;
-  @media (min-width: $sm) {
+  @media (min-width: $lg) {
     display: none;
   }
 }
@@ -67,12 +67,8 @@
     align-items: center;
     flex-direction: row;
   }
-  @media (min-width: $md) {
-    column-gap: 64px;
-    margin-right: 24px;
-  }
   @media (min-width: $lg) {
-    column-gap: 64px;
+    column-gap: 38px;
     margin-right: 42px;
   }
   @media (min-width: $xl) {

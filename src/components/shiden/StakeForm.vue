@@ -72,17 +72,46 @@
           <span class="text--earning">{{ earningRewards }}</span>
         </div>
       </div>
-      <div class="row--disclaimer">
-        <span class="text--label">
-          KSM will be locked for 48weeks. Rewards SDN has vesting.
-          <a
-            href="https://medium.com/astar-network/announcing-the-second-official-shiden-crowdloan-d11d71debd52"
-            class="text--learn-more"
-            target="_blank"
-            rel="noopener noreferrer"
-            >&nbsp;Learn more</a
-          >
-        </span>
+      <div class="container--disclaimer">
+        <div class="row--disclaimer--title">
+          <span>Please read carefully before making your contribution</span>
+        </div>
+        <div class="box--disclaimer-line">
+          <div class="row--disclaimer">
+            <div>
+              <span class="text--form-order">1.</span>
+            </div>
+            <div>
+              <div>
+                <span class="text--form"
+                  >KSM will be locked for 48weeks. Rewards SDN has
+                  vesting.</span
+                >
+              </div>
+              <a
+                href="https://medium.com/astar-network/announcing-the-second-official-shiden-crowdloan-d11d71debd52"
+                class="text--learn-more"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Learn more.</a
+              >
+            </div>
+          </div>
+          <div class="row--disclaimer">
+            <span class="text--form-order">2.</span>
+            <span class="text--form"
+              >Please DO NOT join from Ledger/Lockdrop accounts. We might not
+              able to support if any issues occur.</span
+            >
+          </div>
+          <div class="row--disclaimer">
+            <span class="text--form-order">3.</span>
+            <span class="text--form"
+              >Proxy accounts and multi signatures are not able to receive
+              rewards.</span
+            >
+          </div>
+        </div>
       </div>
       <div class="row--contribute-btn">
         <button

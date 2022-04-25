@@ -38,8 +38,40 @@
   width: 100%;
 }
 
-.row--disclaimer {
+.container--disclaimer {
   margin-bottom: 16px;
+  background-color: #24044d;
+  padding: 24px;
+}
+
+.row--disclaimer--title {
+  margin-bottom: 16px;
+  font-weight: 800;
+  font-size: 16px;
+  color: #f2f2f2;
+}
+
+.row--disclaimer {
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.box--disclaimer-line {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+
+.text--form-order {
+  font-weight: 600;
+  font-size: 14px;
+  color: #f1f4f6;
+}
+
+.text--form {
+  font-weight: 400;
+  font-size: 14px;
+  color: #f1f4f6;
 }
 
 .row--contribute-btn {
@@ -214,8 +246,9 @@ input::placeholder {
 }
 
 .text--learn-more {
-  color: #a370ff;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff;
 }
 
 .text--earning {
