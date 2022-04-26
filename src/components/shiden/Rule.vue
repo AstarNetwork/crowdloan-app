@@ -1,7 +1,7 @@
 <template>
   <div class="column--rule-item">
     <span class="text--item-title">{{ rule.title }}</span>
-    <span class="text--item-description">{{ rule.rule }}</span>
+    <span class="text--item-description" v-html="rule.rule"></span>
   </div>
 </template>
 
