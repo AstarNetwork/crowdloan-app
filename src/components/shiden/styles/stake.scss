@@ -1,0 +1,63 @@
+.container--stake {
+  padding: 120px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  @media (min-width: $md) {
+    padding: 120px 80px;
+  }
+}
+
+.box--stake {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.login__row--note {
+  display: flex;
+  align-items: center;
+  column-gap: 8px;
+  padding: 0 12px;
+}
+
+.row--stake-title {
+  align-self: center;
+  text-align: center;
+  max-width: 1000px;
+  margin-bottom: 32px;
+}
+
+.icon--information {
+  display: none;
+  @media (min-width: $md) {
+    display: block;
+  }
+}
+
+.text--stake-title {
+  font-weight: 900;
+  font-size: 42px;
+  line-height: 100%;
+  text-align: center;
+  @media (min-width: $md) {
+    font-size: 64px;
+  }
+}
+
+.column--login {
+  display: grid;
+  justify-items: center;
+  row-gap: 32px;
+  margin-bottom: 56px;
+}
+
+.login__column-btn {
+  max-width: 502px;
+}

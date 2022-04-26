@@ -83,20 +83,6 @@
             >
               Token Economics
             </a>
-            <!-- <a
-              href="/#/early-adopter"
-              class="
-                no-underline
-                block
-                mt-4
-                sm:inline-block sm:mt-0
-                text-teal-lighter
-                hover:underline hover:text-primary
-                mr-4
-              "
-            >
-              For Early Adopter
-            </a> -->
             <div
               class="
                 no-underline

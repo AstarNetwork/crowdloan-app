@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
 import Main from '@/views/Main.vue';
+import MainShiden from '@/views/MainShiden.vue';
 import ExternalHeader from '@/views/ExternalHeader.vue';
 // import LeaderBoard from '@/views/LeaderBoard.vue';
 // import EarlyAdopter from '@/views/EarlyAdopter.vue';
@@ -8,8 +9,17 @@ import ExternalHeader from '@/views/ExternalHeader.vue';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Main',
+    redirect: '/shiden'
+  },
+  {
+    path: '/astar',
+    name: 'Astar',
     component: Main
+  },
+  {
+    path: '/shiden',
+    name: 'Shiden',
+    component: MainShiden
   },
   // {
   //   path: '/leader-board',

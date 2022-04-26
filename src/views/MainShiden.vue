@@ -1,6 +1,6 @@
 <template>
   <ApiProvider>
-    <Crowdloan class="main--astar" />
+    <CrowdloanShiden />
   </ApiProvider>
 
   <modal-loading v-if="isLoading" />
@@ -10,23 +10,23 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
-import Crowdloan from '../pages/Crowdloan.vue';
 import ApiProvider from '../config/ApiProvider.vue';
-import ModalLoading from '../components/shared/ModalLoading.vue';
-import AlertBox from '../components/shared/AlertBox.vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
+import AlertBox from '../components/shared/AlertBox.vue';
+import ModalLoading from '../components/shared/ModalLoading.vue';
+import CrowdloanShiden from '../pages/CrowdloanShiden.vue';
 
 export default defineComponent({
   name: 'Main',
   components: {
-    Crowdloan,
-    ApiProvider,
+    CrowdloanShiden,
     ModalLoading,
-    AlertBox
+    AlertBox,
+    ApiProvider
   },
   created() {
-    document.title = 'Astar Network Crowdloan - Stake DOT and Get ASTR Today!';
+    document.title = 'Shiden Network Crowdloan - Stake KSM and Get SDN Today!';
   },
   setup() {
     const store = useStore();
@@ -53,12 +53,5 @@ export default defineComponent({
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
-}
-.main--astar {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 </style>

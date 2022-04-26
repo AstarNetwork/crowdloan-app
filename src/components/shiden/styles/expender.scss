@@ -1,0 +1,52 @@
+.expander {
+  border-left: 0;
+  border-right: 0;
+  transition: display 600ms ease-out, height 600ms ease-out;
+  text-align: left;
+}
+
+.expander:not(:first-of-type) {
+  border-top: 1px solid #e6e9ee;
+}
+
+.expander-button {
+  display: flex;
+  position: relative;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  text-align: left;
+  display: flex;
+  width: 100%;
+  border-width: 0;
+
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    border-radius 0.15s ease;
+}
+
+.expander-button::after {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  margin-left: auto;
+  content: '';
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='lightGray'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-size: 1rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.expander-button:not(.colapsed)::after {
+  transform: rotate(-180deg);
+}
+
+.content {
+  transition: height 0.65s ease;
+  padding-bottom: 16px;
+}
+
+.row--item {
+  padding: 28px 0;
+  color: white;
+  width: 100%;
+}
