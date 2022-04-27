@@ -5,7 +5,7 @@ import { FaqData } from '../FaqData';
 // Todo: update value and words
 
 const statusItems = <StatusData[]>[
-  // { value: 0, description: 'Participants' },
+  { value: 0, description: 'Participants' },
   { value: 0, description: 'KSM Contributed' },
   { value: 350000, description: 'SDN to be Distributed' }
 ];

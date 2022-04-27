@@ -72,8 +72,6 @@ export default defineComponent({
         );
 
     const getData = async () => {
-      await getParticipants();
-
       try {
         const apiData: ApiPromise = (await api).api;
 
@@ -87,7 +85,7 @@ export default defineComponent({
               // console.log('c', campaigns);
               const result = transformMulti([[paraIds], campaigns]);
               // console.log('result', result);
-              statusData.value[0].value = result[CAMPAIGN_IDX].info.raised
+              statusData.value[1].value = result[CAMPAIGN_IDX].info.raised
                 .toBn()
                 .div(new BN(10 ** UNIT))
                 .toNumber();
@@ -102,10 +100,12 @@ export default defineComponent({
           //     statusData.value[0].value = derive.contributorsHex.length;
           //   }
           // );
+          // MEMO: we use thirdparty api temporary
+          statusData.value[0].value = await getParticipants();
         } else {
           setTimeout(() => {
-            // getData();
-          }, 2000);
+            getData();
+          }, 3000);
         }
       } catch (e) {
         console.error('e', e);
