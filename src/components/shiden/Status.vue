@@ -24,6 +24,7 @@ import type { Option } from '@polkadot/types';
 import type { FundInfo, ParaId } from '@polkadot/types/interfaces';
 import type { Campaign } from '@/hooks/useFunds';
 import { PARA_ID, UNIT } from '@/config/shiden/crowdloan';
+import { getParticipants } from '@/data/shiden/ThirdpartyApi';
 
 export default defineComponent({
   components: {
@@ -71,6 +72,8 @@ export default defineComponent({
         );
 
     const getData = async () => {
+      await getParticipants();
+
       try {
         const apiData: ApiPromise = (await api).api;
 
@@ -101,7 +104,7 @@ export default defineComponent({
           // );
         } else {
           setTimeout(() => {
-            getData();
+            // getData();
           }, 2000);
         }
       } catch (e) {
