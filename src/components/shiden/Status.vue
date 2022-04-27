@@ -24,6 +24,7 @@ import type { Option } from '@polkadot/types';
 import type { FundInfo, ParaId } from '@polkadot/types/interfaces';
 import type { Campaign } from '@/hooks/useFunds';
 import { PARA_ID, UNIT } from '@/config/shiden/crowdloan';
+import { getParticipants } from '@/data/shiden/ThirdpartyApi';
 
 export default defineComponent({
   components: {
@@ -84,7 +85,7 @@ export default defineComponent({
               // console.log('c', campaigns);
               const result = transformMulti([[paraIds], campaigns]);
               // console.log('result', result);
-              statusData.value[0].value = result[CAMPAIGN_IDX].info.raised
+              statusData.value[1].value = result[CAMPAIGN_IDX].info.raised
                 .toBn()
                 .div(new BN(10 ** UNIT))
                 .toNumber();
@@ -99,10 +100,12 @@ export default defineComponent({
           //     statusData.value[0].value = derive.contributorsHex.length;
           //   }
           // );
+          // MEMO: we use thirdparty api temporary
+          statusData.value[0].value = await getParticipants();
         } else {
           setTimeout(() => {
             getData();
-          }, 2000);
+          }, 3000);
         }
       } catch (e) {
         console.error('e', e);
