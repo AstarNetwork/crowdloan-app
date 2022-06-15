@@ -30,7 +30,7 @@
             <li class="pr-6 mb-12">
               <p class="font-weight-bold mb-4">Repositories</p>
               <ul>
-                <FooterLink href="https://github.com/PlasmNetwork/Plasm">
+                <FooterLink href="https://github.com/AstarNetwork/Astar">
                   Astar
                 </FooterLink>
                 <FooterLink href="https://github.com/staketechnologies/apps">
@@ -42,7 +42,7 @@
                 <FooterLink href="https://docs.astar.network/">
                   Astar Doumentation
                 </FooterLink>
-                <FooterLink href="https://github.com/PlasmNetwork/astar-lp">
+                <FooterLink href="https://github.com/AstarNetwork/astar-lp">
                   Astar Homepage
                 </FooterLink>
               </ul>
@@ -63,7 +63,7 @@
                   Medium
                 </FooterLink>
                 <FooterLink
-                  href="https://github.com/PlasmNetwork/plasmdocs/blob/master/wp/en.pdf"
+                  href="https://github.com/AstarNetwork/plasmdocs/blob/master/wp/en.pdf"
                 >
                   Whitepaper
                 </FooterLink>
@@ -79,7 +79,7 @@
                   Web3 Foundation Grants Program
                 </FooterLink>
                 <FooterLink
-                  href="https://github.com/PlasmNetwork/growth-program"
+                  href="https://github.com/AstarNetwork/growth-program"
                 >
                   Astar Growth Program
                 </FooterLink>
@@ -136,7 +136,7 @@
               </a>
             </li>
             <li class="footer-link">
-              <a href="https://github.com/PlasmNetwork/Plasm" target="_blank">
+              <a href="https://github.com/AstarNetwork/Astar" target="_blank">
                 <svg id="icon-github" viewBox="0 0 496 512">
                   <title>Github</title>
                   <path
