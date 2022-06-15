@@ -78,7 +78,7 @@
                 >
                 <a
                   class="dropdown-item"
-                  href="https://github.com/PlasmNetwork/plasmdocs/blob/master/wp/en.pdf"
+                  href="https://github.com/AstarNetwork/plasmdocs/blob/master/wp/en.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   >Whitepaper</a
