@@ -229,15 +229,16 @@ export default defineComponent({
     );
 
     const isDisable = computed(() => {
-      if (!props.isEnableStaking || errMsg.value.length > 0) {
-        return true;
-      } else {
-        if (MINIMUM_STAKING_AMOUNT > Number(stakeAmount.value)) {
-          return true;
-        } else {
-          return false;
-        }
-      }
+      // if (!props.isEnableStaking || errMsg.value.length > 0) {
+      //   return true;
+      // } else {
+      //   if (MINIMUM_STAKING_AMOUNT > Number(stakeAmount.value)) {
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+      // }
+      return true;
     });
 
     const contribute = () => {
